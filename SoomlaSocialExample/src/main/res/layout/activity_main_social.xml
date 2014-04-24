@@ -1,0 +1,116 @@
+<!--
+  ~ Copyright (C) 2012 Soomla Inc.
+  ~
+  ~   Licensed under the Apache License, Version 2.0 (the "License");
+  ~   you may not use this file except in compliance with the License.
+  ~   You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~   Unless required by applicable law or agreed to in writing, software
+  ~   distributed under the License is distributed on an "AS IS" BASIS,
+  ~   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~   See the License for the specific language governing permissions and
+  ~   limitations under the License.
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000000"
+    >
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/topbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="7dp"
+        android:background="@drawable/blue_gradient"
+        >
+        <TextView
+            android:id="@+id/textview"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:text="Share Button"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+    <View
+        android:id="@+id/view01"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/topbar"
+        android:background="#313437" />
+    <TextView
+        android:id="@+id/text"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/view01"
+        />
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        android:text="Share Update"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/text"
+        />
+    <EditText
+        android:id="@+id/editTxt"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:layout_margin="5dp"
+        android:hint="Enter Message"
+        tools:text="test lib"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/dialogTitle"
+        />
+    <Button
+        android:id="@+id/update"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:background="#147af8"
+        android:textColor="#ffffff"
+        android:padding="5dp"
+        android:textSize="12sp"
+        android:text="Update"
+        android:layout_alignRight="@+id/editTxt"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/editTxt"
+        />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layout_gradient"
+        android:layout_alignParentBottom="true"
+        >
+        <Button
+            android:id="@+id/sharebutton"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="20dp"
+            />
+    </RelativeLayout>
+</RelativeLayout>
