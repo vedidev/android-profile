@@ -53,6 +53,9 @@ public class MainSocialActivity extends ActionBarActivity {
 
         soomlaSocialCenter = new SoomlaSocialCenter();
         soomlaSocialCenter.addSocialProvider(SocialAuthAdapter.Provider.FACEBOOK, R.drawable.facebook);
+
+        mBtnUpdate = (Button) findViewById(R.id.update);
+        soomlaSocialCenter.getSocialAuthAdapter().enable(mBtnUpdate);
     }
 
     @Subscribe public void onSocialLoginEvent(SocialLoginEvent socialLoginEvent) {
@@ -64,7 +67,6 @@ public class MainSocialActivity extends ActionBarActivity {
         Log.d(TAG, "Provider Name = " + providerName);
         Toast.makeText(this, providerName + " connected", Toast.LENGTH_SHORT).show();
 
-        mBtnUpdate = (Button) findViewById(R.id.update);
         mEdtStatus = (EditText) findViewById(R.id.editTxt);
 
         // Please avoid sending duplicate message. Social Media Providers
