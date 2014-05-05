@@ -22,7 +22,77 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e3d05a0-466d-4bec-abb1-d6795eeb0544" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidExample/assets/test_android_iap_import.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/submodules/android-store-google-play" afterPath="$PROJECT_DIR$/../android-store/submodules/android-store-google-play" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/util/AESObfuscator.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/util/AESObfuscator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/AndroidBus.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/AndroidBus.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/BillingNotSupportedEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/BillingNotSupportedEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/BillingSupportedEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/BillingSupportedEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/BusProvider.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/BusProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/CurrencyBalanceChangedEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/CurrencyBalanceChangedEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualGoods/EquippableVG.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualGoods/EquippableVG.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidExample/src/com/soomla/example/ExampleEventHandler.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidExample/src/com/soomla/example/ExampleEventHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/GoodBalanceChangedEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/GoodBalanceChangedEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/GoodEquippedEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/GoodEquippedEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/GoodUnEquippedEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/GoodUnEquippedEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/GoodUpgradeEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/GoodUpgradeEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IIabService.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IIabService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/IStoreAssets.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/IStoreAssets.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IabCallbacks.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IabCallbacks.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IabInventory.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IabInventory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IabPurchase.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IabPurchase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IabResult.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IabResult.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IabSkuDetails.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IabSkuDetails.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/exceptions/InsufficientFundsException.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/exceptions/InsufficientFundsException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/ItemPurchaseStartedEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/ItemPurchaseStartedEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/ItemPurchasedEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/ItemPurchasedEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/JSONConsts.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/JSONConsts.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/KeyValDatabase.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/KeyValDatabase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/KeyValueStorage.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/KeyValueStorage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualGoods/LifetimeVG.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualGoods/LifetimeVG.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/MarketItem.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/MarketItem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/MarketItemsRefreshed.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/MarketItemsRefreshed.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/MarketPurchaseCancelledEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/MarketPurchaseCancelledEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/MarketPurchaseEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/MarketPurchaseEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/MarketPurchaseStartedEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/MarketPurchaseStartedEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/MarketRefundEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/MarketRefundEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidExample/src/com/soomla/example/MuffinRushAssets.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidExample/src/com/soomla/example/MuffinRushAssets.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/NonConsumableItem.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/NonConsumableItem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/NonConsumableItemsStorage.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/NonConsumableItemsStorage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/exceptions/NotEnoughGoodsException.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/exceptions/NotEnoughGoodsException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/ObscuredSharedPreferences.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/ObscuredSharedPreferences.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/PurchasableVirtualItem.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/PurchasableVirtualItem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/purchaseTypes/PurchaseType.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/purchaseTypes/PurchaseType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/purchaseTypes/PurchaseWithMarket.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/purchaseTypes/PurchaseWithMarket.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/purchaseTypes/PurchaseWithVirtualItem.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/purchaseTypes/PurchaseWithVirtualItem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/RestoreTransactionsFinishedEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/RestoreTransactionsFinishedEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualGoods/SingleUsePackVG.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualGoods/SingleUsePackVG.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualGoods/SingleUseVG.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualGoods/SingleUseVG.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/SoomlaAndroidStore.iml" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/SoomlaAndroidStore.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/SoomlaApp.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/SoomlaApp.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/StorageManager.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/StorageManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreConfig.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreController.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/StoreControllerInitializedEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/StoreControllerInitializedEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidExample/src/com/soomla/example/StoreExampleActivity.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidExample/src/com/soomla/example/StoreExampleActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidExample/src/com/soomla/example/StoreGoodsActivity.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidExample/src/com/soomla/example/StoreGoodsActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/StoreInfo.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/StoreInfo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreInventory.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreInventory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidExample/src/com/soomla/example/StorePacksActivity.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidExample/src/com/soomla/example/StorePacksActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreUtils.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/UnexpectedStoreErrorEvent.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/events/UnexpectedStoreErrorEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualGoods/UpgradeVG.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualGoods/UpgradeVG.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/VirtualCategory.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/VirtualCategory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualCurrencies/VirtualCurrency.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualCurrencies/VirtualCurrency.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualCurrencies/VirtualCurrencyPack.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualCurrencies/VirtualCurrencyPack.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/VirtualCurrencyStorage.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/VirtualCurrencyStorage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualGoods/VirtualGood.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/virtualGoods/VirtualGood.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/VirtualGoodsStorage.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/VirtualGoodsStorage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/VirtualItem.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/VirtualItem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/exceptions/VirtualItemNotFoundException.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/exceptions/VirtualItemNotFoundException.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/VirtualItemStorage.java" afterPath="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/data/VirtualItemStorage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/android-store.iml" afterPath="$PROJECT_DIR$/../android-store/android-store.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../android-store/build.gradle" afterPath="$PROJECT_DIR$/../android-store/build.gradle" />
     </list>
     <ignored path="SoomlaSocialModule.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -76,8 +146,8 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <breakpoint_rules converted="true" />
     <ui_properties converted="true" />
+    <breakpoint_rules converted="true" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -88,28 +158,28 @@
       <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SoomlaSocialExample/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="510">
-              <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+              <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.gradle" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <file leaf-file-name="SoomlaAndroidStore.iml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../android-store/SoomlaAndroidStore/SoomlaAndroidStore.iml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="135">
-              <caret line="3" column="53" selection-start-line="3" selection-start-column="53" selection-end-line="3" selection-end-column="53" />
+            <state vertical-scroll-proportion="0.25735295" vertical-offset="0" max-vertical-offset="1365">
+              <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SoomlaSocialLib/build.gradle">
+        <entry file="file://$PROJECT_DIR$/../android-store/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="480">
-              <caret line="21" column="28" selection-start-line="21" selection-start-column="28" selection-end-line="21" selection-end-column="28" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
+              <caret line="24" column="71" selection-start-line="24" selection-start-column="71" selection-end-line="24" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -125,49 +195,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_main_social.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SoomlaSocialExample/src/main/res/layout/activity_main_social.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="1830">
-              <caret line="86" column="10" selection-start-line="86" selection-start-column="10" selection-end-line="86" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SoomlaSocialCenter.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="SoomlaSocialCenter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SoomlaSocialLib/src/main/java/com/soomla/social/SoomlaSocialCenter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.28961748" vertical-offset="531" max-vertical-offset="1245">
-              <caret line="64" column="24" selection-start-line="64" selection-start-column="24" selection-end-line="64" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="386" max-vertical-offset="1215">
+              <caret line="60" column="51" selection-start-line="60" selection-start-column="51" selection-end-line="60" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2664#2665#0" expanded="true" />
-                <element signature="e#2721#2722#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="oauth_consumer.properties" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SoomlaSocialLib/src/main/assets/oauth_consumer.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="493" max-vertical-offset="1485">
-              <caret line="45" column="34" selection-start-line="45" selection-start-column="34" selection-end-line="45" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TwitterProvider.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SoomlaSocialLib/src/main/java/com/soomla/social/providers/TwitterProvider.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="390">
-              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -178,6 +213,9 @@
     <FindUsagesManager>
       <setting name="OPEN_NEW_TAB" value="true" />
     </FindUsagesManager>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../android-store" />
   </component>
   <component name="GradleLocalSettings">
     <option name="tasksExpandState">
@@ -1236,10 +1274,6 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/../android-store" />
-                <option name="name" value="mergeDebugResources" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/../android-store" />
                 <option name="name" value="mergeDebugTestAssets" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
@@ -1253,10 +1287,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/../android-store" />
                 <option name="name" value="mergeReleaseProguardFiles" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/../android-store" />
-                <option name="name" value="mergeReleaseResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/../android-store" />
@@ -1329,11 +1359,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/../android-store" />
                 <option name="name" value="preReleaseBuild" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:appcompat-v7:19.1.0" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/../android-store" />
-                <option name="name" value="prepareComAndroidSupportAppcompatV71910Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/../android-store" />
@@ -1411,7 +1436,7 @@
       <map>
         <entry key="$PROJECT_DIR$/../../Android/HorizontalVariableListView" value="1392574097000" />
         <entry key="$PROJECT_DIR$/../../Android/cwac-camera" value="1392033734000" />
-        <entry key="$PROJECT_DIR$" value="6991771747000" />
+        <entry key="$PROJECT_DIR$" value="6993660831000" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -1989,22 +2014,23 @@
         <option value="$PROJECT_DIR$/SoomlaSocialLib/src/main/java/com/soomla/social/ISocialCenter.java" />
         <option value="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/build.gradle" />
         <option value="$PROJECT_DIR$/settings.gradle" />
-        <option value="$PROJECT_DIR$/../android-store/build.gradle" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/SoomlaSocialExample/src/main/res/layout/activity_main_social.xml" />
         <option value="$PROJECT_DIR$/SoomlaSocialLib/src/main/java/com/soomla/social/events/SocialLoginEvent.java" />
         <option value="$PROJECT_DIR$/SoomlaSocialLib/src/main/java/com/soomla/social/SoomlaSocialCenter.java" />
         <option value="$PROJECT_DIR$/SoomlaSocialLib/build.gradle" />
-        <option value="$PROJECT_DIR$/SoomlaSocialExample/build.gradle" />
         <option value="$PROJECT_DIR$/SoomlaSocialExample/src/main/java/com/soomla/social/example/MainSocialActivity.java" />
         <option value="$PROJECT_DIR$/SoomlaSocialLib/assets/oauth_consumer.properties" />
+        <option value="$PROJECT_DIR$/SoomlaSocialExample/build.gradle" />
+        <option value="$PROJECT_DIR$/../android-store/build.gradle" />
+        <option value="$PROJECT_DIR$/../android-store/SoomlaAndroidStore/SoomlaAndroidStore.iml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1280" />
-    <option name="height" value="693" />
+    <option name="width" value="1920" />
+    <option name="height" value="973" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -2060,67 +2086,7 @@
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="submodules" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-store-google-play" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialModule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-store" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="submodules" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-store-google-play" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="google" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialModule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-store" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="submodules" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-store-google-play" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
+              <option name="myItemId" value="SoomlaAndroidStore" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2131,200 +2097,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="android-social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialModule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialLib" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialModule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialLib" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialModule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialLib" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialModule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialLib" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="model" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialModule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialLib" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="events" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialModule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialLib" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="actions" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialModule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialLib" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2339,58 +2111,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="SoomlaSocialExample" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialModule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialExample" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialModule" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android-social" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SoomlaSocialExample" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="example" />
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2425,6 +2145,7 @@
     <property name="DEBUGGABLE_DEVICE" value="htc-htc_one-HT36LW909314" />
     <property name="DEBUGGABLE_PROCESS" value="com.soomla.social.example" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../unity3d-store/soomla-native/projects/unity-android-store" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -2471,19 +2192,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -2509,6 +2217,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -2620,8 +2341,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1280" height="693" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="22" width="1920" height="973" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2642,7 +2363,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27059773" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24068157" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32942432" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -2694,69 +2415,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="135">
-          <caret line="3" column="53" selection-start-line="3" selection-start-column="53" selection-end-line="3" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SoomlaSocialLib/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="480">
-          <caret line="21" column="28" selection-start-line="21" selection-start-column="28" selection-end-line="21" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SoomlaSocialExample/src/main/java/com/soomla/social/example/MainSocialActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1035" max-vertical-offset="2100">
-          <caret line="69" column="50" selection-start-line="69" selection-start-column="50" selection-end-line="69" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SoomlaSocialExample/src/main/res/layout/activity_main_social.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="1830">
-          <caret line="86" column="10" selection-start-line="86" selection-start-column="10" selection-end-line="86" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SoomlaSocialLib/src/main/java/com/soomla/social/SoomlaSocialCenter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="836" max-vertical-offset="1245">
-          <caret line="81" column="0" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2664#2665#0" expanded="true" />
-            <element signature="e#2721#2722#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SoomlaSocialLib/src/main/assets/oauth_consumer.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="493" max-vertical-offset="1485">
-          <caret line="45" column="34" selection-start-line="45" selection-start-column="34" selection-end-line="45" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SoomlaSocialLib/src/main/java/com/soomla/social/providers/TwitterProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="390">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SoomlaSocialLib/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="450">
@@ -2805,7 +2463,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="390">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2954,13 +2611,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0955414" vertical-offset="0" max-vertical-offset="975">
-          <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/AndroidBus.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.16719745" vertical-offset="0" max-vertical-offset="645">
@@ -2994,14 +2644,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../android-store/submodules/android-store-google-play/src/com/soomla/store/billing/google/IabHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="13215">
-          <caret line="132" column="12" selection-start-line="132" selection-start-column="12" selection-end-line="132" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -3012,7 +2654,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="1830">
           <caret line="86" column="10" selection-start-line="86" selection-start-column="10" selection-end-line="86" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3020,14 +2661,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.430622" vertical-offset="0" max-vertical-offset="627">
           <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../android-store/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52388537" vertical-offset="16" max-vertical-offset="645">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3043,14 +2676,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="480">
           <caret line="21" column="28" selection-start-line="21" selection-start-column="28" selection-end-line="21" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SoomlaSocialExample/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
-          <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -3078,15 +2703,103 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SoomlaSocialLib/src/main/java/com/soomla/social/SoomlaSocialCenter.java">
+    <entry file="file://$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/MarketItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28961748" vertical-offset="531" max-vertical-offset="1245">
-          <caret line="64" column="24" selection-start-line="64" selection-start-column="24" selection-end-line="64" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1266" max-vertical-offset="1815">
+          <caret line="148" column="19" selection-start-line="148" selection-start-column="19" selection-end-line="150" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.25186568" vertical-offset="0" max-vertical-offset="975">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2664#2665#0" expanded="true" />
-            <element signature="e#2721#2722#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IabInventory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="456" max-vertical-offset="1005">
+          <caret line="30" column="11" selection-start-line="30" selection-start-column="11" selection-end-line="30" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../android-store/submodules/android-store-google-play/src/com/soomla/store/billing/google/IabHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.19216418" vertical-offset="6857" max-vertical-offset="12840">
+          <caret line="506" column="41" selection-start-line="506" selection-start-column="41" selection-end-line="506" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../android-store/submodules/android-store-google-play/src/com/soomla/store/billing/google/GooglePlayIabService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.19216418" vertical-offset="497" max-vertical-offset="3615">
+          <caret line="68" column="24" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/billing/IIabService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5355191" vertical-offset="66" max-vertical-offset="615">
+          <caret line="41" column="16" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5317164" vertical-offset="2355" max-vertical-offset="7470">
+          <caret line="224" column="55" selection-start-line="224" selection-start-column="55" selection-end-line="224" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../android-store/android-store.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1290">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SoomlaSocialLib/src/main/java/com/soomla/social/SoomlaSocialCenter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="386" max-vertical-offset="1215">
+          <caret line="60" column="51" selection-start-line="60" selection-start-column="51" selection-end-line="60" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../android-store/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630">
+          <caret line="24" column="71" selection-start-line="24" selection-start-column="71" selection-end-line="24" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SoomlaSocialExample/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+          <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../android-store/SoomlaAndroidStore/SoomlaAndroidStore.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.25735295" vertical-offset="0" max-vertical-offset="1365">
+          <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+          <folding />
         </state>
       </provider>
     </entry>
