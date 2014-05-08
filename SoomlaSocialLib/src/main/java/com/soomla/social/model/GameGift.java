@@ -19,5 +19,8 @@ package com.soomla.social.model;
 public class GameGift {
     private GameUser mFromGameUser;
     private GameUser mToGameUser;
-    private String mGiftId; // VirtualItem
+
+    // VirtualItem
+    private String mGiftId;
+    private int mAmount;
 }

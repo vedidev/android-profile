@@ -14,26 +14,18 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.actions;
+package com.soomla.social.events;
 
-import com.soomla.social.model.GameReward;
+import org.brickred.socialauth.Contact;
 
-import java.util.Set;
+import java.util.List;
 
-public interface ISocialAction {
-
-    String getProviderName();
-    boolean wasDone();
-    /**
-     * link a game reward to be given when the social action is preformed
-     * @param gameReward - to be awarded
-     * @return whether this reward was already attached
-     */
-    boolean addGameReward(GameReward gameReward);
-
-    /**
-     * get current attached game rewards to this social action
-     * @return - awards
-     */
-    Set<GameReward> getGameRewards();
+/**
+ * Created by oriargov on 5/8/14.
+ */
+public class SocialAuthContactsEvent {
+    public final List<Contact> contacts;
+    public SocialAuthContactsEvent(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
 }

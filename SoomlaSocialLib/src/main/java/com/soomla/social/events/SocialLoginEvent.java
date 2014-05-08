@@ -20,17 +20,9 @@ import android.os.Bundle;
 
 public class SocialLoginEvent {
 
-    private Bundle mBundle;
+    public final Bundle result;
 
     public SocialLoginEvent(Bundle bundle) {
-        this.mBundle = bundle;
-    }
-
-    public Bundle getBundle() {
-        return mBundle;
-    }
-
-    public void setBundle(Bundle bundle) {
-        this.mBundle = bundle;
+        this.result = bundle;
     }
 }

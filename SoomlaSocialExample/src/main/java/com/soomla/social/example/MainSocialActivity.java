@@ -16,46 +16,141 @@
 
 package com.soomla.social.example;
 
-import android.support.v7.app.ActionBarActivity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.http.AndroidHttpClient;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.soomla.social.SoomlaSocialCenter;
+import com.soomla.social.ISocialCenter;
+import com.soomla.social.SoomlaSocialAuthCenter;
+import com.soomla.social.actions.UpdateStatusAction;
+import com.soomla.social.actions.UpdateStoryAction;
+import com.soomla.social.events.SocialActionPerformedEvent;
+import com.soomla.social.events.SocialAuthProfileEvent;
 import com.soomla.social.events.SocialLoginEvent;
+import com.soomla.social.model.GameReward;
+import com.soomla.store.BusProvider;
+import com.soomla.store.exceptions.VirtualItemNotFoundException;
 import com.squareup.otto.Subscribe;
 
-import com.soomla.store.BusProvider;
-
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.params.HttpClientParams;
 import org.brickred.socialauth.android.SocialAuthAdapter;
-import org.brickred.socialauth.android.SocialAuthError;
-import org.brickred.socialauth.android.SocialAuthListener;
+
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Set;
 
 
 public class MainSocialActivity extends ActionBarActivity {
 
     private static final String TAG = "MainSocialActivity";
 
-    private Button mBtnUpdate;
+    private Button mBtnShare;
+
+    private ViewGroup mProfileBar;
+    private ImageView mProfileAvatar;
+    private TextView mProfileName;
+
+    private ViewGroup mPnlStatusUpdate;
+    private Button mBtnUpdateStatus;
     private EditText mEdtStatus;
 
-    private SoomlaSocialCenter soomlaSocialCenter;
+    private ViewGroup mPnlStoryUpdate;
+    private Button mBtnUpdateStory;
+    private EditText mEdtStory;
+
+//    private SoomlaSocialAuthCenter soomlaSocialAuthCenter;
+    private ISocialCenter soomlaSocialAuthCenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_social);
 
-        soomlaSocialCenter = new SoomlaSocialCenter();
-        soomlaSocialCenter.addSocialProvider(SocialAuthAdapter.Provider.FACEBOOK, R.drawable.facebook);
+        soomlaSocialAuthCenter = new SoomlaSocialAuthCenter();
+        soomlaSocialAuthCenter.addSocialProvider(ISocialCenter.FACEBOOK, R.drawable.facebook);
 
-        mBtnUpdate = (Button) findViewById(R.id.update);
-        soomlaSocialCenter.getSocialAuthAdapter().enable(mBtnUpdate);
+        mProfileBar = (ViewGroup) findViewById(R.id.profile_bar);
+        mProfileAvatar = (ImageView) findViewById(R.id.prof_avatar);
+        mProfileName = (TextView) findViewById(R.id.prof_name);
+
+        mPnlStatusUpdate = (ViewGroup) findViewById(R.id.pnlStatusUpdate);
+        mEdtStatus = (EditText) findViewById(R.id.edtStatusText);
+        mBtnUpdateStatus = (Button) findViewById(R.id.btnStatusUpdate);
+        mBtnUpdateStatus.setEnabled(false);
+        mBtnUpdateStatus.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                final String message = mEdtStatus.getText().toString();
+
+                // create social action
+                UpdateStatusAction updateStatusAction = new UpdateStatusAction(
+                        ISocialCenter.FACEBOOK, message, false);
+
+                // optionally attach rewards to it
+                GameReward noAdsReward = new GameReward(updateStatusAction, "no_ads", 1);
+                updateStatusAction.addGameReward(noAdsReward);
+
+                // perform social action
+                soomlaSocialAuthCenter.updateStatusAsync(updateStatusAction);
+            }
+        });
+
+        mPnlStoryUpdate = (ViewGroup) findViewById(R.id.pnlStoryUpdate);
+        mEdtStory = (EditText) findViewById(R.id.edtStoryText);
+        mBtnUpdateStory = (Button) findViewById(R.id.btnStoryUpdate);
+        mBtnUpdateStory.setEnabled(false);
+        mBtnUpdateStory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String message = mEdtStory.getText().toString();
+                // another example
+                UpdateStoryAction updateStoryAction = new UpdateStoryAction(
+                        ISocialCenter.FACEBOOK,
+                        message, "name", "caption", "description",
+                        "http://soom.la",
+                        "https://s3.amazonaws.com/soomla_images/website/img/500_background.png");
+
+                // optionally attach rewards to it
+                GameReward muffinsReward = new GameReward(updateStoryAction, "muffins_50", 1);
+                updateStoryAction.addGameReward(muffinsReward);
+
+                try {
+                    soomlaSocialAuthCenter.updateStoryAsync(updateStoryAction);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mBtnShare = (Button) findViewById(R.id.btnShare);
+        soomlaSocialAuthCenter.registerShareButton(mBtnShare);
     }
 
     @Subscribe public void onSocialLoginEvent(SocialLoginEvent socialLoginEvent) {
@@ -63,23 +158,84 @@ public class MainSocialActivity extends ActionBarActivity {
         Log.d(TAG, "Authentication Successful");
 
         // Get name of provider after authentication
-        final String providerName = socialLoginEvent.getBundle().getString(SocialAuthAdapter.PROVIDER);
+        final String providerName = socialLoginEvent.result.getString(SocialAuthAdapter.PROVIDER);
         Log.d(TAG, "Provider Name = " + providerName);
         Toast.makeText(this, providerName + " connected", Toast.LENGTH_SHORT).show();
-
-        mEdtStatus = (EditText) findViewById(R.id.editTxt);
 
         // Please avoid sending duplicate message. Social Media Providers
         // block duplicate messages.
 
-        mBtnUpdate.setOnClickListener(new View.OnClickListener() {
+        soomlaSocialAuthCenter.getProfileAsync();
 
+        updateUIOnLogin(providerName);
+    }
+
+    @Subscribe public void onSocialProfileEvent(SocialAuthProfileEvent profileEvent) {
+        showView(mProfileBar, true);
+
+        new DownloadImageTask(mProfileAvatar).execute(profileEvent.profile.getProfileImageURL());
+        mProfileName.setText(profileEvent.profile.getFullName());
+    }
+
+    @Subscribe public void onSocialActionPerformedEvent(
+            SocialActionPerformedEvent socialActionPerformedEvent) {
+        final Set<GameReward> gameRewards = socialActionPerformedEvent.socialAction.getGameRewards();
+        for(GameReward gameReward : gameRewards) {
+            try {
+                gameReward.award();
+            } catch (VirtualItemNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void updateUIOnLogin(final String providerName) {
+        mBtnShare.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                getResources().getDrawable(android.R.drawable.ic_lock_power_off),
+                null);
+
+        mBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Call updateStatus to share message via oAuth providers
-                soomlaSocialCenter.getSocialAuthAdapter().updateStatus(mEdtStatus.getText().toString(), new MessageListener(), false);
+                soomlaSocialAuthCenter.signOut(mBtnShare.getContext(), providerName);
+                updateUIOnLogout();
+
+                // re-enable share button login
+                soomlaSocialAuthCenter.registerShareButton(mBtnShare);
             }
         });
+
+        showView(mPnlStatusUpdate, true);
+        showView(mPnlStoryUpdate, true);
+
+        mBtnUpdateStatus.setEnabled(true);
+        mBtnUpdateStory.setEnabled(true);
+    }
+
+    private void updateUIOnLogout() {
+
+        mBtnUpdateStatus.setEnabled(false);
+        mBtnUpdateStory.setEnabled(false);
+
+        showView(mProfileBar, false);
+        showView(mPnlStatusUpdate, false);
+        showView(mPnlStoryUpdate, false);
+
+        mProfileAvatar.setImageBitmap(null);
+        mProfileName.setText("");
+
+        mBtnShare.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                getResources().getDrawable(android.R.drawable.ic_menu_share),
+                null);
+    }
+
+    private void showView(final View view, boolean show) {
+        final Animation animation = show ?
+                AnimationUtils.makeInAnimation(view.getContext(), true) :
+                AnimationUtils.makeOutAnimation(view.getContext(), true);
+        animation.setFillAfter(true);
+        animation.setDuration(500);
+        view.startAnimation(animation);
     }
 
     @Override
@@ -114,21 +270,118 @@ public class MainSocialActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // todo: refactor this to lib
-    // To get status of message after authentication
-    private final class MessageListener implements SocialAuthListener<Integer> {
-        @Override
-        public void onExecute(String provider, Integer t) {
-            Integer status = t;
-            if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204)
-                Toast.makeText(MainSocialActivity.this, "Message posted on " + provider, Toast.LENGTH_LONG).show();
-            else
-                Toast.makeText(MainSocialActivity.this, "Message not posted on " + provider, Toast.LENGTH_LONG).show();
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String url = urls[0];
+            Bitmap bmp = downloadBitmapWithClient(url);
+
+            return bmp;
+        }
+
+        // doesn't follow https redirect!
+        private Bitmap downloadBitmap(String stringUrl) {
+            URL url = null;
+            HttpURLConnection connection = null;
+            InputStream inputStream = null;
+
+            try {
+                url = new URL(stringUrl);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setUseCaches(true);
+                inputStream = connection.getInputStream();
+
+                return BitmapFactory.decodeStream(new FlushedInputStream(inputStream));
+            } catch (Exception e) {
+                Log.w(TAG, "Error while retrieving bitmap from " + stringUrl, e);
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+
+            return null;
+        }
+
+        private Bitmap downloadBitmapWithClient(String url) {
+            final AndroidHttpClient httpClient = AndroidHttpClient.newInstance("Android");
+            HttpClientParams.setRedirecting(httpClient.getParams(), true);
+            final HttpGet request = new HttpGet(url);
+
+            try {
+                HttpResponse response = httpClient.execute(request);
+                final int statusCode = response.getStatusLine().getStatusCode();
+
+                if (statusCode != HttpStatus.SC_OK) {
+                    Header[] headers = response.getHeaders("Location");
+
+                    if (headers != null && headers.length != 0) {
+                        String newUrl = headers[headers.length - 1].getValue();
+                        // call again with new URL
+                        return downloadBitmap(newUrl);
+                    } else {
+                        return null;
+                    }
+                }
+
+                final HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    InputStream inputStream = null;
+                    try {
+                        inputStream = entity.getContent();
+
+                        // do your work here
+                        return BitmapFactory.decodeStream(inputStream);
+                    } finally {
+                        if (inputStream != null) {
+                            inputStream.close();
+                        }
+                        entity.consumeContent();
+                    }
+                }
+            } catch (Exception e) {
+                request.abort();
+            } finally {
+                if (httpClient != null) {
+                    httpClient.close();
+                }
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
+
+    static class FlushedInputStream extends FilterInputStream {
+        public FlushedInputStream(InputStream inputStream) {
+            super(inputStream);
         }
 
         @Override
-        public void onError(SocialAuthError e) {
-
+        public long skip(long n) throws IOException {
+            long totalBytesSkipped = 0L;
+            while (totalBytesSkipped < n) {
+                long bytesSkipped = in.skip(n - totalBytesSkipped);
+                if (bytesSkipped == 0L) {
+                    int byteValue = read();
+                    if (byteValue < 0) {
+                        break; // we reached EOF
+                    } else
+                    {
+                        bytesSkipped = 1; // we read one byte
+                    }
+                }
+                totalBytesSkipped += bytesSkipped;
+            }
+            return totalBytesSkipped;
         }
     }
 }

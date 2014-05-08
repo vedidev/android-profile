@@ -18,11 +18,10 @@ package com.soomla.social.events;
 
 import com.soomla.social.actions.ISocialAction;
 
-public class SocialActionPerformed {
-    ISocialAction mAction;
-    public ISocialAction getAction() { return mAction; }
+public class SocialActionPerformedEvent {
+    public final ISocialAction socialAction;
 
-    public SocialActionPerformed(ISocialAction action) {
-        this.mAction = action;
+    public SocialActionPerformedEvent(ISocialAction action) {
+        this.socialAction = action;
     }
 }

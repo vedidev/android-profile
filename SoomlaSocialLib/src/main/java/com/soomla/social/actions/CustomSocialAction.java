@@ -14,7 +14,13 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.providers;
+package com.soomla.social.actions;
 
-public class TwitterProvider implements ISocialProvider {
+/**
+ * Created by oriargov on 5/8/14.
+ */
+public class CustomSocialAction extends BaseSocialAction {
+    public CustomSocialAction(String providerName) {
+        super(providerName);
+    }
 }

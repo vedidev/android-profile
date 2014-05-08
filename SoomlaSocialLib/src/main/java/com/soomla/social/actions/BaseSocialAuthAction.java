@@ -16,24 +16,17 @@
 
 package com.soomla.social.actions;
 
-import com.soomla.social.model.GameReward;
+import org.brickred.socialauth.android.SocialAuthAdapter;
 
-import java.util.Set;
+/**
+ * Created by oriargov on 5/8/14.
+ */
+public abstract class BaseSocialAuthAction extends BaseSocialAction {
 
-public interface ISocialAction {
+    protected SocialAuthAdapter mSocialAuthAdapter;
 
-    String getProviderName();
-    boolean wasDone();
-    /**
-     * link a game reward to be given when the social action is preformed
-     * @param gameReward - to be awarded
-     * @return whether this reward was already attached
-     */
-    boolean addGameReward(GameReward gameReward);
-
-    /**
-     * get current attached game rewards to this social action
-     * @return - awards
-     */
-    Set<GameReward> getGameRewards();
+    public BaseSocialAuthAction(SocialAuthAdapter adapter) {
+        super(adapter.getCurrentProvider().getProviderId());
+        this.mSocialAuthAdapter = adapter;
+    }
 }

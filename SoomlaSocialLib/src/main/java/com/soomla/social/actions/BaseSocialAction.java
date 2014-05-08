@@ -21,9 +21,21 @@ import com.soomla.social.model.GameReward;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AbstractSocialAction implements ISocialAction {
+public abstract class BaseSocialAction implements ISocialAction {
+
+    private String mProviderName;
+    public String getProviderName() { return mProviderName; }
+
+    protected boolean mWasDone = false;
+    public boolean wasDone() { return mWasDone; }
 
     private Set<GameReward> mGameRewards = new HashSet<GameReward>();
+
+    protected BaseSocialAction(String providerName) {
+        this.mProviderName = providerName;
+    }
+
+//    public abstract void execute();
 
     @Override
     public Set<GameReward> getGameRewards() {

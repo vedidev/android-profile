@@ -17,9 +17,45 @@
 package com.soomla.social.model;
 
 import com.soomla.social.actions.ISocialAction;
+import com.soomla.store.StoreInventory;
+import com.soomla.store.exceptions.VirtualItemNotFoundException;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class GameReward {
-    private ISocialAction mRequiredAction;
-    private String mRewardId; // VirtualItem
+    private Set<ISocialAction> mRequiredActions = new HashSet<ISocialAction>();
     private boolean mAwarded = false;
+
+    // VirtualItem
+    private String mRewardId;
+    private int mAmount;
+
+    public GameReward(ISocialAction requiredSocialAction, String mRewardId, int amount) {
+        addRequiredSocialAction(requiredSocialAction);
+        this.mRewardId = mRewardId;
+        this.mAmount = amount;
+    }
+
+    public boolean award() throws VirtualItemNotFoundException {
+        if(!mAwarded && requirementsMet()) {
+            StoreInventory.giveVirtualItem(mRewardId, mAmount);
+            mAwarded = true;
+        }
+
+        return mAwarded;
+    }
+
+    public void addRequiredSocialAction(ISocialAction requiredSocialAction) {
+        mRequiredActions.add(requiredSocialAction);
+    }
+
+    public boolean requirementsMet() {
+        for (ISocialAction requirement : mRequiredActions) {
+            if(!requirement.wasDone())
+                return false;
+        }
+
+        return true;
+    }
 }

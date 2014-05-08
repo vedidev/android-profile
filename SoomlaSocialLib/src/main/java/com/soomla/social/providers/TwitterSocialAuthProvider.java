@@ -16,28 +16,24 @@
 
 package com.soomla.social.providers;
 
-import org.brickred.socialauth.provider.FacebookImpl;
-import org.brickred.socialauth.util.MethodType;
+import org.brickred.socialauth.provider.TwitterImpl;
 import org.brickred.socialauth.util.OAuthConfig;
+import org.brickred.socialauth.util.Response;
 
-import java.util.HashMap;
-import java.util.Map;
+public class TwitterSocialAuthProvider implements ISocialProvider {
+    private TwitterImpl mTwitter;
 
-public class FacebookProvider2 extends FacebookImpl implements ISocialProvider {
-
-    public static final String FB_GRAPH_LIKE_URL = "me/og.likes";
-
-    public FacebookProvider2(OAuthConfig providerConfig) throws Exception {
-        super(providerConfig);
+    public TwitterSocialAuthProvider(OAuthConfig providerConfig) throws Exception {
+        mTwitter = new TwitterImpl(providerConfig);
     }
 
-    public void like() {
-        try {
-            Map<String, String> params = new HashMap<String, String>();
-            params.put("object", "URL TO LIKE");
-            api(FB_GRAPH_LIKE_URL, MethodType.POST.toString(), params, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Override
+    public Object getInternalProvider() {
+        return mTwitter;
+    }
+
+    @Override
+    public void updateStatus(String message) throws Exception {
+
     }
 }
