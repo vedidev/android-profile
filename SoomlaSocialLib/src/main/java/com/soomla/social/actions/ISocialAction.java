@@ -24,6 +24,8 @@ public interface ISocialAction {
 
     String getProviderName();
     boolean wasDone();
+    void setDone();
+
     /**
      * link a game reward to be given when the social action is preformed
      * @param gameReward - to be awarded

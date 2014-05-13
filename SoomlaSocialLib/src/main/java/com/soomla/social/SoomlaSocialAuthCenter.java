@@ -249,6 +249,7 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
         public void onExecute(String provider, Integer t) {
             Integer status = t;
             if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204) {
+                mSocialAction.setDone();
                 BusProvider.getInstance().post(new SocialActionPerformedEvent(mSocialAction));
             }
             else {

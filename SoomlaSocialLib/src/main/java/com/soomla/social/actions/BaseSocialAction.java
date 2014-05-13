@@ -26,8 +26,13 @@ public abstract class BaseSocialAction implements ISocialAction {
     private String mProviderName;
     public String getProviderName() { return mProviderName; }
 
-    protected boolean mWasDone = false;
+    private boolean mWasDone = false;
+    @Override
     public boolean wasDone() { return mWasDone; }
+    @Override
+    public void setDone() {
+        mWasDone = true;
+    }
 
     private Set<GameReward> mGameRewards = new HashSet<GameReward>();
 
