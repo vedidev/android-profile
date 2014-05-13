@@ -37,6 +37,8 @@ public interface ISocialCenter {
      */
     void addSocialProvider(String providerName, int providerIconResId);
 
+    void login(Context context, String providerName);
+
     void signOut(Context context, String providerName);
 
     // todo: this is probably temp shortcut

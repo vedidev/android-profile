@@ -17,6 +17,7 @@
 package com.soomla.social.actions;
 
 import com.soomla.social.model.GameReward;
+import com.soomla.store.exceptions.VirtualItemNotFoundException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,7 +32,18 @@ public abstract class BaseSocialAction implements ISocialAction {
     public boolean wasDone() { return mWasDone; }
     @Override
     public void setDone() {
-        mWasDone = true;
+        boolean ok = true;
+        final Set<GameReward> gameRewards = getGameRewards();
+        for(GameReward gameReward : gameRewards) {
+            try {
+                gameReward.award();
+            } catch (VirtualItemNotFoundException e) {
+                ok = false;
+                e.printStackTrace();
+            }
+        }
+
+        mWasDone = ok;
     }
 
     private Set<GameReward> mGameRewards = new HashSet<GameReward>();

@@ -33,7 +33,9 @@ import com.soomla.social.events.SocialAuthErrorEvent;
 import com.soomla.social.events.SocialAuthProfileEvent;
 import com.soomla.social.events.SocialLoginErrorEvent;
 import com.soomla.social.events.SocialLoginEvent;
+import com.soomla.social.model.GameReward;
 import com.soomla.store.BusProvider;
+import com.soomla.store.exceptions.VirtualItemNotFoundException;
 
 import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.Contact;
@@ -82,6 +84,11 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
     @Override
     public void registerShareButton(Button btnShare) {
         mSocialAdapter.enable(btnShare);
+    }
+
+    @Override
+    public void login(Context context, String providerName) {
+        mSocialAdapter.authorize(context, mProviderLookup.get(providerName));
     }
 
     @Override
