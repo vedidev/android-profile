@@ -20,7 +20,7 @@ package com.soomla.social.actions;
  * Created by oriargov on 5/8/14.
  */
 public class CustomSocialAction extends BaseSocialAction {
-    public CustomSocialAction(String providerName) {
-        super(providerName);
+    public CustomSocialAction(String name, String providerName) {
+        super(name, providerName);
     }
 }

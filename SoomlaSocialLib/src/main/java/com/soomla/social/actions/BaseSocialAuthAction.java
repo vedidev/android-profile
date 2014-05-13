@@ -26,7 +26,7 @@ public abstract class BaseSocialAuthAction extends BaseSocialAction {
     protected SocialAuthAdapter mSocialAuthAdapter;
 
     public BaseSocialAuthAction(SocialAuthAdapter adapter) {
-        super(adapter.getCurrentProvider().getProviderId());
+        super("BaseSocialAuthAction(?)", adapter.getCurrentProvider().getProviderId());
         this.mSocialAuthAdapter = adapter;
     }
 }

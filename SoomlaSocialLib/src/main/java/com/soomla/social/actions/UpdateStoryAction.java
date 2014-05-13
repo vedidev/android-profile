@@ -20,6 +20,9 @@ package com.soomla.social.actions;
  * Created by oriargov on 5/8/14.
  */
 public class UpdateStoryAction extends BaseSocialAction {
+
+    private static final String ACTION_NAME = "UpdateStory";
+
     private String mName;
     private String mCaption;
     private String mMsg;
@@ -31,7 +34,7 @@ public class UpdateStoryAction extends BaseSocialAction {
                              String name, String caption,
                              String msg, String desc,
                              String link, String pictureLink) {
-        super(providerName);
+        super(ACTION_NAME, providerName);
         this.mName = name;
         this.mCaption = caption;
         this.mMsg = msg;

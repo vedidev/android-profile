@@ -23,11 +23,13 @@ public class UpdateStatusAction extends BaseSocialAction {
 
     private static final String TAG = "UpdateStatusAction";
 
+    private static final String ACTION_NAME = "UpdateStatus";
+
     private String mMessage;
     private boolean mShare;
 
     public UpdateStatusAction(String providerName, String msg, boolean share) {
-        super(providerName);
+        super(ACTION_NAME, providerName);
         this.mMessage = msg;
         this.mShare = share;
     }

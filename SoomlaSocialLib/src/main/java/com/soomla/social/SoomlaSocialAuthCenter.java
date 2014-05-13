@@ -115,11 +115,11 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
                 new MessageListener(updateStoryAction));
     }
 
-    public void customActionAsync(String url, String methodType,
+    public void customActionAsync(String actionName, String url, String methodType,
                                   Map<String, String> params,
                                   Map<String, String> headers,
                                   String body) throws Exception {
-        final CustomSocialAction customSocialAction = new CustomSocialAction(currentProviderId());
+        final CustomSocialAction customSocialAction = new CustomSocialAction(actionName, currentProviderId());
         final ApiTask apiTask = new ApiTask(url, methodType,
                 params, headers, body,
                 new MessageListener(customSocialAction));

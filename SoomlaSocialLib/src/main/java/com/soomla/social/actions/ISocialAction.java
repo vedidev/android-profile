@@ -22,7 +22,9 @@ import java.util.Set;
 
 public interface ISocialAction {
 
+    String getName();
     String getProviderName();
+
     boolean wasDone();
     void setDone();
 

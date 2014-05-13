@@ -24,7 +24,13 @@ import java.util.Set;
 
 public abstract class BaseSocialAction implements ISocialAction {
 
+    private String mName;
     private String mProviderName;
+
+    @Override
+    public String getName() { return mName; }
+
+    @Override
     public String getProviderName() { return mProviderName; }
 
     private boolean mWasDone = false;
@@ -32,23 +38,21 @@ public abstract class BaseSocialAction implements ISocialAction {
     public boolean wasDone() { return mWasDone; }
     @Override
     public void setDone() {
-        boolean ok = true;
+        mWasDone = true;
         final Set<GameReward> gameRewards = getGameRewards();
         for(GameReward gameReward : gameRewards) {
             try {
                 gameReward.award();
             } catch (VirtualItemNotFoundException e) {
-                ok = false;
                 e.printStackTrace();
             }
         }
-
-        mWasDone = ok;
     }
 
     private Set<GameReward> mGameRewards = new HashSet<GameReward>();
 
-    protected BaseSocialAction(String providerName) {
+    protected BaseSocialAction(String name, String providerName) {
+        this.mName = name;
         this.mProviderName = providerName;
     }
 
