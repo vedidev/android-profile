@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.soomla.social.ISocialCenter;
 import com.soomla.social.SoomlaSocialAuthCenter;
+import com.soomla.social.actions.ISocialAction;
 import com.soomla.social.actions.UpdateStatusAction;
 import com.soomla.social.actions.UpdateStoryAction;
 import com.soomla.social.events.SocialActionPerformedEvent;
@@ -179,14 +180,10 @@ public class MainSocialActivity extends ActionBarActivity {
 
     @Subscribe public void onSocialActionPerformedEvent(
             SocialActionPerformedEvent socialActionPerformedEvent) {
-        final Set<GameReward> gameRewards = socialActionPerformedEvent.socialAction.getGameRewards();
-        for(GameReward gameReward : gameRewards) {
-            try {
-                gameReward.award();
-            } catch (VirtualItemNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+        final ISocialAction socialAction = socialActionPerformedEvent.socialAction;
+        final String msg = socialAction.getName() + " on " +
+                socialAction.getProviderName() + " performed successfully";
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     private void updateUIOnLogin(final String providerName) {
