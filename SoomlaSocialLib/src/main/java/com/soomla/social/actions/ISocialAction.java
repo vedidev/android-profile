@@ -16,28 +16,21 @@
 
 package com.soomla.social.actions;
 
-import com.soomla.social.model.GameReward;
+import com.soomla.blueprint.rewards.Reward;
 
-import java.util.Set;
+import java.util.List;
 
 public interface ISocialAction {
 
-    String getName();
     String getProviderName();
 
-    boolean wasDone();
-    void setDone();
+    public String getName();
 
-    /**
-     * link a game reward to be given when the social action is preformed
-     * @param gameReward - to be awarded
-     * @return whether this reward was already attached
-     */
-    boolean addGameReward(GameReward gameReward);
+    public String getMissionId();
 
-    /**
-     * get current attached game rewards to this social action
-     * @return - awards
-     */
-    Set<GameReward> getGameRewards();
+    public List<Reward> getRewards();
+
+    public boolean isCompleted();
+
+    public void setCompleted(boolean completed);
 }

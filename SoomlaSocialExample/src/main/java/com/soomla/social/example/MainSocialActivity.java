@@ -35,23 +35,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.soomla.blueprint.rewards.Reward;
+import com.soomla.blueprint.rewards.VirtualItemReward;
 import com.soomla.social.ISocialCenter;
 import com.soomla.social.SoomlaSocialAuthCenter;
+import com.soomla.social.actions.ISocialAction;
 import com.soomla.social.actions.UpdateStatusAction;
 import com.soomla.social.actions.UpdateStoryAction;
 import com.soomla.social.events.SocialActionPerformedEvent;
 import com.soomla.social.events.SocialAuthProfileEvent;
 import com.soomla.social.events.SocialLoginEvent;
-import com.soomla.social.model.GameReward;
+import com.soomla.social.model.SocialVirtualItemReward;
 import com.soomla.store.BusProvider;
-import com.soomla.store.exceptions.VirtualItemNotFoundException;
 import com.squareup.otto.Subscribe;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.params.HttpClientParams;
 import org.brickred.socialauth.android.SocialAuthAdapter;
@@ -62,8 +63,6 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.Set;
 
 
 public class MainSocialActivity extends ActionBarActivity {
@@ -114,8 +113,8 @@ public class MainSocialActivity extends ActionBarActivity {
                         ISocialCenter.FACEBOOK, message, false);
 
                 // optionally attach rewards to it
-                GameReward noAdsReward = new GameReward(updateStatusAction, "no_ads", 1);
-                updateStatusAction.addGameReward(noAdsReward);
+                Reward noAdsReward = new SocialVirtualItemReward("Update Status for Ad-free", "no_ads", 1);
+                updateStatusAction.getRewards().add(noAdsReward);
 
                 // perform social action
                 soomlaSocialAuthCenter.updateStatusAsync(updateStatusAction);
@@ -138,8 +137,8 @@ public class MainSocialActivity extends ActionBarActivity {
                         "https://s3.amazonaws.com/soomla_images/website/img/500_background.png");
 
                 // optionally attach rewards to it
-                GameReward muffinsReward = new GameReward(updateStoryAction, "muffins_50", 1);
-                updateStoryAction.addGameReward(muffinsReward);
+                Reward muffinsReward = new SocialVirtualItemReward("Update Story for muffins", "muffins_50", 1);
+                updateStoryAction.getRewards().add(muffinsReward);
 
                 try {
                     soomlaSocialAuthCenter.updateStoryAsync(updateStoryAction);
@@ -179,14 +178,10 @@ public class MainSocialActivity extends ActionBarActivity {
 
     @Subscribe public void onSocialActionPerformedEvent(
             SocialActionPerformedEvent socialActionPerformedEvent) {
-        final Set<GameReward> gameRewards = socialActionPerformedEvent.socialAction.getGameRewards();
-        for(GameReward gameReward : gameRewards) {
-            try {
-                gameReward.award();
-            } catch (VirtualItemNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+        final ISocialAction socialAction = socialActionPerformedEvent.socialAction;
+        final String msg = socialAction.getName() + " on " +
+                socialAction.getProviderName() + " performed successfully";
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     private void updateUIOnLogin(final String providerName) {
@@ -197,7 +192,7 @@ public class MainSocialActivity extends ActionBarActivity {
         mBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                soomlaSocialAuthCenter.signOut(mBtnShare.getContext(), providerName);
+                soomlaSocialAuthCenter.logout(mBtnShare.getContext(), providerName);
                 updateUIOnLogout();
 
                 // re-enable share button login

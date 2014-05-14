@@ -23,13 +23,14 @@ public class UpdateStatusAction extends BaseSocialAction {
 
     private static final String TAG = "UpdateStatusAction";
 
+    private static final String ACTION_ID = "com.soomla.social.UpdateStatus";
     private static final String ACTION_NAME = "UpdateStatus";
 
     private String mMessage;
     private boolean mShare;
 
     public UpdateStatusAction(String providerName, String msg, boolean share) {
-        super(ACTION_NAME, providerName);
+        super(providerName, ACTION_NAME, ACTION_ID);
         this.mMessage = msg;
         this.mShare = share;
     }
