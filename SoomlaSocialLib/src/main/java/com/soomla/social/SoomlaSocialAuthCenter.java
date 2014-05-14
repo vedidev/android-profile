@@ -60,8 +60,6 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
 
     private SocialAuthAdapter mSocialAdapter;
 
-    private Set<ISocialAction> mRegisteredSocialActions = new HashSet<ISocialAction>();
-
     public SoomlaSocialAuthCenter() {
         mProviderLookup.put(ISocialCenter.FACEBOOK, SocialAuthAdapter.Provider.FACEBOOK);
 
@@ -164,16 +162,6 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
 
     private String currentProviderId() {
         return mSocialAdapter.getCurrentProvider().getProviderId();
-    }
-
-    @Override
-    public boolean registerSocialAction(ISocialAction action) {
-        return mRegisteredSocialActions.add(action);
-    }
-
-    @Override
-    public boolean unregisterSocialAction(ISocialAction action) {
-        return mRegisteredSocialActions.remove(action);
     }
 
     private final class ResponseListener implements DialogListener {
