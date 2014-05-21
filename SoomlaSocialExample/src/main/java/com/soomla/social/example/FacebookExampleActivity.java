@@ -38,8 +38,8 @@ public class FacebookExampleActivity extends FragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Add code to print out the key hash
-        printFBKeyHash();
+        // DEV only! Add code to print out the key hash
+//        printFBKeyHash();
 
         if (savedInstanceState == null) {
             // Add the fragment on initial activity setup
@@ -54,6 +54,8 @@ public class FacebookExampleActivity extends FragmentActivity {
                     .findFragmentById(android.R.id.content);
         }
     }
+
+
 
     private void printFBKeyHash() {
         try {

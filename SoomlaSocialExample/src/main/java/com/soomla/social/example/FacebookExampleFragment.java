@@ -20,7 +20,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.facebook.Request;
+import com.facebook.Session;
+import com.facebook.android.Facebook;
+import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.LoginButton;
 
 import java.util.Arrays;
@@ -29,6 +34,9 @@ import java.util.Arrays;
  * Created by oriargov on 5/14/14.
  */
 public class FacebookExampleFragment extends FacebookEnabledFragment {
+
+    private Button btnShareDlg;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
@@ -38,10 +46,44 @@ public class FacebookExampleFragment extends FacebookEnabledFragment {
         View view = inflater.inflate(R.layout.fb_example_main, container, false);
 
         LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
+
         authButton.setFragment(this);
         authButton.setReadPermissions(Arrays.asList("public_profile"));
         //authButton.setReadPermissions(Arrays.asList("user_likes", "user_status"));
 
+        btnShareDlg = (Button) view.findViewById(R.id.btnShareDlg);
+        btnShareDlg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (FacebookDialog.canPresentShareDialog(getActivity().getApplicationContext(),
+                        FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
+                    // Publish the post using the Share Dialog
+                    FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(getActivity())
+                            .setFragment(FacebookExampleFragment.this)
+                            // null link is status update
+                            .setLink("https://developers.facebook.com/android")
+                            .build();
+                    uiHelper.trackPendingDialogCall(shareDialog.present());
+
+                } else {
+                    // Fallback. For example, publish the post using the Feed Dialog
+                    publishFeedDialog();
+                }
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    protected void onLogin() {
+        super.onLogin();
+        btnShareDlg.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onLogout() {
+        super.onLogout();
+        btnShareDlg.setVisibility(View.GONE);
     }
 }
