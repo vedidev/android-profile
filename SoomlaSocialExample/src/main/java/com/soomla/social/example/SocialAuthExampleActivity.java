@@ -36,7 +36,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soomla.blueprint.rewards.Reward;
-import com.soomla.blueprint.rewards.VirtualItemReward;
 import com.soomla.social.ISocialCenter;
 import com.soomla.social.SoomlaSocialAuthCenter;
 import com.soomla.social.actions.ISocialAction;
@@ -65,7 +64,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class MainSocialActivity extends ActionBarActivity {
+public class SocialAuthExampleActivity extends ActionBarActivity {
 
     private static final String TAG = "MainSocialActivity";
 
@@ -89,7 +88,7 @@ public class MainSocialActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_social);
+        setContentView(R.layout.socialauth_example_main);
 
         soomlaSocialAuthCenter = new SoomlaSocialAuthCenter();
         soomlaSocialAuthCenter.addSocialProvider(ISocialCenter.FACEBOOK, R.drawable.facebook);

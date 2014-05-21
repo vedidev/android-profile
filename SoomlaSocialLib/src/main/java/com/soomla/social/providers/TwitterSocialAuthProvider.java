@@ -34,6 +34,6 @@ public class TwitterSocialAuthProvider implements ISocialProvider {
 
     @Override
     public void updateStatus(String message) throws Exception {
-
+        mTwitter.updateStatus(message);
     }
 }

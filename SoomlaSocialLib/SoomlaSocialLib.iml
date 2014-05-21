@@ -72,8 +72,11 @@
     <orderEntry type="jdk" jdkName="Android 4.4.2" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="socialauth-android-3.2" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="square-otto-1.3.2" level="project" />
+    <orderEntry type="library" exported="" name="bolts" level="project" />
     <orderEntry type="library" exported="" name="socialauth-4.4" level="project" />
+    <orderEntry type="module" module-name="facebook" exported="" />
     <orderEntry type="module" module-name="android-blueprint" exported="" />
   </component>
 </module>

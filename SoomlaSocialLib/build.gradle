@@ -23,4 +23,5 @@ dependencies {
 
 //    compile project(':android-store')
     compile project(':android-blueprint')
+    compile project(':facebook')
 }

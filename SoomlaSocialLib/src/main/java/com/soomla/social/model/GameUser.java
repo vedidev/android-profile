@@ -19,6 +19,7 @@ package com.soomla.social.model;
 import java.util.HashSet;
 import java.util.Set;
 
+// todo: come back when doing more user management work
 public class GameUser {
     private String mId;
 

@@ -46,10 +46,8 @@ import org.brickred.socialauth.util.Response;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class SoomlaSocialAuthCenter implements ISocialCenter {
 
