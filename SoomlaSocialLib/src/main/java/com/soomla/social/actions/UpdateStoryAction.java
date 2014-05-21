@@ -21,6 +21,9 @@ package com.soomla.social.actions;
  */
 public class UpdateStoryAction extends BaseSocialAction {
 
+    private static final String TAG = "UpdateStoryAction";
+
+    private static final String ACTION_ID = "com.soomla.social.UpdateStory";
     private static final String ACTION_NAME = "UpdateStory";
 
     private String mName;
@@ -34,7 +37,7 @@ public class UpdateStoryAction extends BaseSocialAction {
                              String name, String caption,
                              String msg, String desc,
                              String link, String pictureLink) {
-        super(ACTION_NAME, providerName);
+        super(providerName, ACTION_NAME, ACTION_ID);
         this.mName = name;
         this.mCaption = caption;
         this.mMsg = msg;

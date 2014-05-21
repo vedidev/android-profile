@@ -24,5 +24,4 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile project(':SoomlaSocialLib')
-//    compile project(':android-store')
 }

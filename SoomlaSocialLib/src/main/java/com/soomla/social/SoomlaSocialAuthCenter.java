@@ -33,9 +33,7 @@ import com.soomla.social.events.SocialAuthErrorEvent;
 import com.soomla.social.events.SocialAuthProfileEvent;
 import com.soomla.social.events.SocialLoginErrorEvent;
 import com.soomla.social.events.SocialLoginEvent;
-import com.soomla.social.model.GameReward;
 import com.soomla.store.BusProvider;
-import com.soomla.store.exceptions.VirtualItemNotFoundException;
 
 import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.Contact;
@@ -61,8 +59,6 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
             new HashMap<String, SocialAuthAdapter.Provider>();
 
     private SocialAuthAdapter mSocialAdapter;
-
-    private Set<ISocialAction> mRegisteredSocialActions = new HashSet<ISocialAction>();
 
     public SoomlaSocialAuthCenter() {
         mProviderLookup.put(ISocialCenter.FACEBOOK, SocialAuthAdapter.Provider.FACEBOOK);
@@ -92,7 +88,7 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
     }
 
     @Override
-    public void signOut(Context context, String providerName) {
+    public void logout(Context context, String providerName) {
         mSocialAdapter.signOut(context, providerName);
     }
 
@@ -115,11 +111,14 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
                 new MessageListener(updateStoryAction));
     }
 
-    public void customActionAsync(String actionName, String url, String methodType,
+    public void customActionAsync(String actionName, String url,
+                                  String methodType,
                                   Map<String, String> params,
                                   Map<String, String> headers,
                                   String body) throws Exception {
-        final CustomSocialAction customSocialAction = new CustomSocialAction(actionName, currentProviderId());
+        final CustomSocialAction customSocialAction =
+                new CustomSocialAction(currentProviderId(), actionName);
+
         final ApiTask apiTask = new ApiTask(url, methodType,
                 params, headers, body,
                 new MessageListener(customSocialAction));
@@ -163,16 +162,6 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
 
     private String currentProviderId() {
         return mSocialAdapter.getCurrentProvider().getProviderId();
-    }
-
-    @Override
-    public boolean registerSocialAction(ISocialAction action) {
-        return mRegisteredSocialActions.add(action);
-    }
-
-    @Override
-    public boolean unregisterSocialAction(ISocialAction action) {
-        return mRegisteredSocialActions.remove(action);
     }
 
     private final class ResponseListener implements DialogListener {
@@ -256,7 +245,7 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
         public void onExecute(String provider, Integer t) {
             Integer status = t;
             if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204) {
-                mSocialAction.setDone();
+                mSocialAction.setCompleted(true);
                 BusProvider.getInstance().post(new SocialActionPerformedEvent(mSocialAction));
             }
             else {

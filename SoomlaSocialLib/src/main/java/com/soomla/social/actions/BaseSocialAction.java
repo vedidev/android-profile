@@ -16,55 +16,26 @@
 
 package com.soomla.social.actions;
 
-import com.soomla.social.model.GameReward;
-import com.soomla.store.exceptions.VirtualItemNotFoundException;
+import com.soomla.blueprint.challenges.ActionMission;
+import com.soomla.blueprint.rewards.Reward;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-public abstract class BaseSocialAction implements ISocialAction {
+/**
+ * Created by oriargov on 5/14/14.
+ */
+public abstract class BaseSocialAction extends ActionMission implements ISocialAction {
 
-    private String mName;
     private String mProviderName;
-
-    @Override
-    public String getName() { return mName; }
-
-    @Override
     public String getProviderName() { return mProviderName; }
 
-    private boolean mWasDone = false;
-    @Override
-    public boolean wasDone() { return mWasDone; }
-    @Override
-    public void setDone() {
-        mWasDone = true;
-        final Set<GameReward> gameRewards = getGameRewards();
-        for(GameReward gameReward : gameRewards) {
-            try {
-                gameReward.award();
-            } catch (VirtualItemNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private Set<GameReward> mGameRewards = new HashSet<GameReward>();
-
-    protected BaseSocialAction(String name, String providerName) {
-        this.mName = name;
+    protected BaseSocialAction(String providerName, String name, String missionId) {
+        super(name, missionId);
         this.mProviderName = providerName;
     }
 
-//    public abstract void execute();
-
-    @Override
-    public Set<GameReward> getGameRewards() {
-        return mGameRewards;
-    }
-
-    @Override
-    public boolean addGameReward(GameReward gameReward) {
-        return mGameRewards.add(gameReward);
+    protected BaseSocialAction(String providerName, String missionId, String name, List<Reward> rewards) {
+        super(missionId, name, rewards);
+        this.mProviderName = providerName;
     }
 }

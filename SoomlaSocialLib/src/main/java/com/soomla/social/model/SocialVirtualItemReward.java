@@ -14,19 +14,18 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.actions;
+package com.soomla.social.model;
 
-import org.brickred.socialauth.android.SocialAuthAdapter;
+import com.soomla.blueprint.rewards.VirtualItemReward;
+import com.soomla.social.ISocialCenter;
 
 /**
- * Created by oriargov on 5/8/14.
+ * Created by oriargov on 5/14/14.
  */
-public abstract class BaseSocialAuthAction extends BaseSocialAction {
+public class SocialVirtualItemReward extends VirtualItemReward {
 
-    protected SocialAuthAdapter mSocialAuthAdapter;
-
-    public BaseSocialAuthAction(SocialAuthAdapter adapter) {
-        super("BaseSocialAuthAction(?)", adapter.getCurrentProvider().getProviderId());
-        this.mSocialAuthAdapter = adapter;
+    public SocialVirtualItemReward(String name, String associatedItemId, int amount) {
+        super(ISocialCenter.SOOMLA_SOC_PREFIX+name,
+                name, amount, associatedItemId);
     }
 }

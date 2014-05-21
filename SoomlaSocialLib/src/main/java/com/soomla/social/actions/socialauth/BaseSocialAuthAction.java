@@ -14,16 +14,21 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.actions;
+package com.soomla.social.actions.socialauth;
 
-import com.soomla.social.ISocialCenter;
+import com.soomla.social.actions.BaseSocialAction;
+
+import org.brickred.socialauth.android.SocialAuthAdapter;
 
 /**
  * Created by oriargov on 5/8/14.
  */
-public class CustomSocialAction extends BaseSocialAction {
+public abstract class BaseSocialAuthAction extends BaseSocialAction {
 
-    public CustomSocialAction(String providerName, String name) {
-        super(providerName, name, ISocialCenter.SOOMLA_SOC_PREFIX+name);
+    protected SocialAuthAdapter mSocialAuthAdapter;
+
+    public BaseSocialAuthAction(SocialAuthAdapter adapter, String actionName, String actionId) {
+        super(adapter.getCurrentProvider().getProviderId(), actionName, actionId);
+        this.mSocialAuthAdapter = adapter;
     }
 }

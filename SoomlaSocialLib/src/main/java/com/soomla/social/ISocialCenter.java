@@ -28,6 +28,8 @@ import java.io.UnsupportedEncodingException;
 
 public interface ISocialCenter {
 
+    public static final String SOOMLA_SOC_PREFIX = "com.soomla.social.";
+
     public static final String FACEBOOK = "Facebook";
 
     /**
@@ -39,7 +41,7 @@ public interface ISocialCenter {
 
     void login(Context context, String providerName);
 
-    void signOut(Context context, String providerName);
+    void logout(Context context, String providerName);
 
     // todo: this is probably temp shortcut
     void registerShareButton(Button btnShare);
@@ -57,18 +59,4 @@ public interface ISocialCenter {
      * will fire SocialAuthContactsEvent when ready
      */
     void getContactsAsync();
-
-    /**
-     *
-     * @param action to add
-     * @return whether this action exists already
-     */
-    boolean registerSocialAction(ISocialAction action);
-
-    /**
-     *
-     * @param action to remove
-     * @return whether this actions was present for removal
-     */
-    boolean unregisterSocialAction(ISocialAction action);
 }

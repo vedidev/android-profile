@@ -21,5 +21,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile project(':android-store')
+//    compile project(':android-store')
+    compile project(':android-blueprint')
 }
