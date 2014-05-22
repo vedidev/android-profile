@@ -14,8 +14,7 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.example;
-
+package com.soomla.social.providers.facebook;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by oriargov on 5/14/14.
+ * Created by oriargov on 5/22/14.
  */
 public class FacebookEnabledFragment extends Fragment {
     private static final String TAG = "FacebookEnabledFragment";
@@ -116,6 +115,7 @@ public class FacebookEnabledFragment extends Fragment {
     }
 
     protected void onLogin() {}
+    protected void onSessionStateChanged(Session session, SessionState state, Exception exception) {}
     protected void onLogout() {}
 
     protected void publishFeedDialog() {
@@ -167,7 +167,7 @@ public class FacebookEnabledFragment extends Fragment {
         feedDialog.show();
     }
 
-    private void onClickLogin() {
+    protected void login() {
         Session session = Session.getActiveSession();
         if (!session.isOpened() && !session.isClosed()) {
             session.openForRead(new Session.OpenRequest(this)
@@ -178,21 +178,50 @@ public class FacebookEnabledFragment extends Fragment {
         }
     }
 
-    private void checkPermissions() {
-        final List<String> permissions = Session.getActiveSession().getPermissions();
-        final List<String> declinedPermissions = Session.getActiveSession().getDeclinedPermissions();
+    protected void loginWithPublishPermissions() {
+        Session session = Session.getActiveSession();
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(this)
+                    .setPermissions(Arrays.asList("publish_actions"))
+                    .setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(getActivity(), this, true, statusCallback);
+        }
     }
 
-    private void requestCheckInPermission(Session session) {
-        Session.NewPermissionsRequest newPermissionsRequest = new Session
-                .NewPermissionsRequest(this, Arrays.asList("user_checkins"));
-        session.requestNewReadPermissions(newPermissionsRequest);
+    protected void loginWithCustomPermissions(List<String> permissions) {
+        Session session = Session.getActiveSession();
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(this)
+                    .setPermissions(permissions)
+                    .setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(getActivity(), this, true, statusCallback);
+        }
     }
 
-    private void requestPublishPermission(Session session) {
+    protected void requestPublishPermission(Session session) {
         Session.NewPermissionsRequest newPermissionsRequest = new Session
                 .NewPermissionsRequest(this, Arrays.asList("publish_actions"));
         session.requestNewPublishPermissions(newPermissionsRequest);
+    }
+
+    protected void requestNewPermissions(Session session, List<String> permissions) {
+        Session.NewPermissionsRequest newPermissionsRequest = new Session
+                .NewPermissionsRequest(this, permissions);
+        session.requestNewPublishPermissions(newPermissionsRequest);
+    }
+
+    protected void logout() {
+        Session session = Session.getActiveSession();
+        if (!session.isClosed()) {
+            session.closeAndClearTokenInformation();
+        }
+    }
+
+    private void checkPermissions() {
+        final List<String> permissions = Session.getActiveSession().getPermissions();
+        final List<String> declinedPermissions = Session.getActiveSession().getDeclinedPermissions();
     }
 
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
@@ -202,6 +231,9 @@ public class FacebookEnabledFragment extends Fragment {
         } else if (state.isClosed()) {
             Log.i(TAG, "Logged out...");
             onLogout();
+        }
+        else {
+            onSessionStateChanged(session, state, exception);
         }
     }
 

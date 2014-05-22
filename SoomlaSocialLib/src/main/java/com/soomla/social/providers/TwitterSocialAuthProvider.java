@@ -28,11 +28,6 @@ public class TwitterSocialAuthProvider implements ISocialProvider {
     }
 
     @Override
-    public Object getInternalProvider() {
-        return mTwitter;
-    }
-
-    @Override
     public void updateStatus(String message) throws Exception {
         mTwitter.updateStatus(message);
     }

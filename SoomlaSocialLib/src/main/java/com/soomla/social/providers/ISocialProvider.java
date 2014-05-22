@@ -17,7 +17,5 @@
 package com.soomla.social.providers;
 
 public interface ISocialProvider {
-    Object getInternalProvider();
-
      void updateStatus(String message) throws Exception;
 }

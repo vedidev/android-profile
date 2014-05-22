@@ -40,11 +40,6 @@ public class FacebookSocialAuthProvider implements ISocialProvider {
     }
 
     @Override
-    public Object getInternalProvider() {
-        return mFacebook;
-    }
-
-    @Override
     public void updateStatus(String message) throws Exception {
         final Response response = mFacebook.updateStatus(message);
         Log.d(TAG, "updateStatusAsync, response:"+response);
