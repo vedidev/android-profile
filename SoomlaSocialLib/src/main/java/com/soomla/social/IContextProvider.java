@@ -18,13 +18,13 @@ package com.soomla.social;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.Fragment;
+//import android.support.v4.app.Fragment;
 
 /**
  * Created by oriargov on 5/23/14.
  */
 public interface IContextProvider {
     Activity getActivity();
-    Fragment getFragment();
+//    Fragment getFragment();
     Context getContext();
 }
