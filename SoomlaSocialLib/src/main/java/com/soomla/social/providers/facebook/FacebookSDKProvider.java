@@ -48,9 +48,9 @@ public class FacebookSDKProvider implements ISocialProvider {
         if (mCtxProvider.getActivity() != null) {
             login(mCtxProvider.getActivity());
         }
-        else if (mCtxProvider.getFragment() != null) {
-            login(mCtxProvider.getFragment());
-        }
+//        else if (mCtxProvider.getFragment() != null) {
+//            login(mCtxProvider.getFragment());
+//        }
         else {
             Log.w(TAG, "login: no valid context found");
         }
