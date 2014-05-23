@@ -91,10 +91,10 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
                 return SocialAuthExampleActivity.this;
             }
 
-            @Override
-            public Fragment getFragment() {
-                return null;
-            }
+//            @Override
+//            public Fragment getFragment() {
+//                return null;
+//            }
 
             @Override
             public Context getContext() {
