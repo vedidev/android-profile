@@ -14,21 +14,14 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.providers;
+package com.soomla.social;
 
-import org.brickred.socialauth.provider.TwitterImpl;
-import org.brickred.socialauth.util.OAuthConfig;
-import org.brickred.socialauth.util.Response;
+import android.content.Context;
 
-public class TwitterSocialAuthProvider implements ISocialProvider {
-    private TwitterImpl mTwitter;
-
-    public TwitterSocialAuthProvider(OAuthConfig providerConfig) throws Exception {
-        mTwitter = new TwitterImpl(providerConfig);
-    }
-
-    @Override
-    public void updateStatus(String message) throws Exception {
-        mTwitter.updateStatus(message);
-    }
+/**
+ * Created by oriargov on 5/23/14.
+ */
+public interface IAuthProvider {
+    void login();
+    void logout();
 }

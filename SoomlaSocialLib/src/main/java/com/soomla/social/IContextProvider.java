@@ -14,8 +14,17 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.providers;
+package com.soomla.social;
 
-public interface ISocialProvider {
-     void updateStatus(String message) throws Exception;
+import android.app.Activity;
+import android.content.Context;
+import android.support.v4.app.Fragment;
+
+/**
+ * Created by oriargov on 5/23/14.
+ */
+public interface IContextProvider {
+    Activity getActivity();
+    Fragment getFragment();
+    Context getContext();
 }

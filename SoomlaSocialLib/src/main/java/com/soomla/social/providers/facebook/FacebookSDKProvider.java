@@ -23,12 +23,38 @@ import android.util.Log;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
-import com.soomla.social.providers.ISocialProvider;
+import com.soomla.social.IContextProvider;
+import com.soomla.social.ISocialProvider;
+import com.soomla.social.actions.UpdateStatusAction;
+import com.soomla.social.actions.UpdateStoryAction;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by oriargov on 5/22/14.
  */
 public class FacebookSDKProvider implements ISocialProvider {
+
+    public static final String TAG = "FacebookSDKProvider";
+
+    private IContextProvider mCtxProvider;
+
+    public FacebookSDKProvider(IContextProvider ctxProvider) {
+        mCtxProvider = ctxProvider;
+    }
+
+    @Override
+    public void login() {
+        if (mCtxProvider.getActivity() != null) {
+            login(mCtxProvider.getActivity());
+        }
+        else if (mCtxProvider.getFragment() != null) {
+            login(mCtxProvider.getFragment());
+        }
+        else {
+            Log.w(TAG, "login: no valid context found");
+        }
+    }
 
     public void login(Activity activity) {
         Session session = Session.getActiveSession();
@@ -58,6 +84,7 @@ public class FacebookSDKProvider implements ISocialProvider {
         return session != null && session.isOpened();
     }
 
+    @Override
     public void logout() {
         Session session = Session.getActiveSession();
         if (!session.isClosed()) {
@@ -72,7 +99,22 @@ public class FacebookSDKProvider implements ISocialProvider {
 
 
     @Override
-    public void updateStatus(String message) throws Exception {
+    public void updateStatusAsync(UpdateStatusAction updateStatusAction) {
+
+    }
+
+    @Override
+    public void updateStoryAsync(UpdateStoryAction updateStoryAction) throws UnsupportedEncodingException {
+
+    }
+
+    @Override
+    public void getProfileAsync() {
+
+    }
+
+    @Override
+    public void getContactsAsync() {
 
     }
 

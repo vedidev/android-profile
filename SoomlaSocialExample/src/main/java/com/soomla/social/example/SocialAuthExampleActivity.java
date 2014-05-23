@@ -16,11 +16,10 @@
 
 package com.soomla.social.example;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.http.AndroidHttpClient;
-import android.os.AsyncTask;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -36,8 +35,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soomla.blueprint.rewards.Reward;
+import com.soomla.social.IContextProvider;
 import com.soomla.social.ISocialCenter;
-import com.soomla.social.SoomlaSocialAuthCenter;
+import com.soomla.social.ISocialProvider;
+import com.soomla.social.providers.socialauth.SoomlaSocialAuthCenter;
 import com.soomla.social.actions.ISocialAction;
 import com.soomla.social.actions.UpdateStatusAction;
 import com.soomla.social.actions.UpdateStoryAction;
@@ -49,20 +50,9 @@ import com.soomla.social.model.SocialVirtualItemReward;
 import com.soomla.store.BusProvider;
 import com.squareup.otto.Subscribe;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.params.HttpClientParams;
 import org.brickred.socialauth.android.SocialAuthAdapter;
 
-import java.io.FilterInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 
 public class SocialAuthExampleActivity extends ActionBarActivity {
@@ -85,6 +75,8 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
 
 //    private SoomlaSocialAuthCenter soomlaSocialAuthCenter;
     private ISocialCenter soomlaSocialAuthCenter;
+    private ISocialProvider socialAuthFacebookProvider;
+    private IContextProvider ctxProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +84,26 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
         setContentView(R.layout.socialauth_example_main);
 
         soomlaSocialAuthCenter = new SoomlaSocialAuthCenter();
-        soomlaSocialAuthCenter.addSocialProvider(ISocialCenter.FACEBOOK, R.drawable.facebook);
+//        soomlaSocialAuthCenter.addSocialProvider(ISocialCenter.FACEBOOK, R.drawable.facebook);
+        ctxProvider = new IContextProvider() {
+            @Override
+            public Activity getActivity() {
+                return SocialAuthExampleActivity.this;
+            }
+
+            @Override
+            public Fragment getFragment() {
+                return null;
+            }
+
+            @Override
+            public Context getContext() {
+                return SocialAuthExampleActivity.this;
+            }
+        };
+
+        socialAuthFacebookProvider = soomlaSocialAuthCenter.setCurrentProvider(
+                ctxProvider, ISocialCenter.FACEBOOK);
 
         mProfileBar = (ViewGroup) findViewById(R.id.profile_bar);
         mProfileAvatar = (ImageView) findViewById(R.id.prof_avatar);
@@ -117,7 +128,7 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
                 updateStatusAction.getRewards().add(noAdsReward);
 
                 // perform social action
-                soomlaSocialAuthCenter.updateStatusAsync(updateStatusAction);
+                socialAuthFacebookProvider.updateStatusAsync(updateStatusAction);
             }
         });
 
@@ -141,7 +152,7 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
                 updateStoryAction.getRewards().add(muffinsReward);
 
                 try {
-                    soomlaSocialAuthCenter.updateStoryAsync(updateStoryAction);
+                    socialAuthFacebookProvider.updateStoryAsync(updateStoryAction);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -149,7 +160,13 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
         });
 
         mBtnShare = (Button) findViewById(R.id.btnShare);
-        soomlaSocialAuthCenter.registerShareButton(mBtnShare);
+//        soomlaSocialAuthCenter.registerShareButton(mBtnShare);
+        mBtnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                socialAuthFacebookProvider.login();
+            }
+        });
     }
 
     @Subscribe public void onSocialLoginEvent(SocialLoginEvent socialLoginEvent) {
@@ -164,7 +181,7 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
         // Please avoid sending duplicate message. Social Media Providers
         // block duplicate messages.
 
-        soomlaSocialAuthCenter.getProfileAsync();
+        socialAuthFacebookProvider.getProfileAsync();
 
         updateUIOnLogin(providerName);
     }
@@ -192,11 +209,11 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
         mBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                soomlaSocialAuthCenter.logout(mBtnShare.getContext(), providerName);
+                socialAuthFacebookProvider.logout();
                 updateUIOnLogout();
 
                 // re-enable share button login
-                soomlaSocialAuthCenter.registerShareButton(mBtnShare);
+//                soomlaSocialAuthCenter.registerShareButton(mBtnShare);
             }
         });
 

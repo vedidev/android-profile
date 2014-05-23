@@ -17,55 +17,21 @@
 package com.soomla.social.providers;
 
 import android.content.Context;
-import android.widget.Button;
 
+import com.soomla.social.IContextProvider;
 import com.soomla.social.ISocialCenter;
-import com.soomla.social.actions.UpdateStatusAction;
-import com.soomla.social.actions.UpdateStoryAction;
-
-import java.io.UnsupportedEncodingException;
+import com.soomla.social.ISocialProvider;
+import com.soomla.social.providers.facebook.FacebookSDKProvider;
 
 /**
  * Created by oriargov on 5/22/14.
  */
 public class NativeSDKCenter implements ISocialCenter {
     @Override
-    public void addSocialProvider(String providerName, int providerIconResId) {
-        
-    }
+    public ISocialProvider setCurrentProvider(IContextProvider ctxProvider, String providerName) {
+        if(providerName.equals(FACEBOOK))
+            return new FacebookSDKProvider(ctxProvider);
 
-    @Override
-    public void login(Context context, String providerName) {
-
-    }
-
-    @Override
-    public void logout(Context context, String providerName) {
-
-    }
-
-    @Override
-    public void registerShareButton(Button btnShare) {
-
-    }
-
-    @Override
-    public void updateStatusAsync(UpdateStatusAction updateStatusAction) {
-
-    }
-
-    @Override
-    public void updateStoryAsync(UpdateStoryAction updateStoryAction) throws UnsupportedEncodingException {
-
-    }
-
-    @Override
-    public void getProfileAsync() {
-
-    }
-
-    @Override
-    public void getContactsAsync() {
-
+        return null;
     }
 }

@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2012 Soomla Inc.
  *
@@ -17,11 +16,23 @@
 
 package com.soomla.social;
 
-public interface ISocialCenter {
+import com.soomla.social.actions.UpdateStatusAction;
+import com.soomla.social.actions.UpdateStoryAction;
 
-    public static final String SOOMLA_SOC_PREFIX = "com.soomla.social.";
+import java.io.UnsupportedEncodingException;
 
-    public static final String FACEBOOK = "Facebook";
+public interface ISocialProvider extends IAuthProvider {
+    void updateStatusAsync(UpdateStatusAction updateStatusAction);
+    // todo: this one in particular seems very FB oriented
+    void updateStoryAsync(UpdateStoryAction updateStoryAction) throws UnsupportedEncodingException;
 
-    ISocialProvider setCurrentProvider(IContextProvider ctxProvider, String providerName);
+    /**
+     * will fire SocialAuthProfileEvent when ready
+     */
+    void getProfileAsync();
+    /**
+     * will fire SocialAuthContactsEvent when ready
+     */
+    void getContactsAsync();
+
 }

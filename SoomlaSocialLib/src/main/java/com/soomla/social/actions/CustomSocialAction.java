@@ -18,12 +18,57 @@ package com.soomla.social.actions;
 
 import com.soomla.social.ISocialCenter;
 
+import java.util.Map;
+
 /**
  * Created by oriargov on 5/8/14.
  */
 public class CustomSocialAction extends BaseSocialAction {
 
-    public CustomSocialAction(String providerName, String name) {
+    public CustomSocialAction(String providerName,
+                              String name,
+                              String url,
+                              String methodType,
+                              Map<String, String> params,
+                              Map<String, String> headers,
+                              String body) {
         super(providerName, name, ISocialCenter.SOOMLA_SOC_PREFIX+name);
+        this.mUrl = url;
+        this.mMethodType = methodType;
+        this.mParams = params;
+        this.mHeaders = headers;
+        this.mBody = body;
     }
+
+
+    /** Setters and Getters **/
+
+    public String getUrl() {
+        return mUrl;
+    }
+
+    public String getMethodType() {
+        return mMethodType;
+    }
+
+    public Map<String, String> getParams() {
+        return mParams;
+    }
+
+    public Map<String, String> getHeaders() {
+        return mHeaders;
+    }
+
+    public String getBody() {
+        return mBody;
+    }
+
+
+    /** Private Members **/
+
+    private String mUrl;
+    private String mMethodType;
+    private Map<String, String> mParams;
+    private Map<String, String> mHeaders;
+    private String mBody;
 }
