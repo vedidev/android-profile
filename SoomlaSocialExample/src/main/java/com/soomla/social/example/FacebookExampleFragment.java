@@ -85,8 +85,8 @@ public class FacebookExampleFragment extends FacebookEnabledFragment {
                     }
                 }
 
-//                new ImageUtils.DownloadImageTask(mProfileAvatar).execute(profileEvent.profile.getProfileImageURL());
-//                mProfileName.setText(profileEvent.profile.getFullName());
+//                new ImageUtils.DownloadImageTask(mProfileAvatar).execute(profileEvent.User.getProfileImageURL());
+//                mProfileName.setText(profileEvent.User.getFullName());
             }
         });
 

@@ -14,24 +14,18 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.providers;
+package com.soomla.social.rewards;
 
-import android.content.Context;
-
-import com.soomla.social.IContextProvider;
-import com.soomla.social.ISocialCenter;
-import com.soomla.social.ISocialProvider;
-import com.soomla.social.providers.facebook.FacebookSDKProvider;
+import com.soomla.blueprint.rewards.VirtualItemReward;
+import com.soomla.social.ISocialProviderFactory;
 
 /**
- * Created by oriargov on 5/22/14.
+ * Created by oriargov on 5/14/14.
  */
-public class NativeSDKCenter implements ISocialCenter {
-    @Override
-    public ISocialProvider setCurrentProvider(IContextProvider ctxProvider, String providerName) {
-        if(providerName.equals(FACEBOOK))
-            return new FacebookSDKProvider(ctxProvider);
+public class SocialVirtualItemReward extends VirtualItemReward {
 
-        return null;
+    public SocialVirtualItemReward(String name, String associatedItemId, int amount) {
+        super(ISocialProviderFactory.SOOMLA_SOC_PREFIX+name,
+                name, amount, associatedItemId);
     }
 }

@@ -16,7 +16,7 @@
 
 package com.soomla.social.actions;
 
-import com.soomla.social.ISocialCenter;
+import com.soomla.social.ISocialProviderFactory;
 
 import java.util.Map;
 
@@ -32,7 +32,7 @@ public class CustomSocialAction extends BaseSocialAction {
                               Map<String, String> params,
                               Map<String, String> headers,
                               String body) {
-        super(providerName, name, ISocialCenter.SOOMLA_SOC_PREFIX+name);
+        super(providerName, name, ISocialProviderFactory.SOOMLA_SOC_PREFIX+name);
         this.mUrl = url;
         this.mMethodType = methodType;
         this.mParams = params;

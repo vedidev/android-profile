@@ -14,18 +14,16 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.model;
+package com.soomla.social.events;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.facebook.model.GraphUser;
 
-// todo: come back when doing more user management work
-public class GameUser {
-    private String mId;
-
-    private String mEmail; // optional
-
-    // todo: figure out best way to link social ids
-    private SocialAccount mPrimarySocialAccount;
-    private Set<SocialAccount> mLinkedSocialAccounts = new HashSet<SocialAccount>();
+/**
+ * Created by oriargov on 5/24/14.
+ */
+public class FacebookProfileEvent {
+    public final GraphUser User;
+    public FacebookProfileEvent(GraphUser user) {
+        this.User = user;
+    }
 }

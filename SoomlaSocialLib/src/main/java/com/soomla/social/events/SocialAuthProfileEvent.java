@@ -22,9 +22,9 @@ import org.brickred.socialauth.Profile;
  * Created by oriargov on 5/8/14.
  */
 public class SocialAuthProfileEvent {
-    public final Profile profile;
+    public final Profile User;
 
     public SocialAuthProfileEvent(Profile profile) {
-        this.profile = profile;
+        this.User = profile;
     }
 }

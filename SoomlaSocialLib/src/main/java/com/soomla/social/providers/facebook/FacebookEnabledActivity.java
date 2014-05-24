@@ -16,6 +16,8 @@
 
 package com.soomla.social.providers.facebook;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -26,6 +28,7 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.FacebookDialog;
+import com.soomla.social.IContextProvider;
 
 /**
  * Created by oriargov on 5/22/14.
@@ -34,74 +37,70 @@ public class FacebookEnabledActivity extends FragmentActivity {
 
     private static final String TAG = "FacebookEnabledActivity";
 
-    private final String PENDING_ACTION_BUNDLE_KEY = "com.facebook.samples.hellofacebook:PendingAction";
+    private final String PENDING_ACTION_BUNDLE_KEY = "com.soomla.social.facebook:PendingAction";
+
+    private FacebookSDKProvider mFacebookSDKProvider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        uiHelper = new UiLifecycleHelper(this, statusCallback);
-        uiHelper.onCreate(savedInstanceState);
+
+        final Activity activity = this;
+        mFacebookSDKProvider = new FacebookSDKProvider(new IContextProvider() {
+            @Override
+            public Activity getActivity() {
+                return activity;
+            }
+
+            @Override
+            public Context getContext() {
+                return activity;
+            }
+        });
+
+        mFacebookSDKProvider.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
             String name = savedInstanceState.getString(PENDING_ACTION_BUNDLE_KEY);
-            pendingAction = PendingAction.valueOf(name);
+//            pendingAction = PendingAction.valueOf(name);
         }
-
-        // Can we present the share dialog for regular links?
-        canPresentShareDialog = FacebookDialog.canPresentShareDialog(this,
-                FacebookDialog.ShareDialogFeature.SHARE_DIALOG);
-        // Can we present the share dialog for photos?
-        canPresentShareDialogWithPhotos = FacebookDialog.canPresentShareDialog(this,
-                FacebookDialog.ShareDialogFeature.PHOTOS);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        uiHelper.onResume();
+        mFacebookSDKProvider.onResume();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        uiHelper.onSaveInstanceState(outState);
+        mFacebookSDKProvider.onSaveInstanceState(outState);
 
-        outState.putString(PENDING_ACTION_BUNDLE_KEY, pendingAction.name());
+//        outState.putString(PENDING_ACTION_BUNDLE_KEY, pendingAction.name());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        uiHelper.onActivityResult(requestCode, resultCode, data, dialogCallback);
+        mFacebookSDKProvider.onActivityResult(requestCode, resultCode, data, dialogCallback);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        uiHelper.onPause();
+        mFacebookSDKProvider.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        uiHelper.onDestroy();
+        mFacebookSDKProvider.onDestroy();
     }
 
     protected void onLogin() {}
     protected void onSessionStateChanged(Session session, SessionState state, Exception exception) {}
     protected void onLogout() {}
-
-    private PendingAction pendingAction = PendingAction.NONE;
-    private GraphUser user;
-    private boolean canPresentShareDialog;
-    private boolean canPresentShareDialogWithPhotos;
-
-    private enum PendingAction {
-        NONE,
-        POST_PHOTO,
-        POST_STATUS_UPDATE
-    }
-    private UiLifecycleHelper uiHelper;
 
     private FacebookDialog.Callback dialogCallback = new FacebookDialog.Callback() {
         @Override

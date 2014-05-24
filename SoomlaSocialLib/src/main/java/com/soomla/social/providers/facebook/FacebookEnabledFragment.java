@@ -29,6 +29,7 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
+import com.soomla.social.actions.UpdateStoryAction;
 
 import java.util.Arrays;
 import java.util.List;
@@ -67,33 +68,8 @@ public class FacebookEnabledFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
 //        uiHelper.onActivityResult(requestCode, resultCode, data);
-        uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
-            @Override
-            public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
-                Log.e(TAG, String.format("Error: %s", error.toString()));
-            }
-
-            @Override
-            public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
-                Log.i(TAG, "uiHelper.onActivityResult.onComplete");
-                if (FacebookDialog.getNativeDialogDidComplete(data)) {
-                    if (FacebookDialog.getNativeDialogCompletionGesture(data) == null
-                            || FacebookDialog.COMPLETION_GESTURE_CANCEL.equals(FacebookDialog.getNativeDialogCompletionGesture(data))) {
-                        // track cancel
-                        Log.d(TAG, "FB dialog cancelled");
-                    } else {
-                        // track post
-                        String postId = FacebookDialog.getNativeDialogPostId(data);
-                        Log.d(TAG, "postId = " + postId);
-                    }
-                } else {
-                    // track cancel
-                    Log.d(TAG, "FB dialog cancelled");
-                }
-            }
-        });
+        uiHelper.onActivityResult(requestCode, resultCode, data, dialogCallback);
     }
 
     @Override
@@ -118,13 +94,14 @@ public class FacebookEnabledFragment extends Fragment {
     protected void onSessionStateChanged(Session session, SessionState state, Exception exception) {}
     protected void onLogout() {}
 
-    protected void publishFeedDialog() {
+    protected void publishFeedDialog(UpdateStoryAction updateStoryAction) {
         Bundle params = new Bundle();
-        params.putString("name", "Facebook SDK for Android");
-        params.putString("caption", "Build great social apps and get more installs.");
-        params.putString("description", "The Facebook SDK for Android makes it easier and faster to develop Facebook integrated Android apps.");
-        params.putString("link", "https://developers.facebook.com/android");
-        params.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");
+        params.putString("name", updateStoryAction.getName());
+        params.putString("caption", updateStoryAction.getCaption());
+        params.putString("description", updateStoryAction.getDesc());
+        params.putString("link", updateStoryAction.getLink());
+        params.putString("picture", updateStoryAction.getLink());
+//        updateStoryAction.getMessage()
 
         WebDialog feedDialog = (
                 new WebDialog.FeedDialogBuilder(getActivity(),
@@ -236,6 +213,33 @@ public class FacebookEnabledFragment extends Fragment {
             onSessionStateChanged(session, state, exception);
         }
     }
+
+    private FacebookDialog.Callback dialogCallback = new FacebookDialog.Callback() {
+        @Override
+        public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+            Log.e(TAG, String.format("Error: %s", error.toString()));
+        }
+
+        @Override
+        public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+            Log.i(TAG, "uiHelper.onActivityResult.onComplete");
+            if (FacebookDialog.getNativeDialogDidComplete(data)) {
+                if (FacebookDialog.getNativeDialogCompletionGesture(data) == null
+                        || FacebookDialog.COMPLETION_GESTURE_CANCEL.equals(
+                        FacebookDialog.getNativeDialogCompletionGesture(data))) {
+                    // track cancel
+                    Log.d(TAG, "FB dialog cancelled");
+                } else {
+                    // track post
+                    String postId = FacebookDialog.getNativeDialogPostId(data);
+                    Log.d(TAG, "postId = " + postId);
+                }
+            } else {
+                // track cancel
+                Log.d(TAG, "FB dialog cancelled");
+            }
+        }
+    };
 
     private Session.StatusCallback statusCallback = new Session.StatusCallback() {
         @Override

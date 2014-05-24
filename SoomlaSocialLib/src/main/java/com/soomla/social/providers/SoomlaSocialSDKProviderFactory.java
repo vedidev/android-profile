@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2012 Soomla Inc.
  *
@@ -15,13 +14,22 @@
  *   limitations under the License.
  */
 
-package com.soomla.social;
+package com.soomla.social.providers;
 
-public interface ISocialCenter {
+import com.soomla.social.IContextProvider;
+import com.soomla.social.ISocialProviderFactory;
+import com.soomla.social.ISocialProvider;
+import com.soomla.social.providers.facebook.FacebookSDKProvider;
 
-    public static final String SOOMLA_SOC_PREFIX = "com.soomla.social.";
+/**
+ * Created by oriargov on 5/22/14.
+ */
+public class SoomlaSocialSDKProviderFactory implements ISocialProviderFactory {
+    @Override
+    public ISocialProvider setCurrentProvider(IContextProvider ctxProvider, String providerName) {
+        if(providerName.equals(FACEBOOK))
+            return new FacebookSDKProvider(ctxProvider);
 
-    public static final String FACEBOOK = "Facebook";
-
-    ISocialProvider setCurrentProvider(IContextProvider ctxProvider, String providerName);
+        return null;
+    }
 }

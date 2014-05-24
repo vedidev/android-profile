@@ -18,17 +18,40 @@ package com.soomla.social.providers.facebook;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.facebook.AppEventsLogger;
+import com.facebook.FacebookException;
+import com.facebook.FacebookOperationCanceledException;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.FacebookDialog;
+import com.facebook.widget.WebDialog;
 import com.soomla.social.IContextProvider;
 import com.soomla.social.ISocialProvider;
 import com.soomla.social.actions.UpdateStatusAction;
 import com.soomla.social.actions.UpdateStoryAction;
+import com.soomla.social.events.FacebookContactsEvent;
+import com.soomla.social.events.FacebookProfileEvent;
+import com.soomla.social.util.Utils;
+import com.soomla.store.BusProvider;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by oriargov on 5/22/14.
@@ -37,10 +60,63 @@ public class FacebookSDKProvider implements ISocialProvider {
 
     public static final String TAG = "FacebookSDKProvider";
 
+    private UiLifecycleHelper uiHelper;
+
     private IContextProvider mCtxProvider;
 
     public FacebookSDKProvider(IContextProvider ctxProvider) {
         mCtxProvider = ctxProvider;
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
+        uiHelper = new UiLifecycleHelper(mCtxProvider.getActivity(), statusCallback);
+        uiHelper.onCreate(savedInstanceState);
+    }
+
+    public void onDestroy() {
+        uiHelper.onDestroy();
+    }
+
+    public void onResume() {
+        // For scenarios where the main activity is launched and user
+        // session is not null, the session state change notification
+        // may not be triggered. Trigger it if it's open/closed.
+        Session session = Session.getActiveSession();
+        if (session != null &&
+                (session.isOpened() || session.isClosed()) ) {
+            onSessionStateChange(session, session.getState(), null);
+        }
+
+        uiHelper.onResume();
+    }
+
+    public void onSaveInstanceState(Bundle outState) {
+        uiHelper.onSaveInstanceState(outState);
+    }
+
+    public void onPause() {
+        uiHelper.onPause();
+    }
+
+    public void onStop() {
+        uiHelper.onStop();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        uiHelper.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data,
+                                 FacebookDialog.Callback facebookDialogCallback) {
+        uiHelper.onActivityResult(requestCode, resultCode, data, facebookDialogCallback);
+    }
+
+    public void trackPendingDialogCall(FacebookDialog.PendingCall pendingCall) {
+        uiHelper.trackPendingDialogCall(pendingCall);
+    }
+
+    public AppEventsLogger getAppEventsLogger() {
+        return uiHelper.getAppEventsLogger();
     }
 
     @Override
@@ -59,7 +135,9 @@ public class FacebookSDKProvider implements ISocialProvider {
     public void login(Activity activity) {
         Session session = Session.getActiveSession();
         if (!session.isOpened() && !session.isClosed()) {
-            session.openForRead(new Session.OpenRequest(activity).setCallback(statusCallback));
+            session.openForRead(new Session.OpenRequest(activity)
+                    .setPermissions(Arrays.asList("public_profile"))
+                    .setCallback(statusCallback));
         } else {
             Session.openActiveSession(activity, true, statusCallback);
         }
@@ -92,11 +170,116 @@ public class FacebookSDKProvider implements ISocialProvider {
         }
     }
 
+    public void loginWithPublishPermissions() {
+        Session session = Session.getActiveSession();
+        final Activity activity = mCtxProvider.getActivity();
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(activity)
+                    .setPermissions(Arrays.asList("publish_actions"))
+                    .setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(activity, true, statusCallback);
+        }
+    }
+
+    public void loginWithCustomPermissions(List<String> permissions) {
+        Session session = Session.getActiveSession();
+        if (!session.isOpened() && !session.isClosed()) {
+            final Activity activity = mCtxProvider.getActivity();
+            session.openForRead(new Session.OpenRequest(activity)
+                    .setPermissions(permissions)
+                    .setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(mCtxProvider.getActivity(), true, statusCallback);
+        }
+    }
+
+    public void requestPublishPermission(Session session) {
+        Session.NewPermissionsRequest newPermissionsRequest = new Session
+                .NewPermissionsRequest(mCtxProvider.getActivity(),
+                Arrays.asList("publish_actions"));
+        session.requestNewPublishPermissions(newPermissionsRequest);
+    }
+
+    public void requestNewPermissions(Session session, List<String> permissions) {
+        Session.NewPermissionsRequest newPermissionsRequest = new Session
+                .NewPermissionsRequest(mCtxProvider.getActivity(), permissions);
+        session.requestNewPublishPermissions(newPermissionsRequest);
+    }
+
     public boolean hasPublishPermission() {
         Session session = Session.getActiveSession();
         return session != null && session.getPermissions().contains("publish_actions");
     }
 
+    public boolean canPresentShareDialog(FacebookDialog.ShareDialogFeature shareFeature) {
+        return FacebookDialog.canPresentShareDialog(mCtxProvider.getContext(), shareFeature);
+    }
+
+    public Session getSession() {
+        return Session.getActiveSession();
+    }
+
+    protected void publish(UpdateStoryAction updateStoryAction) {
+        if (FacebookDialog.canPresentShareDialog(mCtxProvider.getContext(),
+                FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
+            // Publish the post using the Share Dialog
+            FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(
+                    mCtxProvider.getActivity())
+                    .setName(updateStoryAction.getName())
+                    .setCaption(updateStoryAction.getCaption())
+                    .setDescription(updateStoryAction.getDesc())
+                    .setPicture(updateStoryAction.getPictureLink())
+                    .setLink(updateStoryAction.getLink())
+                    .build();
+            uiHelper.trackPendingDialogCall(shareDialog.present());
+
+        } else {
+            publishFeedDialog(updateStoryAction);
+        }
+    }
+
+    public void publishFeedDialog(UpdateStoryAction updateStoryAction) {
+        Bundle params = new Bundle();
+        params.putString("name", updateStoryAction.getName());
+        params.putString("caption", updateStoryAction.getCaption());
+        params.putString("description", updateStoryAction.getDesc());
+        params.putString("link", updateStoryAction.getLink());
+        params.putString("picture", updateStoryAction.getLink());
+//        updateStoryAction.getMessage()
+
+        final Activity activity = mCtxProvider.getActivity();
+        WebDialog feedDialog = (
+                new WebDialog.FeedDialogBuilder(activity,
+                        getSession(),
+                        params))
+                .setOnCompleteListener(new WebDialog.OnCompleteListener() {
+
+                    @Override
+                    public void onComplete(Bundle values,
+                                           FacebookException error) {
+                        if (error == null) {
+                            // When the story is posted, echo the success
+                            // and the post Id.
+                            final String postId = values.getString("post_id");
+                            if (postId != null) {
+                                Log.d(TAG, "Posted story, id: " + postId);
+                            } else {
+                                // User clicked the Cancel button
+                                Log.d(TAG, "Publish cancelled");
+                            }
+                        } else if (error instanceof FacebookOperationCanceledException) {
+                            // User clicked the "x" button
+                            Log.d(TAG, "Publish cancelled");
+                        } else {
+                            // Generic, ex: network error
+                            Log.d(TAG, "Error posting story");
+                        }
+                    }
+                })
+                .build();
+        feedDialog.show();
+    }
 
     @Override
     public void updateStatusAsync(UpdateStatusAction updateStatusAction) {
@@ -105,34 +288,168 @@ public class FacebookSDKProvider implements ISocialProvider {
 
     @Override
     public void updateStoryAsync(UpdateStoryAction updateStoryAction) throws UnsupportedEncodingException {
-
+        publish(updateStoryAction);
     }
 
     @Override
     public void getProfileAsync() {
-
+        Request.newMeRequest(getSession(), new Request.GraphUserCallback() {
+            @Override
+            public void onCompleted(GraphUser user, Response response) {
+                BusProvider.getInstance().post(new FacebookProfileEvent(user));
+            }
+        }).executeAsync();
     }
 
     @Override
     public void getContactsAsync() {
-
+        Request.newMyFriendsRequest(getSession(), new Request.GraphUserListCallback() {
+            @Override
+            public void onCompleted(List<GraphUser> users, Response response) {
+                BusProvider.getInstance().post(new FacebookContactsEvent(users));
+            }
+        }).executeAsync();
     }
 
-    protected void onLogin() {}
-    protected void onSessionStateChanged(Session session, SessionState state, Exception exception) {}
-    protected void onLogout() {}
+    public void uploadImages(Collection<File> imageFiles, Collection<Bitmap> bitmaps) {
+        if (FacebookDialog.canPresentShareDialog(mCtxProvider.getContext(),
+                FacebookDialog.ShareDialogFeature.PHOTOS)) {
+            // Publish the post using the Share Dialog
+            FacebookDialog shareDialog = new FacebookDialog.PhotoShareDialogBuilder(
+                    mCtxProvider.getActivity())
+                    .addPhotoFiles(imageFiles)
+                    .addPhotos(bitmaps)
+                    .build();
+            uiHelper.trackPendingDialogCall(shareDialog.present());
+
+        } else {
+            Log.d(TAG, "cannot present: ShareDialogFeature.PHOTOS");
+            // try to fall back on background requests
+            List<Request> requests = new ArrayList<Request>();
+            final Session session = getSession();
+            final Request.Callback callback = new Request.Callback() {
+                @Override
+                public void onCompleted(Response response) {
+                    // todo: fire event
+                }
+            };
+
+            for (File imgFile : imageFiles) {
+                try {
+                    final Request fileRequest = Request.newUploadPhotoRequest(
+                            session, imgFile, callback);
+                    requests.add(fileRequest);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            for (Bitmap bmp : bitmaps) {
+                final Request fileRequest = Request.newUploadPhotoRequest(
+                        session, bmp, callback);
+                requests.add(fileRequest);
+            }
+
+            Request.executeBatchAsync(requests);
+        }
+    }
+
+    public void uploadVideo(File videoFile) {
+        final Session session = getSession();
+        final Request.Callback callback = new Request.Callback() {
+            @Override
+            public void onCompleted(Response response) {
+                // todo: fire event
+            }
+        };
+
+        try {
+            Request.newUploadVideoRequest(session, videoFile, callback).executeAsync();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void graphPathRequest(String graphPath) {
+        final Session session = getSession();
+        final Request.Callback callback = new Request.Callback() {
+            @Override
+            public void onCompleted(Response response) {
+                // todo: fire event
+            }
+        };
+        Request.newGraphPathRequest(session, graphPath, callback).executeAsync();
+    }
+
+    public void graphRequest(String graphPath, Bundle parameters, String httpMethod) {
+        final Session session = getSession();
+        final Request.Callback callback = new Request.Callback() {
+            @Override
+            public void onCompleted(Response response) {
+                // todo: fire event
+            }
+        };
+        new Request(session, graphPath,
+                parameters,
+                Utils.valueOfIgnoreCase(HttpMethod.class, httpMethod),
+                callback, null);
+    }
+
+    protected void onLogin() {
+        Log.d(TAG, "onLogin");
+        // todo: flag for this? always get it for user mgmt?
+        getProfileAsync();
+    }
+
+    protected void onSessionStateChanged(Session session, SessionState state, Exception exception) {
+    }
+
+    protected void onLogout() {
+        Log.d(TAG, "onLogout");
+    }
+
+    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+        if (state.isOpened()) {
+            onLogin();
+        } else if (state.isClosed()) {
+            onLogout();
+        }
+        else {
+            onSessionStateChanged(session, state, exception);
+        }
+    }
+
+    private FacebookDialog.Callback dialogCallback = new FacebookDialog.Callback() {
+        @Override
+        public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+            Log.e(TAG, String.format("Error: %s", error.toString()));
+        }
+
+        @Override
+        public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+            Log.i(TAG, "uiHelper.onActivityResult.onComplete");
+            if (FacebookDialog.getNativeDialogDidComplete(data)) {
+                if (FacebookDialog.getNativeDialogCompletionGesture(data) == null
+                        || FacebookDialog.COMPLETION_GESTURE_CANCEL.equals(
+                        FacebookDialog.getNativeDialogCompletionGesture(data))) {
+                    // track cancel
+                    Log.d(TAG, "FB dialog cancelled");
+                } else {
+                    // track post
+                    String postId = FacebookDialog.getNativeDialogPostId(data);
+                    Log.d(TAG, "postId = " + postId);
+                }
+            } else {
+                // track cancel
+                Log.d(TAG, "FB dialog cancelled");
+            }
+        }
+    };
 
     private Session.StatusCallback statusCallback = new Session.StatusCallback() {
         @Override
         public void call(Session session, SessionState state, Exception exception) {
-            if (state.isOpened()) {
-                onLogin();
-            } else if (state.isClosed()) {
-                onLogout();
-            }
-            else {
-                onSessionStateChanged(session, state, exception);
-            }
+            onSessionStateChange(session, state, exception);
         }
     };
 }

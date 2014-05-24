@@ -19,7 +19,6 @@ package com.soomla.social.example;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -36,9 +35,9 @@ import android.widget.Toast;
 
 import com.soomla.blueprint.rewards.Reward;
 import com.soomla.social.IContextProvider;
-import com.soomla.social.ISocialCenter;
+import com.soomla.social.ISocialProviderFactory;
 import com.soomla.social.ISocialProvider;
-import com.soomla.social.providers.socialauth.SoomlaSocialAuthCenter;
+import com.soomla.social.providers.socialauth.SoomlaSocialAuthProviderFactory;
 import com.soomla.social.actions.ISocialAction;
 import com.soomla.social.actions.UpdateStatusAction;
 import com.soomla.social.actions.UpdateStoryAction;
@@ -46,7 +45,7 @@ import com.soomla.social.events.SocialActionPerformedEvent;
 import com.soomla.social.events.SocialAuthProfileEvent;
 import com.soomla.social.events.SocialLoginEvent;
 import com.soomla.social.example.util.ImageUtils;
-import com.soomla.social.model.SocialVirtualItemReward;
+import com.soomla.social.rewards.SocialVirtualItemReward;
 import com.soomla.store.BusProvider;
 import com.squareup.otto.Subscribe;
 
@@ -74,7 +73,7 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
     private EditText mEdtStory;
 
 //    private SoomlaSocialAuthCenter soomlaSocialAuthCenter;
-    private ISocialCenter soomlaSocialAuthCenter;
+    private ISocialProviderFactory soomlaSocialAuthCenter;
     private ISocialProvider socialAuthFacebookProvider;
     private IContextProvider ctxProvider;
 
@@ -83,7 +82,7 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.socialauth_example_main);
 
-        soomlaSocialAuthCenter = new SoomlaSocialAuthCenter();
+        soomlaSocialAuthCenter = new SoomlaSocialAuthProviderFactory();
 //        soomlaSocialAuthCenter.addSocialProvider(ISocialCenter.FACEBOOK, R.drawable.facebook);
         ctxProvider = new IContextProvider() {
             @Override
@@ -103,7 +102,7 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
         };
 
         socialAuthFacebookProvider = soomlaSocialAuthCenter.setCurrentProvider(
-                ctxProvider, ISocialCenter.FACEBOOK);
+                ctxProvider, ISocialProviderFactory.FACEBOOK);
 
         mProfileBar = (ViewGroup) findViewById(R.id.profile_bar);
         mProfileAvatar = (ImageView) findViewById(R.id.prof_avatar);
@@ -121,7 +120,7 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
 
                 // create social action
                 UpdateStatusAction updateStatusAction = new UpdateStatusAction(
-                        ISocialCenter.FACEBOOK, message, false);
+                        ISocialProviderFactory.FACEBOOK, message, false);
 
                 // optionally attach rewards to it
                 Reward noAdsReward = new SocialVirtualItemReward("Update Status for Ad-free", "no_ads", 1);
@@ -142,7 +141,7 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
                 final String message = mEdtStory.getText().toString();
                 // another example
                 UpdateStoryAction updateStoryAction = new UpdateStoryAction(
-                        ISocialCenter.FACEBOOK,
+                        ISocialProviderFactory.FACEBOOK,
                         message, "name", "caption", "description",
                         "http://soom.la",
                         "https://s3.amazonaws.com/soomla_images/website/img/500_background.png");
@@ -189,8 +188,8 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
     @Subscribe public void onSocialProfileEvent(SocialAuthProfileEvent profileEvent) {
         showView(mProfileBar, true);
 
-        new ImageUtils.DownloadImageTask(mProfileAvatar).execute(profileEvent.profile.getProfileImageURL());
-        mProfileName.setText(profileEvent.profile.getFullName());
+        new ImageUtils.DownloadImageTask(mProfileAvatar).execute(profileEvent.User.getProfileImageURL());
+        mProfileName.setText(profileEvent.User.getFullName());
     }
 
     @Subscribe public void onSocialActionPerformedEvent(

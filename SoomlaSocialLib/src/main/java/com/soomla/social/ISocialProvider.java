@@ -22,8 +22,9 @@ import com.soomla.social.actions.UpdateStoryAction;
 import java.io.UnsupportedEncodingException;
 
 public interface ISocialProvider extends IAuthProvider {
+
     void updateStatusAsync(UpdateStatusAction updateStatusAction);
-    // todo: this one in particular seems very FB oriented
+
     void updateStoryAsync(UpdateStoryAction updateStoryAction) throws UnsupportedEncodingException;
 
     /**
