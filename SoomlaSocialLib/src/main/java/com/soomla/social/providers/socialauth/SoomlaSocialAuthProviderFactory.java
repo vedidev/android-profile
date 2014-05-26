@@ -14,14 +14,15 @@
  *   limitations under the License.
  */
 
-package com.soomla.social;
+package com.soomla.social.providers.socialauth;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 
+import com.soomla.social.IContextProvider;
+import com.soomla.social.ISocialProviderFactory;
+import com.soomla.social.ISocialProvider;
 import com.soomla.social.actions.CustomSocialAction;
 import com.soomla.social.actions.ISocialAction;
 import com.soomla.social.actions.UpdateStatusAction;
@@ -46,12 +47,10 @@ import org.brickred.socialauth.util.Response;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-public class SoomlaSocialAuthCenter implements ISocialCenter {
+public class SoomlaSocialAuthProviderFactory implements ISocialProviderFactory, ISocialProvider {
 
     private static final String TAG = "SoomlaSocialCenter";
 
@@ -59,44 +58,55 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
             new HashMap<String, SocialAuthAdapter.Provider>();
 
     private SocialAuthAdapter mSocialAdapter;
+    private String mCurrentProviderName;
 
-    public SoomlaSocialAuthCenter() {
-        mProviderLookup.put(ISocialCenter.FACEBOOK, SocialAuthAdapter.Provider.FACEBOOK);
+    private IContextProvider mCtxProvider;
 
+    public SoomlaSocialAuthProviderFactory() {
+        mProviderLookup.put(ISocialProviderFactory.FACEBOOK, SocialAuthAdapter.Provider.FACEBOOK);
+        mCurrentProviderName = ISocialProviderFactory.FACEBOOK;
         mSocialAdapter = new SocialAuthAdapter(new ResponseListener());
     }
 
-    // todo: temp wip
-    public SocialAuthAdapter getSocialAuthAdapter() {
-        return mSocialAdapter;
+    @Override
+    public ISocialProvider setCurrentProvider(IContextProvider ctxProvider, String providerName) {
+        mCtxProvider = ctxProvider;
+        mCurrentProviderName = providerName;
+        final SocialAuthAdapter.Provider provider = mProviderLookup.get(mCurrentProviderName);
+        if (provider == null) {
+            Log.w(TAG, "provider not supported:" + providerName);
+            return null;
+        }
+
+        mSocialAdapter.authorize(ctxProvider.getContext(), provider);
+        return this;
     }
 
     @Override
-    public void addSocialProvider(String providerName, int providerIconResId) {
-        mSocialAdapter.addProvider(mProviderLookup.get(providerName), providerIconResId);
-//        mSocialAdapter.addProvider(SocialAuthAdapter.Provider.FACEBOOK, providerIconResId);
+    public ISocialProvider getCurrentProvider() {
+        return this;
     }
 
     @Override
-    public void registerShareButton(Button btnShare) {
-        mSocialAdapter.enable(btnShare);
+    public String getProviderName() {
+        return mCurrentProviderName;
     }
 
     @Override
-    public void login(Context context, String providerName) {
-        mSocialAdapter.authorize(context, mProviderLookup.get(providerName));
+    public void login() {
+        mSocialAdapter.authorize(mCtxProvider.getContext(),
+                mProviderLookup.get(mCurrentProviderName));
     }
 
     @Override
-    public void logout(Context context, String providerName) {
-        mSocialAdapter.signOut(context, providerName);
+    public void logout() {
+        mSocialAdapter.signOut(mCtxProvider.getContext(), mCurrentProviderName);
     }
 
     @Override
     public void updateStatusAsync(UpdateStatusAction updateStatusAction) {
         mSocialAdapter.updateStatus(updateStatusAction.getMessage(),
-                new MessageListener(updateStatusAction),
-                updateStatusAction.isShare());
+                new MessageListener(updateStatusAction), false);
     }
 
     @Override
@@ -111,16 +121,13 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
                 new MessageListener(updateStoryAction));
     }
 
-    public void customActionAsync(String actionName, String url,
-                                  String methodType,
-                                  Map<String, String> params,
-                                  Map<String, String> headers,
-                                  String body) throws Exception {
-        final CustomSocialAction customSocialAction =
-                new CustomSocialAction(currentProviderId(), actionName);
-
-        final ApiTask apiTask = new ApiTask(url, methodType,
-                params, headers, body,
+    public void customActionAsync(CustomSocialAction customSocialAction) throws Exception {
+        final ApiTask apiTask = new ApiTask(
+                customSocialAction.getUrl(),
+                customSocialAction.getMethodType(),
+                customSocialAction.getParams(),
+                customSocialAction.getHeaders(),
+                customSocialAction.getBody(),
                 new MessageListener(customSocialAction));
         apiTask.execute();
 //        mSocialAdapter.api(url, methodType, params, headers, body);
@@ -155,7 +162,8 @@ public class SoomlaSocialAuthCenter implements ISocialCenter {
 
             @Override
             public void onError(SocialAuthError socialAuthError) {
-                BusProvider.getInstance().post(new SocialAuthErrorEvent(socialAuthError.getInnerException()));
+                BusProvider.getInstance().post(
+                        new SocialAuthErrorEvent(socialAuthError.getInnerException()));
             }
         });
     }

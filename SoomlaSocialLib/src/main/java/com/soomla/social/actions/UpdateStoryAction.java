@@ -16,6 +16,11 @@
 
 package com.soomla.social.actions;
 
+import com.soomla.social.data.SOCJSONConsts;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by oriargov on 5/8/14.
  */
@@ -33,6 +38,27 @@ public class UpdateStoryAction extends BaseSocialAction {
     private String mLink;
     private String mPictureLink;
 
+
+    public UpdateStoryAction(JSONObject jsonObject) throws JSONException {
+        super(jsonObject);
+        mName = jsonObject.optString(SOCJSONConsts.SOC_SOCIAL_PUBLISH_NAME);
+        mCaption = jsonObject.optString(SOCJSONConsts.SOC_SOCIAL_PUBLISH_CAPTION);
+        mMsg = jsonObject.optString(SOCJSONConsts.SOC_SOCIAL_PUBLISH_MSG);
+        mDesc = jsonObject.optString(SOCJSONConsts.SOC_SOCIAL_PUBLISH_DESC);
+        mLink = jsonObject.optString(SOCJSONConsts.SOC_SOCIAL_PUBLISH_LINK);
+        mPictureLink = jsonObject.optString(SOCJSONConsts.SOC_SOCIAL_PUBLISH_PIC_LINK);
+    }
+
+    /**
+     *
+     * @param providerName
+     * @param name
+     * @param caption
+     * @param msg
+     * @param desc
+     * @param link
+     * @param pictureLink
+     */
     public UpdateStoryAction(String providerName,
                              String name, String caption,
                              String msg, String desc,

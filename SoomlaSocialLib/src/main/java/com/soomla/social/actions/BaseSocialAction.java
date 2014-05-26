@@ -17,7 +17,12 @@
 package com.soomla.social.actions;
 
 import com.soomla.blueprint.challenges.ActionMission;
+import com.soomla.blueprint.data.BPJSONConsts;
 import com.soomla.blueprint.rewards.Reward;
+import com.soomla.social.data.SOCJSONConsts;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -28,6 +33,17 @@ public abstract class BaseSocialAction extends ActionMission implements ISocialA
 
     private String mProviderName;
     public String getProviderName() { return mProviderName; }
+
+    /**
+     * Constructor
+     *
+     * @param jsonObject see <code>ActionMission</code>
+     * @throws JSONException
+     */
+    public BaseSocialAction(JSONObject jsonObject) throws JSONException {
+        super(jsonObject);
+        mProviderName = jsonObject.getString(SOCJSONConsts.SOC_SOCIAL_PROVIDERID);
+    }
 
     protected BaseSocialAction(String providerName, String name, String missionId) {
         super(name, missionId);

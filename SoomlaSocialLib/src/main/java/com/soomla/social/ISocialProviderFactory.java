@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2012 Soomla Inc.
  *
@@ -14,11 +15,14 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.model;
+package com.soomla.social;
 
-public class SocialAccount {
-    private String mProviderId; // todo: or class
+public interface ISocialProviderFactory {
 
-    //todo: oauth tokens etc.
-    //todo: cached stuff? (name, avatar)
+    public static final String SOOMLA_SOC_PREFIX = "com.soomla.social.";
+
+    public static final String FACEBOOK = "Facebook";
+
+    ISocialProvider setCurrentProvider(IContextProvider ctxProvider, String providerName);
+    ISocialProvider getCurrentProvider();
 }

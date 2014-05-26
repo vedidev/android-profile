@@ -14,13 +14,17 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.model;
+package com.soomla.social;
 
-public class GameGift {
-    private GameUser mFromGameUser;
-    private GameUser mToGameUser;
+import android.app.Activity;
+import android.content.Context;
+//import android.support.v4.app.Fragment;
 
-    // VirtualItem
-    private String mGiftId;
-    private int mAmount;
+/**
+ * Created by oriargov on 5/23/14.
+ */
+public interface IContextProvider {
+    Activity getActivity();
+//    Fragment getFragment();
+    Context getContext();
 }

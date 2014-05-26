@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2012 Soomla Inc.
  *
@@ -17,38 +16,17 @@
 
 package com.soomla.social;
 
-import android.content.Context;
-import android.widget.Button;
-
-import com.soomla.social.actions.ISocialAction;
 import com.soomla.social.actions.UpdateStatusAction;
 import com.soomla.social.actions.UpdateStoryAction;
 
 import java.io.UnsupportedEncodingException;
 
-public interface ISocialCenter {
+public interface ISocialProvider extends IAuthProvider {
 
-    public static final String SOOMLA_SOC_PREFIX = "com.soomla.social.";
+    String getProviderName();
 
-    public static final String FACEBOOK = "Facebook";
-
-    /**
-     * register supported provider
-     * @param providerName
-     * @param providerIconResId
-     */
-    void addSocialProvider(String providerName, int providerIconResId);
-
-    void login(Context context, String providerName);
-
-    void logout(Context context, String providerName);
-
-    // todo: this is probably temp shortcut
-    void registerShareButton(Button btnShare);
-
-    // todo: not sure these will be here or on ISocialProvider(s)
     void updateStatusAsync(UpdateStatusAction updateStatusAction);
-    // todo: this one in particular seems very FB oriented
+
     void updateStoryAsync(UpdateStoryAction updateStoryAction) throws UnsupportedEncodingException;
 
     /**
@@ -59,4 +37,5 @@ public interface ISocialCenter {
      * will fire SocialAuthContactsEvent when ready
      */
     void getContactsAsync();
+
 }

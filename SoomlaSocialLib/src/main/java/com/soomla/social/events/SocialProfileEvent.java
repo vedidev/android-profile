@@ -14,10 +14,16 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.providers;
+package com.soomla.social.events;
 
-public interface ISocialProvider {
-    Object getInternalProvider();
+import com.soomla.social.users.SocialProfile;
 
-     void updateStatus(String message) throws Exception;
+/**
+ * Created by oriargov on 5/26/14.
+ */
+public class SocialProfileEvent {
+    public final SocialProfile Profile;
+    public SocialProfileEvent(SocialProfile socialProfile) {
+        this.Profile = socialProfile;
+    }
 }

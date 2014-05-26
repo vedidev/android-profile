@@ -14,18 +14,18 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.model;
+package com.soomla.social.events;
 
-import com.soomla.blueprint.rewards.VirtualItemReward;
-import com.soomla.social.ISocialCenter;
+import com.facebook.model.GraphUser;
+
+import java.util.List;
 
 /**
- * Created by oriargov on 5/14/14.
+ * Created by oriargov on 5/24/14.
  */
-public class SocialVirtualItemReward extends VirtualItemReward {
-
-    public SocialVirtualItemReward(String name, String associatedItemId, int amount) {
-        super(ISocialCenter.SOOMLA_SOC_PREFIX+name,
-                name, amount, associatedItemId);
+public class FacebookContactsEvent {
+    public final List<GraphUser> Users;
+    public FacebookContactsEvent(List<GraphUser> users) {
+        this.Users = users;
     }
 }

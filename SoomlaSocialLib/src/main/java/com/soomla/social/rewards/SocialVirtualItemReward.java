@@ -14,17 +14,18 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.model;
+package com.soomla.social.rewards;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.soomla.blueprint.rewards.VirtualItemReward;
+import com.soomla.social.ISocialProviderFactory;
 
-public class GameUser {
-    private String mId;
+/**
+ * Created by oriargov on 5/14/14.
+ */
+public class SocialVirtualItemReward extends VirtualItemReward {
 
-    private String mEmail; // optional
-
-    // todo: figure out best way to link social ids
-    private SocialAccount mPrimarySocialAccount;
-    private Set<SocialAccount> mLinkedSocialAccounts = new HashSet<SocialAccount>();
+    public SocialVirtualItemReward(String name, String associatedItemId, int amount) {
+        super(ISocialProviderFactory.SOOMLA_SOC_PREFIX+name,
+                name, amount, associatedItemId);
+    }
 }

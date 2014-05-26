@@ -16,10 +16,9 @@
 
 package com.soomla.social.example;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.http.AndroidHttpClient;
-import android.os.AsyncTask;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -36,36 +35,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soomla.blueprint.rewards.Reward;
-import com.soomla.blueprint.rewards.VirtualItemReward;
-import com.soomla.social.ISocialCenter;
-import com.soomla.social.SoomlaSocialAuthCenter;
+import com.soomla.social.IContextProvider;
+import com.soomla.social.ISocialProviderFactory;
+import com.soomla.social.ISocialProvider;
+import com.soomla.social.events.FacebookProfileEvent;
+import com.soomla.social.events.SocialProfileEvent;
+import com.soomla.social.providers.SoomlaSocialSDKProviderFactory;
+import com.soomla.social.providers.facebook.FacebookSDKProvider;
 import com.soomla.social.actions.ISocialAction;
 import com.soomla.social.actions.UpdateStatusAction;
 import com.soomla.social.actions.UpdateStoryAction;
 import com.soomla.social.events.SocialActionPerformedEvent;
 import com.soomla.social.events.SocialAuthProfileEvent;
 import com.soomla.social.events.SocialLoginEvent;
-import com.soomla.social.model.SocialVirtualItemReward;
+import com.soomla.social.example.util.ImageUtils;
+import com.soomla.social.rewards.SocialVirtualItemReward;
 import com.soomla.store.BusProvider;
 import com.squareup.otto.Subscribe;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.params.HttpClientParams;
-import org.brickred.socialauth.android.SocialAuthAdapter;
-
-import java.io.FilterInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 
-public class MainSocialActivity extends ActionBarActivity {
+public class MixedExampleActivity extends ActionBarActivity {
 
     private static final String TAG = "MainSocialActivity";
 
@@ -84,15 +75,43 @@ public class MainSocialActivity extends ActionBarActivity {
     private EditText mEdtStory;
 
 //    private SoomlaSocialAuthCenter soomlaSocialAuthCenter;
-    private ISocialCenter soomlaSocialAuthCenter;
+    private ISocialProviderFactory socialProviderFactory;
+    private ISocialProvider facebookProvider;
+    private IContextProvider ctxProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_social);
+        setContentView(R.layout.socialauth_example_main);
 
-        soomlaSocialAuthCenter = new SoomlaSocialAuthCenter();
-        soomlaSocialAuthCenter.addSocialProvider(ISocialCenter.FACEBOOK, R.drawable.facebook);
+//        socialProviderFactory = new SoomlaSocialAuthProviderFactory();
+        socialProviderFactory = new SoomlaSocialSDKProviderFactory();
+//        soomlaSocialAuthCenter.addSocialProvider(ISocialCenter.FACEBOOK, R.drawable.facebook);
+        ctxProvider = new IContextProvider() {
+            @Override
+            public Activity getActivity() {
+                return MixedExampleActivity.this;
+            }
+
+//            @Override
+//            public Fragment getFragment() {
+//                return null;
+//            }
+
+            @Override
+            public Context getContext() {
+                return MixedExampleActivity.this;
+            }
+        };
+
+        facebookProvider = socialProviderFactory.setCurrentProvider(
+                ctxProvider, ISocialProviderFactory.FACEBOOK);
+
+        // important!
+        // might be better to use FacebookEnabledActivity/Fragment, still evaluating
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onCreate(savedInstanceState);
+        }
 
         mProfileBar = (ViewGroup) findViewById(R.id.profile_bar);
         mProfileAvatar = (ImageView) findViewById(R.id.prof_avatar);
@@ -110,14 +129,14 @@ public class MainSocialActivity extends ActionBarActivity {
 
                 // create social action
                 UpdateStatusAction updateStatusAction = new UpdateStatusAction(
-                        ISocialCenter.FACEBOOK, message, false);
+                        ISocialProviderFactory.FACEBOOK, message, false);
 
                 // optionally attach rewards to it
                 Reward noAdsReward = new SocialVirtualItemReward("Update Status for Ad-free", "no_ads", 1);
                 updateStatusAction.getRewards().add(noAdsReward);
 
                 // perform social action
-                soomlaSocialAuthCenter.updateStatusAsync(updateStatusAction);
+                facebookProvider.updateStatusAsync(updateStatusAction);
             }
         });
 
@@ -131,7 +150,7 @@ public class MainSocialActivity extends ActionBarActivity {
                 final String message = mEdtStory.getText().toString();
                 // another example
                 UpdateStoryAction updateStoryAction = new UpdateStoryAction(
-                        ISocialCenter.FACEBOOK,
+                        ISocialProviderFactory.FACEBOOK,
                         message, "name", "caption", "description",
                         "http://soom.la",
                         "https://s3.amazonaws.com/soomla_images/website/img/500_background.png");
@@ -141,7 +160,7 @@ public class MainSocialActivity extends ActionBarActivity {
                 updateStoryAction.getRewards().add(muffinsReward);
 
                 try {
-                    soomlaSocialAuthCenter.updateStoryAsync(updateStoryAction);
+                    facebookProvider.updateStoryAsync(updateStoryAction);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -149,7 +168,13 @@ public class MainSocialActivity extends ActionBarActivity {
         });
 
         mBtnShare = (Button) findViewById(R.id.btnShare);
-        soomlaSocialAuthCenter.registerShareButton(mBtnShare);
+//        soomlaSocialAuthCenter.registerShareButton(mBtnShare);
+        mBtnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                facebookProvider.login();
+            }
+        });
     }
 
     @Subscribe public void onSocialLoginEvent(SocialLoginEvent socialLoginEvent) {
@@ -157,23 +182,51 @@ public class MainSocialActivity extends ActionBarActivity {
         Log.d(TAG, "Authentication Successful");
 
         // Get name of provider after authentication
-        final String providerName = socialLoginEvent.result.getString(SocialAuthAdapter.PROVIDER);
+        String providerName = facebookProvider.getProviderName();
+        final Bundle bundle = socialLoginEvent.result;
+        // in socialauth may contain some stuff
+        if (bundle != null) {
+            Log.d(TAG, "onSocialLoginEvent bundle = " + bundle);
+            // like this
+//            providerName = bundle.getString(SocialAuthAdapter.PROVIDER);
+        }
         Log.d(TAG, "Provider Name = " + providerName);
         Toast.makeText(this, providerName + " connected", Toast.LENGTH_SHORT).show();
 
         // Please avoid sending duplicate message. Social Media Providers
         // block duplicate messages.
 
-        soomlaSocialAuthCenter.getProfileAsync();
+        facebookProvider.getProfileAsync();
 
         updateUIOnLogin(providerName);
     }
 
-    @Subscribe public void onSocialProfileEvent(SocialAuthProfileEvent profileEvent) {
+    @Subscribe public void onSocialAuthProfileEvent(SocialAuthProfileEvent saProfileEvent) {
+        Log.d(TAG, "onSocialAuthProfileEvent");
         showView(mProfileBar, true);
 
-        new DownloadImageTask(mProfileAvatar).execute(profileEvent.profile.getProfileImageURL());
-        mProfileName.setText(profileEvent.profile.getFullName());
+        new ImageUtils.DownloadImageTask(mProfileAvatar).execute(saProfileEvent.User.getProfileImageURL());
+        mProfileName.setText(saProfileEvent.User.getFullName());
+    }
+
+    @Subscribe public void onFacebookProfileEvent(FacebookProfileEvent fbProfileEvent) {
+        Log.d(TAG, "onFacebookProfileEvent");
+        showView(mProfileBar, true);
+
+        new ImageUtils.DownloadImageTask(mProfileAvatar).execute(fbProfileEvent.getProfileImageUrl());
+
+        mProfileName.setText(
+                fbProfileEvent.User.getFirstName() + " " +
+                        fbProfileEvent.User.getLastName()
+        );
+    }
+
+    // can also use generic profile event
+    @Subscribe public void onSocialProfileEvent(SocialProfileEvent socialProfileEvent) {
+        Log.d(TAG, "onSocialProfileEvent");
+        showView(mProfileBar, true);
+        new ImageUtils.DownloadImageTask(mProfileAvatar).execute(socialProfileEvent.Profile.getAvatarLink());
+        mProfileName.setText(socialProfileEvent.Profile.getFullName());
     }
 
     @Subscribe public void onSocialActionPerformedEvent(
@@ -192,11 +245,11 @@ public class MainSocialActivity extends ActionBarActivity {
         mBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                soomlaSocialAuthCenter.logout(mBtnShare.getContext(), providerName);
+                facebookProvider.logout();
                 updateUIOnLogout();
 
                 // re-enable share button login
-                soomlaSocialAuthCenter.registerShareButton(mBtnShare);
+//                socialProviderFactory.registerShareButton(mBtnShare);
             }
         });
 
@@ -234,6 +287,46 @@ public class MainSocialActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onPause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onResume();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onSaveInstanceState(outState);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onDestroy();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         BusProvider.getInstance().register(this);
@@ -242,6 +335,9 @@ public class MainSocialActivity extends ActionBarActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onStop();
+        }
         BusProvider.getInstance().unregister(this);
     }
 
@@ -263,120 +359,5 @@ public class MainSocialActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String url = urls[0];
-            Bitmap bmp = downloadBitmapWithClient(url);
-
-            return bmp;
-        }
-
-        // doesn't follow https redirect!
-        private Bitmap downloadBitmap(String stringUrl) {
-            URL url = null;
-            HttpURLConnection connection = null;
-            InputStream inputStream = null;
-
-            try {
-                url = new URL(stringUrl);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setUseCaches(true);
-                inputStream = connection.getInputStream();
-
-                return BitmapFactory.decodeStream(new FlushedInputStream(inputStream));
-            } catch (Exception e) {
-                Log.w(TAG, "Error while retrieving bitmap from " + stringUrl, e);
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-            }
-
-            return null;
-        }
-
-        private Bitmap downloadBitmapWithClient(String url) {
-            final AndroidHttpClient httpClient = AndroidHttpClient.newInstance("Android");
-            HttpClientParams.setRedirecting(httpClient.getParams(), true);
-            final HttpGet request = new HttpGet(url);
-
-            try {
-                HttpResponse response = httpClient.execute(request);
-                final int statusCode = response.getStatusLine().getStatusCode();
-
-                if (statusCode != HttpStatus.SC_OK) {
-                    Header[] headers = response.getHeaders("Location");
-
-                    if (headers != null && headers.length != 0) {
-                        String newUrl = headers[headers.length - 1].getValue();
-                        // call again with new URL
-                        return downloadBitmap(newUrl);
-                    } else {
-                        return null;
-                    }
-                }
-
-                final HttpEntity entity = response.getEntity();
-                if (entity != null) {
-                    InputStream inputStream = null;
-                    try {
-                        inputStream = entity.getContent();
-
-                        // do your work here
-                        return BitmapFactory.decodeStream(inputStream);
-                    } finally {
-                        if (inputStream != null) {
-                            inputStream.close();
-                        }
-                        entity.consumeContent();
-                    }
-                }
-            } catch (Exception e) {
-                request.abort();
-            } finally {
-                if (httpClient != null) {
-                    httpClient.close();
-                }
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
-    }
-
-    static class FlushedInputStream extends FilterInputStream {
-        public FlushedInputStream(InputStream inputStream) {
-            super(inputStream);
-        }
-
-        @Override
-        public long skip(long n) throws IOException {
-            long totalBytesSkipped = 0L;
-            while (totalBytesSkipped < n) {
-                long bytesSkipped = in.skip(n - totalBytesSkipped);
-                if (bytesSkipped == 0L) {
-                    int byteValue = read();
-                    if (byteValue < 0) {
-                        break; // we reached EOF
-                    } else
-                    {
-                        bytesSkipped = 1; // we read one byte
-                    }
-                }
-                totalBytesSkipped += bytesSkipped;
-            }
-            return totalBytesSkipped;
-        }
     }
 }
