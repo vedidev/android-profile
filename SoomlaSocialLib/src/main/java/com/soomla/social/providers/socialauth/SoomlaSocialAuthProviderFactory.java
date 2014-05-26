@@ -83,6 +83,16 @@ public class SoomlaSocialAuthProviderFactory implements ISocialProviderFactory, 
     }
 
     @Override
+    public ISocialProvider getCurrentProvider() {
+        return this;
+    }
+
+    @Override
+    public String getProviderName() {
+        return mCurrentProviderName;
+    }
+
+    @Override
     public void login() {
         mSocialAdapter.authorize(mCtxProvider.getContext(),
                 mProviderLookup.get(mCurrentProviderName));
@@ -96,8 +106,7 @@ public class SoomlaSocialAuthProviderFactory implements ISocialProviderFactory, 
     @Override
     public void updateStatusAsync(UpdateStatusAction updateStatusAction) {
         mSocialAdapter.updateStatus(updateStatusAction.getMessage(),
-                new MessageListener(updateStatusAction),
-                updateStatusAction.isShare());
+                new MessageListener(updateStatusAction), false);
     }
 
     @Override
@@ -153,7 +162,8 @@ public class SoomlaSocialAuthProviderFactory implements ISocialProviderFactory, 
 
             @Override
             public void onError(SocialAuthError socialAuthError) {
-                BusProvider.getInstance().post(new SocialAuthErrorEvent(socialAuthError.getInnerException()));
+                BusProvider.getInstance().post(
+                        new SocialAuthErrorEvent(socialAuthError.getInnerException()));
             }
         });
     }

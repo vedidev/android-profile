@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2012 Soomla Inc.
  *
@@ -15,14 +14,16 @@
  *   limitations under the License.
  */
 
-package com.soomla.social;
+package com.soomla.social.events;
 
-public interface ISocialProviderFactory {
+import com.soomla.social.users.SocialProfile;
 
-    public static final String SOOMLA_SOC_PREFIX = "com.soomla.social.";
-
-    public static final String FACEBOOK = "Facebook";
-
-    ISocialProvider setCurrentProvider(IContextProvider ctxProvider, String providerName);
-    ISocialProvider getCurrentProvider();
+/**
+ * Created by oriargov on 5/26/14.
+ */
+public class SocialProfileEvent {
+    public final SocialProfile Profile;
+    public SocialProfileEvent(SocialProfile socialProfile) {
+        this.Profile = socialProfile;
+    }
 }

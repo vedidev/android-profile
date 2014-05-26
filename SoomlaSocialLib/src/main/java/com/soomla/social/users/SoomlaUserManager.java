@@ -19,6 +19,7 @@ package com.soomla.social.users;
 import com.soomla.social.ISocialProviderFactory;
 import com.soomla.social.events.FacebookProfileEvent;
 import com.soomla.social.events.SocialAuthProfileEvent;
+import com.soomla.social.events.SocialProfileEvent;
 import com.soomla.store.BusProvider;
 import com.soomla.store.data.StorageManager;
 import com.squareup.otto.Subscribe;
@@ -31,8 +32,6 @@ public class SoomlaUserManager {
     private static final String TAG = "SoomlaUserManager";
 
     public static final String DB_KEY_PREFIX = "com.soomla.users.";
-
-    private static final String PROFILE_IMAGE_URL = "http://graph.facebook.com/%1$s/picture";
 
     public void init() {
         BusProvider.getInstance().register(this);
@@ -47,15 +46,16 @@ public class SoomlaUserManager {
                 ISocialProviderFactory.FACEBOOK,
                 fbProfileEvent.User.getId());
 
+        socialProfile.setRawJson(fbProfileEvent.User.getInnerJSONObject().toString());
+
         // todo: need special permission ("email")
         socialProfile.setEmail(fbProfileEvent.User.getProperty("email").toString());
 
-        socialProfile.setAvatarLink(String.format(PROFILE_IMAGE_URL, fbProfileEvent.User.getId()));
+        socialProfile.setAvatarLink(fbProfileEvent.getProfileImageUrl());
         socialProfile.setFirstName(fbProfileEvent.User.getFirstName());
         socialProfile.setLastName(fbProfileEvent.User.getLastName());
 
-        StorageManager.getKeyValueStorage().setValue(DB_KEY_PREFIX + fbProfileEvent.User.getId(),
-                fbProfileEvent.User.getInnerJSONObject().toString());
+        storeSocialProfile(socialProfile);
     }
 
     @Subscribe public void onSocialAuthProfileEvent(SocialAuthProfileEvent saProfileEvent) {
@@ -63,16 +63,31 @@ public class SoomlaUserManager {
                 ISocialProviderFactory.FACEBOOK,
                 saProfileEvent.User.getValidatedId());
 
+        socialProfile.setRawJson(saProfileEvent.User.toString());
+
         socialProfile.setEmail(saProfileEvent.User.getEmail());
         socialProfile.setAvatarLink(saProfileEvent.User.getProfileImageURL());
         socialProfile.setFirstName(saProfileEvent.User.getFirstName());
         socialProfile.setLastName(saProfileEvent.User.getLastName());
 
-        StorageManager.getKeyValueStorage().setValue(DB_KEY_PREFIX + saProfileEvent.User.getValidatedId(),
-                saProfileEvent.User.toString());
+        storeSocialProfile(socialProfile);
     }
 
-//    public void getUsers() {
+    private void storeSocialProfile(SocialProfile socialProfile) {
+        StorageManager.getKeyValueStorage().setValue(DB_KEY_PREFIX +
+                        socialProfile.getProfileId(), socialProfile.getRawJson());
+
+        BusProvider.getInstance().post(new SocialProfileEvent(socialProfile));
+    }
+
+//    public SocialProfile getSocialProfileById(String profileId) {
+//        String jsonProfile = StorageManager.getKeyValueStorage().getValue(DB_KEY_PREFIX + profileId);
+//        return SocialProfile.fromJson(jsonProfile);
+//    }
+
+//    public void getSocialProfiles() {
+//        // todo: way to get stuff by prefix?
+//        // todo: query encrypted stuff?
 //        StorageManager
 //                .getKeyValueStorage()
 //                .getNonEncryptedQueryValues("");

@@ -27,12 +27,10 @@ public class UpdateStatusAction extends BaseSocialAction {
     private static final String ACTION_NAME = "UpdateStatus";
 
     private String mMessage;
-    private boolean mShare;
 
     public UpdateStatusAction(String providerName, String msg, boolean share) {
         super(providerName, ACTION_NAME, ACTION_ID);
         this.mMessage = msg;
-        this.mShare = share;
     }
 
     public String getMessage() {
@@ -42,36 +40,4 @@ public class UpdateStatusAction extends BaseSocialAction {
     public void setMessage(String mMessage) {
         this.mMessage = mMessage;
     }
-
-    public boolean isShare() {
-        return mShare;
-    }
-
-    public void setShare(boolean mShare) {
-        this.mShare = mShare;
-    }
-
-//    @Override
-//    public void execute(SocialAuthAdapter socialAuthAdapter) {
-//        socialAuthAdapter.updateStatusAsync(
-//                                mMessage,
-//                                new MessageListener(), false);
-//    }
-//
-//    private final class MessageListener implements SocialAuthListener<Integer> {
-//        @Override
-//        public void onExecute(String provider, Integer t) {
-//            Integer status = t;
-//            if (status.intValue() == 200 || status.intValue() == 201 || status.intValue() == 204)
-//                Log.d(TAG, "Message posted on " + provider);
-//            else
-//                Log.w(TAG, "Message not posted on " + provider);
-//        }
-//
-//        @Override
-//        public void onError(SocialAuthError e) {
-//            Log.w(TAG, e.getMessage(), e);
-//
-//        }
-//    }
 }

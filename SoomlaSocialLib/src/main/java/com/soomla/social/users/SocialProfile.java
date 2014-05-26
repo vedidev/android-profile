@@ -34,6 +34,14 @@ public class SocialProfile {
         return mProfileId;
     }
 
+    public String getRawJson() {
+        return mRawJson;
+    }
+
+    public void setRawJson(String rawJson) {
+        this.mRawJson = rawJson;
+    }
+
     public String getEmail() {
         return mEmail;
     }
@@ -56,6 +64,10 @@ public class SocialProfile {
 
     public void setLastName(String lastName) {
         this.mLastName = lastName;
+    }
+
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
     }
 
     public String getAvatarLink() {
@@ -101,6 +113,7 @@ public class SocialProfile {
     /** Private Members **/
 
     private String mProviderId;
+    private String mRawJson;
 
     private String mProfileId;
     private String mEmail;

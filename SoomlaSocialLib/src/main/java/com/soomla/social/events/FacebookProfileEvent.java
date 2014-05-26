@@ -22,8 +22,17 @@ import com.facebook.model.GraphUser;
  * Created by oriargov on 5/24/14.
  */
 public class FacebookProfileEvent {
+    private static final String PROFILE_IMAGE_URL_TEMPLATE =
+            "http://graph.facebook.com/%1$s/picture";
+
     public final GraphUser User;
     public FacebookProfileEvent(GraphUser user) {
         this.User = user;
+    }
+
+    public String getProfileImageUrl() {
+        return String.format(
+                FacebookProfileEvent.PROFILE_IMAGE_URL_TEMPLATE,
+                User.getId());
     }
 }

@@ -20,6 +20,7 @@
     android:id="@+id/profile_bar"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/background_light"
     android:visibility="invisible"
     tools:visibility="visible"
     tools:showIn="@layout/socialauth_example_main">
@@ -36,5 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/prof_avatar"
         android:layout_centerVertical="true"
-        android:text="\?" />
+        android:textColor="@android:color/primary_text_light"
+        android:text="\?"
+        tools:text="yo yo yo yo"
+        />
 </RelativeLayout>

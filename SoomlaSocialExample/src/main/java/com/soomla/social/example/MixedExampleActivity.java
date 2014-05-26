@@ -18,6 +18,7 @@ package com.soomla.social.example;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -37,7 +38,10 @@ import com.soomla.blueprint.rewards.Reward;
 import com.soomla.social.IContextProvider;
 import com.soomla.social.ISocialProviderFactory;
 import com.soomla.social.ISocialProvider;
-import com.soomla.social.providers.socialauth.SoomlaSocialAuthProviderFactory;
+import com.soomla.social.events.FacebookProfileEvent;
+import com.soomla.social.events.SocialProfileEvent;
+import com.soomla.social.providers.SoomlaSocialSDKProviderFactory;
+import com.soomla.social.providers.facebook.FacebookSDKProvider;
 import com.soomla.social.actions.ISocialAction;
 import com.soomla.social.actions.UpdateStatusAction;
 import com.soomla.social.actions.UpdateStoryAction;
@@ -49,12 +53,10 @@ import com.soomla.social.rewards.SocialVirtualItemReward;
 import com.soomla.store.BusProvider;
 import com.squareup.otto.Subscribe;
 
-import org.brickred.socialauth.android.SocialAuthAdapter;
-
 import java.io.UnsupportedEncodingException;
 
 
-public class SocialAuthExampleActivity extends ActionBarActivity {
+public class MixedExampleActivity extends ActionBarActivity {
 
     private static final String TAG = "MainSocialActivity";
 
@@ -73,8 +75,8 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
     private EditText mEdtStory;
 
 //    private SoomlaSocialAuthCenter soomlaSocialAuthCenter;
-    private ISocialProviderFactory soomlaSocialAuthCenter;
-    private ISocialProvider socialAuthFacebookProvider;
+    private ISocialProviderFactory socialProviderFactory;
+    private ISocialProvider facebookProvider;
     private IContextProvider ctxProvider;
 
     @Override
@@ -82,12 +84,13 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.socialauth_example_main);
 
-        soomlaSocialAuthCenter = new SoomlaSocialAuthProviderFactory();
+//        socialProviderFactory = new SoomlaSocialAuthProviderFactory();
+        socialProviderFactory = new SoomlaSocialSDKProviderFactory();
 //        soomlaSocialAuthCenter.addSocialProvider(ISocialCenter.FACEBOOK, R.drawable.facebook);
         ctxProvider = new IContextProvider() {
             @Override
             public Activity getActivity() {
-                return SocialAuthExampleActivity.this;
+                return MixedExampleActivity.this;
             }
 
 //            @Override
@@ -97,12 +100,18 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
 
             @Override
             public Context getContext() {
-                return SocialAuthExampleActivity.this;
+                return MixedExampleActivity.this;
             }
         };
 
-        socialAuthFacebookProvider = soomlaSocialAuthCenter.setCurrentProvider(
+        facebookProvider = socialProviderFactory.setCurrentProvider(
                 ctxProvider, ISocialProviderFactory.FACEBOOK);
+
+        // important!
+        // might be better to use FacebookEnabledActivity/Fragment, still evaluating
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onCreate(savedInstanceState);
+        }
 
         mProfileBar = (ViewGroup) findViewById(R.id.profile_bar);
         mProfileAvatar = (ImageView) findViewById(R.id.prof_avatar);
@@ -127,7 +136,7 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
                 updateStatusAction.getRewards().add(noAdsReward);
 
                 // perform social action
-                socialAuthFacebookProvider.updateStatusAsync(updateStatusAction);
+                facebookProvider.updateStatusAsync(updateStatusAction);
             }
         });
 
@@ -151,7 +160,7 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
                 updateStoryAction.getRewards().add(muffinsReward);
 
                 try {
-                    socialAuthFacebookProvider.updateStoryAsync(updateStoryAction);
+                    facebookProvider.updateStoryAsync(updateStoryAction);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -163,7 +172,7 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
         mBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                socialAuthFacebookProvider.login();
+                facebookProvider.login();
             }
         });
     }
@@ -173,23 +182,51 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
         Log.d(TAG, "Authentication Successful");
 
         // Get name of provider after authentication
-        final String providerName = socialLoginEvent.result.getString(SocialAuthAdapter.PROVIDER);
+        String providerName = facebookProvider.getProviderName();
+        final Bundle bundle = socialLoginEvent.result;
+        // in socialauth may contain some stuff
+        if (bundle != null) {
+            Log.d(TAG, "onSocialLoginEvent bundle = " + bundle);
+            // like this
+//            providerName = bundle.getString(SocialAuthAdapter.PROVIDER);
+        }
         Log.d(TAG, "Provider Name = " + providerName);
         Toast.makeText(this, providerName + " connected", Toast.LENGTH_SHORT).show();
 
         // Please avoid sending duplicate message. Social Media Providers
         // block duplicate messages.
 
-        socialAuthFacebookProvider.getProfileAsync();
+        facebookProvider.getProfileAsync();
 
         updateUIOnLogin(providerName);
     }
 
-    @Subscribe public void onSocialProfileEvent(SocialAuthProfileEvent profileEvent) {
+    @Subscribe public void onSocialAuthProfileEvent(SocialAuthProfileEvent saProfileEvent) {
+        Log.d(TAG, "onSocialAuthProfileEvent");
         showView(mProfileBar, true);
 
-        new ImageUtils.DownloadImageTask(mProfileAvatar).execute(profileEvent.User.getProfileImageURL());
-        mProfileName.setText(profileEvent.User.getFullName());
+        new ImageUtils.DownloadImageTask(mProfileAvatar).execute(saProfileEvent.User.getProfileImageURL());
+        mProfileName.setText(saProfileEvent.User.getFullName());
+    }
+
+    @Subscribe public void onFacebookProfileEvent(FacebookProfileEvent fbProfileEvent) {
+        Log.d(TAG, "onFacebookProfileEvent");
+        showView(mProfileBar, true);
+
+        new ImageUtils.DownloadImageTask(mProfileAvatar).execute(fbProfileEvent.getProfileImageUrl());
+
+        mProfileName.setText(
+                fbProfileEvent.User.getFirstName() + " " +
+                        fbProfileEvent.User.getLastName()
+        );
+    }
+
+    // can also use generic profile event
+    @Subscribe public void onSocialProfileEvent(SocialProfileEvent socialProfileEvent) {
+        Log.d(TAG, "onSocialProfileEvent");
+        showView(mProfileBar, true);
+        new ImageUtils.DownloadImageTask(mProfileAvatar).execute(socialProfileEvent.Profile.getAvatarLink());
+        mProfileName.setText(socialProfileEvent.Profile.getFullName());
     }
 
     @Subscribe public void onSocialActionPerformedEvent(
@@ -208,11 +245,11 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
         mBtnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                socialAuthFacebookProvider.logout();
+                facebookProvider.logout();
                 updateUIOnLogout();
 
                 // re-enable share button login
-//                soomlaSocialAuthCenter.registerShareButton(mBtnShare);
+//                socialProviderFactory.registerShareButton(mBtnShare);
             }
         });
 
@@ -250,6 +287,46 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onPause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onResume();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onSaveInstanceState(outState);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onDestroy();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         BusProvider.getInstance().register(this);
@@ -258,6 +335,9 @@ public class SocialAuthExampleActivity extends ActionBarActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        if(facebookProvider instanceof FacebookSDKProvider) {
+            ((FacebookSDKProvider) facebookProvider).onStop();
+        }
         BusProvider.getInstance().unregister(this);
     }
 

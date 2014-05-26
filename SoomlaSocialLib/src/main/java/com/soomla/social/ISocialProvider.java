@@ -23,6 +23,8 @@ import java.io.UnsupportedEncodingException;
 
 public interface ISocialProvider extends IAuthProvider {
 
+    String getProviderName();
+
     void updateStatusAsync(UpdateStatusAction updateStatusAction);
 
     void updateStoryAsync(UpdateStoryAction updateStoryAction) throws UnsupportedEncodingException;

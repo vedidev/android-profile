@@ -17,9 +17,12 @@
 package com.soomla.social.providers.facebook;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -27,6 +30,7 @@ import android.util.Log;
 import com.facebook.AppEventsLogger;
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
+import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -38,12 +42,21 @@ import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
 import com.soomla.social.IContextProvider;
 import com.soomla.social.ISocialProvider;
+import com.soomla.social.ISocialProviderFactory;
+import com.soomla.social.R;
+import com.soomla.social.actions.BaseSocialAction;
 import com.soomla.social.actions.UpdateStatusAction;
 import com.soomla.social.actions.UpdateStoryAction;
 import com.soomla.social.events.FacebookContactsEvent;
 import com.soomla.social.events.FacebookProfileEvent;
+import com.soomla.social.events.SocialActionPerformedEvent;
+import com.soomla.social.events.SocialLoginEvent;
+import com.soomla.social.events.SocialLogoutEvent;
 import com.soomla.social.util.Utils;
 import com.soomla.store.BusProvider;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,11 +71,27 @@ import java.util.List;
  */
 public class FacebookSDKProvider implements ISocialProvider {
 
-    public static final String TAG = "FacebookSDKProvider";
+    private static final String TAG = "FacebookSDKProvider";
 
+    private static final String PUBLISH_ACTIONS = "publish_actions";
+    /// List of additional write permissions being requested
+    private static final List<String> PUBLISH_PERMISSIONS = Arrays.asList(PUBLISH_ACTIONS);
+
+    // Redirect URL for authentication errors requiring a user action
+    private static final Uri M_FACEBOOK_URL = Uri.parse("http://m.facebook.com");
+
+    private static final String PENDING_ACTION_KEY = "pendingSocialAction";
+
+    // Activity code to flag an incoming activity result is due
+    // to a new permissions request
+    private static final int REAUTH_ACTIVITY_CODE = 100;
+
+    // Indicates an on-going reauthorization request
+    private boolean pendingAnnounce;
     private UiLifecycleHelper uiHelper;
 
     private IContextProvider mCtxProvider;
+    private BaseSocialAction mPendingSocialAction;
 
     public FacebookSDKProvider(IContextProvider ctxProvider) {
         mCtxProvider = ctxProvider;
@@ -71,6 +100,17 @@ public class FacebookSDKProvider implements ISocialProvider {
     public void onCreate(Bundle savedInstanceState) {
         uiHelper = new UiLifecycleHelper(mCtxProvider.getActivity(), statusCallback);
         uiHelper.onCreate(savedInstanceState);
+
+        if (savedInstanceState.containsKey(PENDING_ACTION_KEY)) {
+            final String pendingActionJsonStr = savedInstanceState.getString(PENDING_ACTION_KEY);
+            if (pendingActionJsonStr != null) {
+                try {
+                    mPendingSocialAction = new UpdateStoryAction(new JSONObject(pendingActionJsonStr));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public void onDestroy() {
@@ -92,6 +132,9 @@ public class FacebookSDKProvider implements ISocialProvider {
 
     public void onSaveInstanceState(Bundle outState) {
         uiHelper.onSaveInstanceState(outState);
+        if(mPendingSocialAction != null) {
+            outState.putString(PENDING_ACTION_KEY, mPendingSocialAction.toJSONObject().toString());
+        }
     }
 
     public void onPause() {
@@ -103,7 +146,16 @@ public class FacebookSDKProvider implements ISocialProvider {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        uiHelper.onActivityResult(requestCode, resultCode, data);
+        uiHelper.onActivityResult(requestCode, resultCode, data, dialogCallback);
+        switch (requestCode) {
+            case REAUTH_ACTIVITY_CODE:
+                Session session = Session.getActiveSession();
+                if (session != null) {
+                    session.onActivityResult(
+                            mCtxProvider.getActivity(), requestCode, resultCode, data);
+                }
+                break;
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data,
@@ -117,6 +169,11 @@ public class FacebookSDKProvider implements ISocialProvider {
 
     public AppEventsLogger getAppEventsLogger() {
         return uiHelper.getAppEventsLogger();
+    }
+
+    @Override
+    public String getProviderName() {
+        return ISocialProviderFactory.FACEBOOK;
     }
 
     @Override
@@ -134,6 +191,12 @@ public class FacebookSDKProvider implements ISocialProvider {
 
     public void login(Activity activity) {
         Session session = Session.getActiveSession();
+
+        if(session == null){
+            // try to restore from cache
+            session = Session.openActiveSessionFromCache(activity);
+        }
+
         if (!session.isOpened() && !session.isClosed()) {
             session.openForRead(new Session.OpenRequest(activity)
                     .setPermissions(Arrays.asList("public_profile"))
@@ -175,7 +238,7 @@ public class FacebookSDKProvider implements ISocialProvider {
         final Activity activity = mCtxProvider.getActivity();
         if (!session.isOpened() && !session.isClosed()) {
             session.openForRead(new Session.OpenRequest(activity)
-                    .setPermissions(Arrays.asList("publish_actions"))
+                    .setPermissions(Arrays.asList(PUBLISH_ACTIONS))
                     .setCallback(statusCallback));
         } else {
             Session.openActiveSession(activity, true, statusCallback);
@@ -194,22 +257,23 @@ public class FacebookSDKProvider implements ISocialProvider {
         }
     }
 
-    public void requestPublishPermission(Session session) {
+    public void requestPublishPermissions(Session session) {
         Session.NewPermissionsRequest newPermissionsRequest = new Session
                 .NewPermissionsRequest(mCtxProvider.getActivity(),
-                Arrays.asList("publish_actions"));
+                Arrays.asList(PUBLISH_ACTIONS)).setRequestCode(REAUTH_ACTIVITY_CODE);
         session.requestNewPublishPermissions(newPermissionsRequest);
     }
 
     public void requestNewPermissions(Session session, List<String> permissions) {
         Session.NewPermissionsRequest newPermissionsRequest = new Session
-                .NewPermissionsRequest(mCtxProvider.getActivity(), permissions);
+                .NewPermissionsRequest(
+                mCtxProvider.getActivity(), permissions).setRequestCode(REAUTH_ACTIVITY_CODE);
         session.requestNewPublishPermissions(newPermissionsRequest);
     }
 
-    public boolean hasPublishPermission() {
+    public boolean hasPublishPermissions() {
         Session session = Session.getActiveSession();
-        return session != null && session.getPermissions().contains("publish_actions");
+        return session != null && session.getPermissions().contains(PUBLISH_ACTIONS);
     }
 
     public boolean canPresentShareDialog(FacebookDialog.ShareDialogFeature shareFeature) {
@@ -220,12 +284,14 @@ public class FacebookSDKProvider implements ISocialProvider {
         return Session.getActiveSession();
     }
 
-    protected void publish(UpdateStoryAction updateStoryAction) {
+    protected void publishWithFBDialog(UpdateStoryAction updateStoryAction) {
         if (FacebookDialog.canPresentShareDialog(mCtxProvider.getContext(),
                 FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
+            final Activity activity = mCtxProvider.getActivity();
+
             // Publish the post using the Share Dialog
             FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(
-                    mCtxProvider.getActivity())
+                    activity)
                     .setName(updateStoryAction.getName())
                     .setCaption(updateStoryAction.getCaption())
                     .setDescription(updateStoryAction.getDesc())
@@ -239,7 +305,7 @@ public class FacebookSDKProvider implements ISocialProvider {
         }
     }
 
-    public void publishFeedDialog(UpdateStoryAction updateStoryAction) {
+    public void publishFeedDialog(final UpdateStoryAction updateStoryAction) {
         Bundle params = new Bundle();
         params.putString("name", updateStoryAction.getName());
         params.putString("caption", updateStoryAction.getCaption());
@@ -264,6 +330,8 @@ public class FacebookSDKProvider implements ISocialProvider {
                             final String postId = values.getString("post_id");
                             if (postId != null) {
                                 Log.d(TAG, "Posted story, id: " + postId);
+                                BusProvider.getInstance().post(
+                                        new SocialActionPerformedEvent(updateStoryAction));
                             } else {
                                 // User clicked the Cancel button
                                 Log.d(TAG, "Publish cancelled");
@@ -281,14 +349,48 @@ public class FacebookSDKProvider implements ISocialProvider {
         feedDialog.show();
     }
 
+    public void publish(final UpdateStoryAction updateStoryAction) {
+        final Session session = getSession();
+
+        if (session == null || !session.isOpened()) {
+            return;
+        }
+
+        List<String> permissions = session.getPermissions();
+        if (!permissions.containsAll(PUBLISH_PERMISSIONS)) {
+            // Mark that we are currently waiting for confirmation of publish permissions
+            pendingAnnounce = true;
+//            session.addCallback(this);
+            requestPublishPermissions(session);
+            return;
+        }
+
+        Request.newStatusUpdateRequest(session,
+                updateStoryAction.getMessage(),
+                new Request.Callback() {
+                    @Override
+                    public void onCompleted(Response response) {
+                        BusProvider.getInstance().post(
+                                new SocialActionPerformedEvent(updateStoryAction));
+                    }
+                })
+                .executeAsync();
+    }
+
     @Override
     public void updateStatusAsync(UpdateStatusAction updateStatusAction) {
-
+        UpdateStoryAction updateStoryAction = new UpdateStoryAction(
+                updateStatusAction.getProviderName(),
+                updateStatusAction.getName(),
+                null,
+                updateStatusAction.getMessage()
+                ,null,null,null);
+        publishWithFBDialog(updateStoryAction);
     }
 
     @Override
     public void updateStoryAsync(UpdateStoryAction updateStoryAction) throws UnsupportedEncodingException {
-        publish(updateStoryAction);
+        publishWithFBDialog(updateStoryAction);
     }
 
     @Override
@@ -331,6 +433,7 @@ public class FacebookSDKProvider implements ISocialProvider {
                 @Override
                 public void onCompleted(Response response) {
                     // todo: fire event
+//                    BusProvider.getInstance().post(new SocialActionPerformedEvent(uploadImageAction));
                 }
             };
 
@@ -360,6 +463,7 @@ public class FacebookSDKProvider implements ISocialProvider {
             @Override
             public void onCompleted(Response response) {
                 // todo: fire event
+//                BusProvider.getInstance().post(new SocialActionPerformedEvent(uploadVideoAction));
             }
         };
 
@@ -397,6 +501,7 @@ public class FacebookSDKProvider implements ISocialProvider {
 
     protected void onLogin() {
         Log.d(TAG, "onLogin");
+        BusProvider.getInstance().post(new SocialLoginEvent(null));
         // todo: flag for this? always get it for user mgmt?
         getProfileAsync();
     }
@@ -406,18 +511,176 @@ public class FacebookSDKProvider implements ISocialProvider {
 
     protected void onLogout() {
         Log.d(TAG, "onLogout");
+        BusProvider.getInstance().post(new SocialLogoutEvent());
     }
 
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
         if (state.isOpened()) {
             onLogin();
-        } else if (state.isClosed()) {
+        }
+        else if (state.isClosed()) {
             onLogout();
+        }
+        else if (state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
+            // Session updated with new permissions
+            // so try publishing once more.
+            tokenUpdated();
         }
         else {
             onSessionStateChanged(session, state, exception);
         }
     }
+
+    private void tokenUpdated() {
+        // Check if a publish action is in progress
+        // awaiting a successful reauthorization
+        if (pendingAnnounce) {
+            // Publish the action
+            handleAnnounce();
+        }
+    }
+
+    private void handleAnnounce() {
+        pendingAnnounce = false;
+        Session session = Session.getActiveSession();
+
+        if (session == null || !session.isOpened()) {
+            return;
+        }
+
+        List<String> permissions = session.getPermissions();
+        if (!permissions.containsAll(PUBLISH_PERMISSIONS)) {
+            pendingAnnounce = true;
+            requestPublishPermissions(session);
+            return;
+        }
+
+        publish((UpdateStoryAction)mPendingSocialAction);
+    }
+
+//    private void handleError(FacebookRequestError error) {
+//        DialogInterface.OnClickListener listener = null;
+//        String dialogBody = null;
+//
+//        final Activity activity = mCtxProvider.getActivity();
+//        if (error == null) {
+//            // There was no response from the server.
+//            dialogBody = activity.getString(R.string.error_dialog_default_text);
+//        } else {
+//            switch (error.getCategory()) {
+//                case AUTHENTICATION_RETRY:
+//                    // Tell the user what happened by getting the
+//                    // message id, and retry the operation later.
+//                    String userAction = (error.shouldNotifyUser()) ? "" :
+//                            activity.getString(error.getUserActionMessageId());
+//                    dialogBody = activity.getString(R.string.error_authentication_retry,
+//                            userAction);
+//                    listener = new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface,
+//                                            int i) {
+//                            // Take the user to the mobile site.
+//                            Intent intent = new Intent(Intent.ACTION_VIEW,
+//                                    M_FACEBOOK_URL);
+//                            activity.startActivity(intent);
+//                        }
+//                    };
+//                    break;
+//
+//                case AUTHENTICATION_REOPEN_SESSION:
+//                    // Close the session and reopen it.
+//                    dialogBody =
+//                            activity.getString(R.string.error_authentication_reopen);
+//                    listener = new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface,
+//                                            int i) {
+//                            Session session = Session.getActiveSession();
+//                            if (session != null && !session.isClosed()) {
+//                                session.closeAndClearTokenInformation();
+//                            }
+//                        }
+//                    };
+//                    break;
+//
+//                case PERMISSION:
+//                    // A permissions-related error
+//                    dialogBody = activity.getString(R.string.error_permission);
+//                    listener = new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface,
+//                                            int i) {
+//                            pendingAnnounce = true;
+//                            // Request publish permission
+//                            requestPublishPermissions(Session.getActiveSession());
+//                        }
+//                    };
+//                    break;
+//
+//                case SERVER:
+//                case THROTTLING:
+//                    // This is usually temporary, don't clear the fields, and
+//                    // ask the user to try again.
+//                    dialogBody = activity.getString(R.string.error_server);
+//                    break;
+//
+//                case BAD_REQUEST:
+//                    // This is likely a coding error, ask the user to file a bug.
+//                    dialogBody = activity.getString(R.string.error_bad_request,
+//                            error.getErrorMessage());
+//                    break;
+//
+//                case OTHER:
+//                case CLIENT:
+//                default:
+//                    // An unknown issue occurred, this could be a code error, or
+//                    // a server side issue, log the issue, and either ask the
+//                    // user to retry, or file a bug.
+//                    dialogBody = activity.getString(R.string.error_unknown,
+//                            error.getErrorMessage());
+//                    break;
+//            }
+//        }
+//
+//        // Show the error and pass in the listener so action
+//        // can be taken, if necessary.
+//        new AlertDialog.Builder(activity)
+//                .setPositiveButton(R.string.error_dialog_button_text, listener)
+//                .setTitle(R.string.error_dialog_title)
+//                .setMessage(dialogBody)
+//                .show();
+//    }
+
+//    private void onPostActionResponse(Response response) {
+//        final Activity activity = mCtxProvider.getActivity();
+//        if (activity == null) {
+//            // if the user removes the app from the website,
+//            // then a request will have caused the session to
+//            // close (since the token is no longer valid),
+//            // which means the splash fragment will be shown
+//            // rather than this one, causing activity to be null.
+//            // If the activity is null, then we cannot
+//            // show any dialogs, so we return.
+//            return;
+//        }
+//
+//        PostResponse postResponse =
+//                response.getGraphObjectAs(PostResponse.class);
+//
+//        if (postResponse != null && postResponse.getId() != null) {
+//            String dialogBody = String.format(getString(
+//                            R.string.result_dialog_text),
+//                    postResponse.getId());
+//            new AlertDialog.Builder(activity)
+//                    .setPositiveButton(R.string.result_dialog_button_text,
+//                            null)
+//                    .setTitle(R.string.result_dialog_title)
+//                    .setMessage(dialogBody)
+//                    .show();
+//        } else {
+//            handleError(response.getError());
+//        }
+//    }
 
     private FacebookDialog.Callback dialogCallback = new FacebookDialog.Callback() {
         @Override
@@ -438,6 +701,8 @@ public class FacebookSDKProvider implements ISocialProvider {
                     // track post
                     String postId = FacebookDialog.getNativeDialogPostId(data);
                     Log.d(TAG, "postId = " + postId);
+                    // todo: get action/mission
+//                    BusProvider.getInstance().post(new SocialActionPerformedEvent());
                 }
             } else {
                 // track cancel
