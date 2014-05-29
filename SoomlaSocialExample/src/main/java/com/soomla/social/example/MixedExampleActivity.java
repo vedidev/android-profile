@@ -35,12 +35,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soomla.blueprint.rewards.Reward;
+import com.soomla.social.IAuthProviderAggregator;
 import com.soomla.social.IContextProvider;
-import com.soomla.social.ISocialProviderFactory;
 import com.soomla.social.ISocialProvider;
 import com.soomla.social.events.FacebookProfileEvent;
 import com.soomla.social.events.SocialProfileEvent;
-import com.soomla.social.providers.SoomlaSocialSDKProviderFactory;
+import com.soomla.social.providers.SoomlaAuthProviderAggregator;
 import com.soomla.social.providers.facebook.FacebookSDKProvider;
 import com.soomla.social.actions.ISocialAction;
 import com.soomla.social.actions.UpdateStatusAction;
@@ -75,7 +75,7 @@ public class MixedExampleActivity extends ActionBarActivity {
     private EditText mEdtStory;
 
 //    private SoomlaSocialAuthCenter soomlaSocialAuthCenter;
-    private ISocialProviderFactory socialProviderFactory;
+    private IAuthProviderAggregator socialProviderFactory;
     private ISocialProvider facebookProvider;
     private IContextProvider ctxProvider;
 
@@ -85,7 +85,7 @@ public class MixedExampleActivity extends ActionBarActivity {
         setContentView(R.layout.socialauth_example_main);
 
 //        socialProviderFactory = new SoomlaSocialAuthProviderFactory();
-        socialProviderFactory = new SoomlaSocialSDKProviderFactory();
+        socialProviderFactory = new SoomlaAuthProviderAggregator();
 //        soomlaSocialAuthCenter.addSocialProvider(ISocialCenter.FACEBOOK, R.drawable.facebook);
         ctxProvider = new IContextProvider() {
             @Override
@@ -105,7 +105,7 @@ public class MixedExampleActivity extends ActionBarActivity {
         };
 
         facebookProvider = socialProviderFactory.setCurrentProvider(
-                ctxProvider, ISocialProviderFactory.FACEBOOK);
+                ctxProvider, IAuthProviderAggregator.FACEBOOK);
 
         // important!
         // might be better to use FacebookEnabledActivity/Fragment, still evaluating
@@ -129,7 +129,7 @@ public class MixedExampleActivity extends ActionBarActivity {
 
                 // create social action
                 UpdateStatusAction updateStatusAction = new UpdateStatusAction(
-                        ISocialProviderFactory.FACEBOOK, message, false);
+                        IAuthProviderAggregator.FACEBOOK, message, false);
 
                 // optionally attach rewards to it
                 Reward noAdsReward = new SocialVirtualItemReward("Update Status for Ad-free", "no_ads", 1);
@@ -150,7 +150,7 @@ public class MixedExampleActivity extends ActionBarActivity {
                 final String message = mEdtStory.getText().toString();
                 // another example
                 UpdateStoryAction updateStoryAction = new UpdateStoryAction(
-                        ISocialProviderFactory.FACEBOOK,
+                        IAuthProviderAggregator.FACEBOOK,
                         message, "name", "caption", "description",
                         "http://soom.la",
                         "https://s3.amazonaws.com/soomla_images/website/img/500_background.png");

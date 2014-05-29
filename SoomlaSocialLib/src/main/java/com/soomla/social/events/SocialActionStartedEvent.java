@@ -14,18 +14,15 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.rewards;
+package com.soomla.social.events;
 
-import com.soomla.blueprint.rewards.VirtualItemReward;
-import com.soomla.social.IAuthProviderAggregator;
+import com.soomla.social.actions.ISocialAction;
 
 /**
- * Created by oriargov on 5/14/14.
+ * Created by oriargov on 5/29/14.
  */
-public class SocialVirtualItemReward extends VirtualItemReward {
-
-    public SocialVirtualItemReward(String name, String associatedItemId, int amount) {
-        super(IAuthProviderAggregator.SOOMLA_SOC_PREFIX+name,
-                name, amount, associatedItemId);
+public class SocialActionStartedEvent extends BaseSocialActionEvent {
+    public SocialActionStartedEvent(ISocialAction.Action action) {
+        super(action);
     }
 }

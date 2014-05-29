@@ -16,9 +16,9 @@
 
 package com.soomla.social.users;
 
-public class SocialProfile {
+public class UserProfile {
 
-    public SocialProfile(String providerId, String profileId) {
+    public UserProfile(String providerId, String profileId) {
         this.mProviderId = providerId;
         this.mProfileId = profileId;
     }

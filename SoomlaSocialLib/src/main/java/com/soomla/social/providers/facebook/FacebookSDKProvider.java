@@ -17,9 +17,7 @@
 package com.soomla.social.providers.facebook;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -30,7 +28,6 @@ import android.util.Log;
 import com.facebook.AppEventsLogger;
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
-import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -40,10 +37,9 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
+import com.soomla.social.IAuthProviderAggregator;
 import com.soomla.social.IContextProvider;
 import com.soomla.social.ISocialProvider;
-import com.soomla.social.ISocialProviderFactory;
-import com.soomla.social.R;
 import com.soomla.social.actions.BaseSocialAction;
 import com.soomla.social.actions.UpdateStatusAction;
 import com.soomla.social.actions.UpdateStoryAction;
@@ -173,7 +169,7 @@ public class FacebookSDKProvider implements ISocialProvider {
 
     @Override
     public String getProviderName() {
-        return ISocialProviderFactory.FACEBOOK;
+        return IAuthProviderAggregator.FACEBOOK;
     }
 
     @Override

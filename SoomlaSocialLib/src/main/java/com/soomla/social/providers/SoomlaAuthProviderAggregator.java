@@ -18,15 +18,15 @@ package com.soomla.social.providers;
 
 import android.util.Log;
 
+import com.soomla.social.IAuthProviderAggregator;
 import com.soomla.social.IContextProvider;
-import com.soomla.social.ISocialProviderFactory;
 import com.soomla.social.ISocialProvider;
 import com.soomla.social.providers.facebook.FacebookSDKProvider;
 
 /**
  * Created by oriargov on 5/22/14.
  */
-public class SoomlaSocialSDKProviderFactory implements ISocialProviderFactory {
+public class SoomlaAuthProviderAggregator implements IAuthProviderAggregator {
     private static final String TAG = "SoomlaSocialSDKProviderFactory";
 
     private ISocialProvider mCurrentProvider;

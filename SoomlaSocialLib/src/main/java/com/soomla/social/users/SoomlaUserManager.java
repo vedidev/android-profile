@@ -16,12 +16,11 @@
 
 package com.soomla.social.users;
 
-import com.soomla.social.ISocialProviderFactory;
+import com.soomla.social.IAuthProviderAggregator;
+import com.soomla.social.data.UserProfileStorage;
 import com.soomla.social.events.FacebookProfileEvent;
 import com.soomla.social.events.SocialAuthProfileEvent;
-import com.soomla.social.events.SocialProfileEvent;
 import com.soomla.store.BusProvider;
-import com.soomla.store.data.StorageManager;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -30,8 +29,6 @@ import com.squareup.otto.Subscribe;
 public class SoomlaUserManager {
 
     private static final String TAG = "SoomlaUserManager";
-
-    public static final String DB_KEY_PREFIX = "com.soomla.users.";
 
     public void init() {
         BusProvider.getInstance().register(this);
@@ -42,42 +39,39 @@ public class SoomlaUserManager {
     }
 
     @Subscribe public void onFacebookProfileEvent(FacebookProfileEvent fbProfileEvent) {
-        SocialProfile socialProfile = new SocialProfile(
-                ISocialProviderFactory.FACEBOOK,
+        UserProfile userProfile = new UserProfile(
+                IAuthProviderAggregator.FACEBOOK,
                 fbProfileEvent.User.getId());
 
-        socialProfile.setRawJson(fbProfileEvent.User.getInnerJSONObject().toString());
+        userProfile.setRawJson(fbProfileEvent.User.getInnerJSONObject().toString());
 
         // todo: need special permission ("email")
-        socialProfile.setEmail(fbProfileEvent.User.getProperty("email").toString());
+        userProfile.setEmail(fbProfileEvent.User.getProperty("email").toString());
 
-        socialProfile.setAvatarLink(fbProfileEvent.getProfileImageUrl());
-        socialProfile.setFirstName(fbProfileEvent.User.getFirstName());
-        socialProfile.setLastName(fbProfileEvent.User.getLastName());
+        userProfile.setAvatarLink(fbProfileEvent.getProfileImageUrl());
+        userProfile.setFirstName(fbProfileEvent.User.getFirstName());
+        userProfile.setLastName(fbProfileEvent.User.getLastName());
 
-        storeSocialProfile(socialProfile);
+        storeSocialProfile(userProfile);
     }
 
     @Subscribe public void onSocialAuthProfileEvent(SocialAuthProfileEvent saProfileEvent) {
-        SocialProfile socialProfile = new SocialProfile(
-                ISocialProviderFactory.FACEBOOK,
+        UserProfile userProfile = new UserProfile(
+                IAuthProviderAggregator.FACEBOOK,
                 saProfileEvent.User.getValidatedId());
 
-        socialProfile.setRawJson(saProfileEvent.User.toString());
+        userProfile.setRawJson(saProfileEvent.User.toString());
 
-        socialProfile.setEmail(saProfileEvent.User.getEmail());
-        socialProfile.setAvatarLink(saProfileEvent.User.getProfileImageURL());
-        socialProfile.setFirstName(saProfileEvent.User.getFirstName());
-        socialProfile.setLastName(saProfileEvent.User.getLastName());
+        userProfile.setEmail(saProfileEvent.User.getEmail());
+        userProfile.setAvatarLink(saProfileEvent.User.getProfileImageURL());
+        userProfile.setFirstName(saProfileEvent.User.getFirstName());
+        userProfile.setLastName(saProfileEvent.User.getLastName());
 
-        storeSocialProfile(socialProfile);
+        storeSocialProfile(userProfile);
     }
 
-    private void storeSocialProfile(SocialProfile socialProfile) {
-        StorageManager.getKeyValueStorage().setValue(DB_KEY_PREFIX +
-                        socialProfile.getProfileId(), socialProfile.getRawJson());
-
-        BusProvider.getInstance().post(new SocialProfileEvent(socialProfile));
+    private void storeSocialProfile(UserProfile userProfile) {
+        UserProfileStorage.save(userProfile);
     }
 
 //    public SocialProfile getSocialProfileById(String profileId) {

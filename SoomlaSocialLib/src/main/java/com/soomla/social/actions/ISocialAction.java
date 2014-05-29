@@ -16,21 +16,18 @@
 
 package com.soomla.social.actions;
 
-import com.soomla.blueprint.rewards.Reward;
-
-import java.util.List;
-
 public interface ISocialAction {
+
+    public enum Action {
+        Login, Logout
+        , PublishFeed
+        , UploadImage
+        , UploadVideo
+    }
 
     String getProviderName();
 
     public String getName();
-
-    public String getMissionId();
-
-    public List<Reward> getRewards();
-
-    public boolean isCompleted();
 
     public void setCompleted(boolean completed);
 }
