@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2012 Soomla Inc.
  *
@@ -14,18 +15,14 @@
  *   limitations under the License.
  */
 
-package com.soomla.social.rewards;
+package com.soomla.social;
 
-import com.soomla.blueprint.rewards.VirtualItemReward;
-import com.soomla.social.IAuthProviderAggregator;
+public interface IAuthProviderAggregator {
 
-/**
- * Created by oriargov on 5/14/14.
- */
-public class SocialVirtualItemReward extends VirtualItemReward {
+    public static final String SOOMLA_SOC_PREFIX = "com.soomla.social.";
 
-    public SocialVirtualItemReward(String name, String associatedItemId, int amount) {
-        super(IAuthProviderAggregator.SOOMLA_SOC_PREFIX+name,
-                name, amount, associatedItemId);
-    }
+    public static final String FACEBOOK = "Facebook";
+
+    IAuthProvider setCurrentProvider(IContextProvider ctxProvider, String providerName);
+    IAuthProvider getCurrentProvider();
 }

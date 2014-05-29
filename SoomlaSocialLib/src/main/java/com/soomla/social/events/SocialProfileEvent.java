@@ -16,14 +16,14 @@
 
 package com.soomla.social.events;
 
-import com.soomla.social.users.SocialProfile;
+import com.soomla.social.users.UserProfile;
 
 /**
  * Created by oriargov on 5/26/14.
  */
 public class SocialProfileEvent {
-    public final SocialProfile Profile;
-    public SocialProfileEvent(SocialProfile socialProfile) {
-        this.Profile = socialProfile;
+    public final UserProfile Profile;
+    public SocialProfileEvent(UserProfile userProfile) {
+        this.Profile = userProfile;
     }
 }

@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2012 Soomla Inc.
  *
@@ -17,12 +16,13 @@
 
 package com.soomla.social;
 
-public interface ISocialProviderFactory {
+/**
+ * Created by oriargov on 5/27/14.
+ */
+public class SoomlaSocial {
+    private static final String TAG = "SOOMLA Social";
 
-    public static final String SOOMLA_SOC_PREFIX = "com.soomla.social.";
+    public static final String DB_KEY_PREFIX = "soomla.social.";
 
-    public static final String FACEBOOK = "Facebook";
 
-    ISocialProvider setCurrentProvider(IContextProvider ctxProvider, String providerName);
-    ISocialProvider getCurrentProvider();
 }

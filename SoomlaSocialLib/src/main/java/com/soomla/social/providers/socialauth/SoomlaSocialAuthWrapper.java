@@ -20,8 +20,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.soomla.social.IAuthProviderAggregator;
 import com.soomla.social.IContextProvider;
-import com.soomla.social.ISocialProviderFactory;
 import com.soomla.social.ISocialProvider;
 import com.soomla.social.actions.CustomSocialAction;
 import com.soomla.social.actions.ISocialAction;
@@ -50,7 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SoomlaSocialAuthProviderFactory implements ISocialProviderFactory, ISocialProvider {
+public class SoomlaSocialAuthWrapper implements IAuthProviderAggregator, ISocialProvider {
 
     private static final String TAG = "SoomlaSocialCenter";
 
@@ -62,9 +62,9 @@ public class SoomlaSocialAuthProviderFactory implements ISocialProviderFactory, 
 
     private IContextProvider mCtxProvider;
 
-    public SoomlaSocialAuthProviderFactory() {
-        mProviderLookup.put(ISocialProviderFactory.FACEBOOK, SocialAuthAdapter.Provider.FACEBOOK);
-        mCurrentProviderName = ISocialProviderFactory.FACEBOOK;
+    public SoomlaSocialAuthWrapper() {
+        mProviderLookup.put(IAuthProviderAggregator.FACEBOOK, SocialAuthAdapter.Provider.FACEBOOK);
+        mCurrentProviderName = IAuthProviderAggregator.FACEBOOK;
         mSocialAdapter = new SocialAuthAdapter(new ResponseListener());
     }
 
