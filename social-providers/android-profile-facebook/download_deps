@@ -14,7 +14,7 @@ if [ ! -f libs/$SIMPLEFB_LIB_NAME ];
 then
     if [ ! -f $ANDROID_PROFILE_CACHE/$SIMPLEFB_ARCH_NAME ];
     then
-        curl -o $ANDROID_PROFILE_CACHE/$SIMPLEFB_ARCH_NAME.tmp https://dl.bintray.com/sromku/maven/com/sromku/simple-fb/4.0.9/simple-fb-4.0.9.aar
+        curl -Lo $ANDROID_PROFILE_CACHE/$SIMPLEFB_ARCH_NAME.tmp https://dl.bintray.com/sromku/maven/com/sromku/simple-fb/4.0.9/simple-fb-4.0.9.aar
         mv $ANDROID_PROFILE_CACHE/$SIMPLEFB_ARCH_NAME.tmp $ANDROID_PROFILE_CACHE/$SIMPLEFB_ARCH_NAME
     fi
 	mkdir -p simple-fb
