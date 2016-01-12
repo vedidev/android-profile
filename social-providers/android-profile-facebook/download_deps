@@ -10,22 +10,33 @@ fi
 
 if [ ! -f libs/simple-fb-4.0.9.jar ];
 then
-	curl -o simple-fb-4.0.9.aar https://dl.bintray.com/sromku/maven/com/sromku/simple-fb/4.0.9/simple-fb-4.0.9.aar
-	mkdir simple-fb
-	tar -xvf simple-fb-4.0.9.aar -C simple-fb
+    if [ ! -f ~/.soomla/cache/android-profile/simple-fb-4.0.9.aar ];
+    then
+        curl -o ~/.soomla/cache/android-profile/simple-fb-4.0.9.aar.tmp https://dl.bintray.com/sromku/maven/com/sromku/simple-fb/4.0.9/simple-fb-4.0.9.aar
+        mv ~/.soomla/cache/android-profile/simple-fb-4.0.9.aar.tmp ~/.soomla/cache/android-profile/simple-fb-4.0.9.aar
+    fi
+	mkdir -p simple-fb
+	tar -xvf ~/.soomla/cache/android-profile/simple-fb-4.0.9.aar -C simple-fb
 	mv simple-fb/classes.jar libs/simple-fb-4.0.9.jar
 	rm -rf simple-fb
-	rm simple-fb-4.0.9.aar
 fi
 
 if [ ! -f libs/gson-1.7.2.jar ];
 then
-	curl -o libs/gson-1.7.2.jar http://central.maven.org/maven2/com/google/code/gson/gson/1.7.2/gson-1.7.2.jar
+    if [ ! -f ~/.soomla/cache/android-profile/gson-1.7.2.jar ];
+    then
+        curl -o ~/.soomla/cache/android-profile/gson-1.7.2.jar.tmp http://central.maven.org/maven2/com/google/code/gson/gson/1.7.2/gson-1.7.2.jar
+        mv ~/.soomla/cache/android-profile/gson-1.7.2.jar.tmp ~/.soomla/cache/android-profile/gson-1.7.2.jar
+    fi
+    cp ~/.soomla/cache/android-profile/gson-1.7.2.jar libs/gson-1.7.2.jar
 fi
 
 if [ ! -d libs/facebook ];
 then
-	curl -L -o libs/facebook.zip http://library.soom.la/fetch/android-profile-facebook/4.6.0?cf=dl_deps
-	unzip libs/facebook.zip -d libs/
-	rm libs/facebook.zip
+    if [ ! -f ~/.soomla/cache/android-profile/facebook-4.6.0.zip ];
+    then
+        curl -L -o ~/.soomla/cache/android-profile/facebook-4.6.0.zip.tmp http://library.soom.la/fetch/android-profile-facebook/4.6.0?cf=dl_deps
+        mv ~/.soomla/cache/android-profile/facebook-4.6.0.zip.tmp ~/.soomla/cache/android-profile/facebook-4.6.0.zip
+    fi
+	unzip ~/.soomla/cache/android-profile/facebook-4.6.0.zip -d libs/
 fi

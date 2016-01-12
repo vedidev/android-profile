@@ -10,7 +10,10 @@ fi
 
 if [ ! -d libs/google-play-services_lib ];
 then
-    curl -L -o libs/google-play-services_lib.zip http://library.soom.la/fetch/android-profile-google-play-services/5.0.89?cf=dl_deps
-    unzip libs/google-play-services_lib.zip -d libs/
-    rm libs/google-play-services_lib.zip
+    if [ ! -f ~/.soomla/cache/android-profile/google-play-services_lib-5.0.89.zip ];
+    then
+        curl -L -o ~/.soomla/cache/android-profile/google-play-services_lib-5.0.89.zip.tmp http://library.soom.la/fetch/android-profile-google-play-services/5.0.89?cf=dl_deps
+        mv ~/.soomla/cache/android-profile/google-play-services_lib-5.0.89.zip.tmp ~/.soomla/cache/android-profile/google-play-services_lib-5.0.89.zip
+    fi
+    unzip ~/.soomla/cache/android-profile/google-play-services_lib-5.0.89.zip -d libs/
 fi
