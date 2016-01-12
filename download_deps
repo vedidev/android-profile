@@ -8,3 +8,4 @@ mkdir -p ~/.soomla/cache/android-profile
 ./social-providers/android-profile-facebook/download_deps
 ./social-providers/android-profile-google/download_deps
 ./social-providers/android-profile-twitter/download_deps
+./SoomlaAndroidProfile/download_deps
