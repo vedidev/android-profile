@@ -3,9 +3,10 @@ set -e
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd $DIR
 
-mkdir -p ~/.soomla/cache/android-profile
+ANDROID_PROFILE_CACHE=~/.soomla/cache/android-profile
+mkdir -p $ANDROID_PROFILE_CACHE
 
-./social-providers/android-profile-facebook/download_deps
-./social-providers/android-profile-google/download_deps
-./social-providers/android-profile-twitter/download_deps
-./SoomlaAndroidProfile/download_deps
+./social-providers/android-profile-facebook/download_deps $ANDROID_PROFILE_CACHE
+./social-providers/android-profile-google/download_deps $ANDROID_PROFILE_CACHE
+./social-providers/android-profile-twitter/download_deps $ANDROID_PROFILE_CACHE
+./SoomlaAndroidProfile/download_deps $ANDROID_PROFILE_CACHE

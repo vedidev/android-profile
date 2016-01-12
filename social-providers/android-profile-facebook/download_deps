@@ -3,32 +3,31 @@ set -e
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd $DIR
 
-if [ ! -d libs ];
-then
-	mkdir libs
-fi
+ANDROID_PROFILE_CACHE=$1
+
+mkdir -p libs
 
 if [ ! -f libs/simple-fb-4.0.9.jar ];
 then
-    if [ ! -f ~/.soomla/cache/android-profile/simple-fb-4.0.9.aar ];
+    if [ ! -f $ANDROID_PROFILE_CACHE/simple-fb-4.0.9.aar ];
     then
-        curl -o ~/.soomla/cache/android-profile/simple-fb-4.0.9.aar.tmp https://dl.bintray.com/sromku/maven/com/sromku/simple-fb/4.0.9/simple-fb-4.0.9.aar
-        mv ~/.soomla/cache/android-profile/simple-fb-4.0.9.aar.tmp ~/.soomla/cache/android-profile/simple-fb-4.0.9.aar
+        curl -o $ANDROID_PROFILE_CACHE/simple-fb-4.0.9.aar.tmp https://dl.bintray.com/sromku/maven/com/sromku/simple-fb/4.0.9/simple-fb-4.0.9.aar
+        mv $ANDROID_PROFILE_CACHE/simple-fb-4.0.9.aar.tmp $ANDROID_PROFILE_CACHE/simple-fb-4.0.9.aar
     fi
 	mkdir -p simple-fb
-	tar -xvf ~/.soomla/cache/android-profile/simple-fb-4.0.9.aar -C simple-fb
+	tar -xvf $ANDROID_PROFILE_CACHE/simple-fb-4.0.9.aar -C simple-fb
 	mv simple-fb/classes.jar libs/simple-fb-4.0.9.jar
 	rm -rf simple-fb
 fi
 
 if [ ! -f libs/gson-1.7.2.jar ];
 then
-    if [ ! -f ~/.soomla/cache/android-profile/gson-1.7.2.jar ];
+    if [ ! -f $ANDROID_PROFILE_CACHE/gson-1.7.2.jar ];
     then
-        curl -o ~/.soomla/cache/android-profile/gson-1.7.2.jar.tmp http://central.maven.org/maven2/com/google/code/gson/gson/1.7.2/gson-1.7.2.jar
-        mv ~/.soomla/cache/android-profile/gson-1.7.2.jar.tmp ~/.soomla/cache/android-profile/gson-1.7.2.jar
+        curl -o $ANDROID_PROFILE_CACHE/gson-1.7.2.jar.tmp http://central.maven.org/maven2/com/google/code/gson/gson/1.7.2/gson-1.7.2.jar
+        mv $ANDROID_PROFILE_CACHE/gson-1.7.2.jar.tmp $ANDROID_PROFILE_CACHE/gson-1.7.2.jar
     fi
-    cp ~/.soomla/cache/android-profile/gson-1.7.2.jar libs/gson-1.7.2.jar
+    cp $ANDROID_PROFILE_CACHE/gson-1.7.2.jar libs/gson-1.7.2.jar
 fi
 
 if [ ! -h libs/AndroidProfile.jar ];
@@ -48,10 +47,10 @@ fi
 
 if [ ! -d libs/facebook ];
 then
-    if [ ! -f ~/.soomla/cache/android-profile/facebook-4.6.0.zip ];
+    if [ ! -f $ANDROID_PROFILE_CACHE/facebook-4.6.0.zip ];
     then
-        curl -L -o ~/.soomla/cache/android-profile/facebook-4.6.0.zip.tmp http://library.soom.la/fetch/android-profile-facebook/4.6.0?cf=dl_deps
-        mv ~/.soomla/cache/android-profile/facebook-4.6.0.zip.tmp ~/.soomla/cache/android-profile/facebook-4.6.0.zip
+        curl -L -o $ANDROID_PROFILE_CACHE/facebook-4.6.0.zip.tmp http://library.soom.la/fetch/android-profile-facebook/4.6.0?cf=dl_deps
+        mv $ANDROID_PROFILE_CACHE/facebook-4.6.0.zip.tmp $ANDROID_PROFILE_CACHE/facebook-4.6.0.zip
     fi
-	unzip ~/.soomla/cache/android-profile/facebook-4.6.0.zip -d libs/
+	unzip $ANDROID_PROFILE_CACHE/facebook-4.6.0.zip -d libs/
 fi
