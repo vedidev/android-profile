@@ -1,3 +1,8 @@
+### v1.2.1 [view commit logs](https://github.com/soomla/android-profile/compare/v1.2.0...v1.2.1)
+
+* Changes
+  * Removed binaries from repo
+
 ### v1.2.0 [view commit logs](https://github.com/soomla/android-profile/compare/v1.1.9...v1.2.0)
 
 * New Features
