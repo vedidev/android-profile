@@ -23,6 +23,7 @@ if [ ! -f libs/$TWITTER4J_ASYNC_NAME ];
 then
     if [ ! -f $ANDROID_PROFILE_CACHE/$TWITTER4J_ASYNC_NAME ];
     then
+        echo "Downloading Twitter4J Async..."
         curl -Lo $ANDROID_PROFILE_CACHE/$TWITTER4J_ASYNC_NAME.tmp http://twitter4j.org/maven2/org/twitter4j/twitter4j-async/4.0.2/twitter4j-async-4.0.2.jar
         mv  $ANDROID_PROFILE_CACHE/$TWITTER4J_ASYNC_NAME.tmp $ANDROID_PROFILE_CACHE/$TWITTER4J_ASYNC_NAME
     fi
@@ -34,6 +35,7 @@ if [ ! -f libs/$TWITTER4J_CORE_NAME ];
 then
     if [ ! -f $ANDROID_PROFILE_CACHE/$TWITTER4J_CORE_NAME ];
     then
+        echo "Downloading Twitter4J Core..."
         curl -Lo $ANDROID_PROFILE_CACHE/$TWITTER4J_CORE_NAME.tmp http://twitter4j.org/maven2/org/twitter4j/twitter4j-core/4.0.2/twitter4j-core-4.0.2.jar
         mv  $ANDROID_PROFILE_CACHE/$TWITTER4J_CORE_NAME.tmp $ANDROID_PROFILE_CACHE/$TWITTER4J_CORE_NAME
     fi

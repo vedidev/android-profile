@@ -28,6 +28,7 @@ if [ ! -d libs/google-play-services_lib ];
 then
     if [ ! -f $ANDROID_PROFILE_CACHE/$GPS_ARCH_NAME ];
     then
+        echo "Downloading Google Play Services lib..."
         curl -L -o $ANDROID_PROFILE_CACHE/$GPS_ARCH_NAME.tmp http://library.soom.la/fetch/android-profile-google-play-services/5.0.89?cf=dl_deps
         mv $ANDROID_PROFILE_CACHE/$GPS_ARCH_NAME.tmp $ANDROID_PROFILE_CACHE/$GPS_ARCH_NAME
     fi

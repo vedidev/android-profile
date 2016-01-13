@@ -14,6 +14,7 @@ if [ ! -f libs/$SIMPLEFB_LIB_NAME ];
 then
     if [ ! -f $ANDROID_PROFILE_CACHE/$SIMPLEFB_ARCH_NAME ];
     then
+        echo "Downloading Android Simple Facebook..."
         curl -Lo $ANDROID_PROFILE_CACHE/$SIMPLEFB_ARCH_NAME.tmp https://dl.bintray.com/sromku/maven/com/sromku/simple-fb/4.0.9/simple-fb-4.0.9.aar
         mv $ANDROID_PROFILE_CACHE/$SIMPLEFB_ARCH_NAME.tmp $ANDROID_PROFILE_CACHE/$SIMPLEFB_ARCH_NAME
     fi
@@ -28,6 +29,7 @@ if [ ! -f libs/$GSON_LIB_NAME ];
 then
     if [ ! -f $ANDROID_PROFILE_CACHE/$GSON_LIB_NAME ];
     then
+        echo "Downloading GSON Library..."
         curl -Lo $ANDROID_PROFILE_CACHE/$GSON_LIB_NAME.tmp http://central.maven.org/maven2/com/google/code/gson/gson/1.7.2/gson-1.7.2.jar
         mv $ANDROID_PROFILE_CACHE/$GSON_LIB_NAME.tmp $ANDROID_PROFILE_CACHE/$GSON_LIB_NAME
     fi
@@ -54,6 +56,7 @@ if [ ! -d libs/facebook ];
 then
     if [ ! -f $ANDROID_PROFILE_CACHE/$FACEBOOK_LIB_NAME ];
     then
+        echo "Downloading Facebook Android SDK..."
         curl -L -o $ANDROID_PROFILE_CACHE/$FACEBOOK_LIB_NAME.tmp http://library.soom.la/fetch/android-profile-facebook/4.6.0?cf=dl_deps
         mv $ANDROID_PROFILE_CACHE/$FACEBOOK_LIB_NAME.tmp $ANDROID_PROFILE_CACHE/$FACEBOOK_LIB_NAME
     fi
