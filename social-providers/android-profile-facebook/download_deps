@@ -28,7 +28,7 @@ if [ ! -f libs/$GSON_LIB_NAME ];
 then
     if [ ! -f $ANDROID_PROFILE_CACHE/$GSON_LIB_NAME ];
     then
-        curl -o $ANDROID_PROFILE_CACHE/$GSON_LIB_NAME.tmp http://central.maven.org/maven2/com/google/code/gson/gson/1.7.2/gson-1.7.2.jar
+        curl -Lo $ANDROID_PROFILE_CACHE/$GSON_LIB_NAME.tmp http://central.maven.org/maven2/com/google/code/gson/gson/1.7.2/gson-1.7.2.jar
         mv $ANDROID_PROFILE_CACHE/$GSON_LIB_NAME.tmp $ANDROID_PROFILE_CACHE/$GSON_LIB_NAME
     fi
     cp $ANDROID_PROFILE_CACHE/$GSON_LIB_NAME libs/$GSON_LIB_NAME
