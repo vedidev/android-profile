@@ -41,7 +41,7 @@ public class ProviderManager {
     public ProviderManager(Map<IProvider.Provider, ? extends Map<String, String>> profileParams, String... providerNames) {
         List<Class<? extends IProvider>> providerClass = tryFetchProviders(providerNames);
         if (providerClass == null || providerClass.size() == 0) {
-            throw new InvalidParameterException("No attached providers found!");
+            SoomlaUtils.LogWarning(TAG, "No attached providers found! Most of Profile functionality fill be unavaliable.");
         }
 
         mProviders = new HashMap<>();
