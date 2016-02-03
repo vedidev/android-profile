@@ -1,3 +1,8 @@
+### v1.2.2 [view commit logs](https://github.com/soomla/android-profile/compare/v1.2.1...v1.2.2)
+
+* Changes
+  * Allow SoomlaProfile to work without providers
+
 ### v1.2.1 [view commit logs](https://github.com/soomla/android-profile/compare/v1.2.0...v1.2.1)
 
 * Changes
