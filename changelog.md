@@ -1,3 +1,8 @@
+### v1.2.3 [view commit logs](https://github.com/soomla/android-profile/compare/v1.2.2...v1.2.3)
+
+* Changes
+  * Updated Google play services to 8.4
+
 ### v1.2.2 [view commit logs](https://github.com/soomla/android-profile/compare/v1.2.1...v1.2.2)
 
 * Changes
