@@ -418,7 +418,7 @@ public class SoomlaProfile {
     }
 
     /**
-     * Overloaded version of {@link #updateStatusWithConfirmation(com.soomla.profile.domain.IProvider.Provider, String, String, com.soomla.rewards.Reward, android.app.Activity, String)} without "customMessage"
+     * Overloaded version of {@link #updateStatusWithConfirmation(IProvider.Provider, String, String, com.soomla.rewards.Reward, Activity, String)} without "customMessage"
      */
     public void updateStatusWithConfirmation(IProvider.Provider provider, String status, String payload, final Reward reward, final Activity activity) throws ProviderNotFoundException {
         this.updateStatusWithConfirmation(provider, status, payload, reward, activity, null);
@@ -567,7 +567,7 @@ public class SoomlaProfile {
     }
 
     /**
-     * Overloaded version of {@link #updateStoryWithConfirmation(com.soomla.profile.domain.IProvider.Provider, String, String, String, String, String, String, String, com.soomla.rewards.Reward, android.app.Activity, String)} without "customMessage"
+     * Overloaded version of {@link #updateStoryWithConfirmation(IProvider.Provider, String, String, String, String, String, String, String, com.soomla.rewards.Reward, Activity, String)} without "customMessage"
      */
     public void updateStoryWithConfirmation(IProvider.Provider provider, String message, String name, String caption,
                             String description, String link, String picture, String payload,
@@ -774,7 +774,7 @@ public class SoomlaProfile {
     }
 
     /**
-     * Overloaded version of {@link #uploadImageWithConfirmation(com.soomla.profile.domain.IProvider.Provider, String, String, android.graphics.Bitmap, int, String, com.soomla.rewards.Reward, android.app.Activity, String)} without "customMessage"
+     * Overloaded version of {@link #uploadImageWithConfirmation(IProvider.Provider, String, String, Bitmap, int, String, com.soomla.rewards.Reward, Activity, String)} without "customMessage"
      */
     public void uploadImageWithConfirmation(IProvider.Provider provider,
                             String message, String fileName, Bitmap bitmap, int jpegQuality,
@@ -838,7 +838,7 @@ public class SoomlaProfile {
     }
 
     /**
-     * Overloaded version of {@link #uploadImageWithConfirmation(com.soomla.profile.domain.IProvider.Provider, String, String, String, com.soomla.rewards.Reward, android.app.Activity, String)}} without "customMessage"
+     * Overloaded version of {@link #uploadImageWithConfirmation(IProvider.Provider, String, String, String, com.soomla.rewards.Reward, Activity, String)}} without "customMessage"
      */
     public void uploadImageWithConfirmation(IProvider.Provider provider,
                             String message, String filePath, String payload,
